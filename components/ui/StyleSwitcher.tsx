@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { setPracticeLayout, usePracticeLayout } from "./practiceLayout";
 import s from "./StyleSwitcher.module.css";
 
 /* UI style exploration: the same screens in five visual languages, so one
@@ -28,6 +29,7 @@ function subscribe(onChange: () => void) {
 export function StyleSwitcher() {
   const current = useSyncExternalStore(subscribe, read, () => "royal");
   const label = UI_STYLES.find((st) => st.id === current)?.label ?? "Royal";
+  const collage = usePracticeLayout() === "collage";
 
   function choose(id: string) {
     document.documentElement.dataset.style = id;
@@ -55,6 +57,14 @@ export function StyleSwitcher() {
             </li>
           ))}
         </ul>
+        <p className={s.heading}>Daily practice</p>
+        <button type="button" role="switch" aria-checked={collage} className={s.toggle} onClick={() => setPracticeLayout(collage ? "carousel" : "collage")}>
+          <span className={s.optionText}>
+            <span className={s.optionLabel}>Collage</span>
+            <span className={s.optionNote}>{collage ? "Every card, in mixed sizes" : "Off: toran carousel"}</span>
+          </span>
+          <span className={s.knob} aria-hidden />
+        </button>
       </div>
     </>
   );

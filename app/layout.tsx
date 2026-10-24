@@ -19,9 +19,10 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-// Restores the chosen UI style before first paint (see StyleSwitcher);
+// Restores the chosen UI style and practice layout before first paint (see
+// StyleSwitcher);
 // ?style=glass in the URL overrides it, for sharing one style.
-const restoreStyle = `(function(){try{var t=new URLSearchParams(location.search).get("style")||localStorage.getItem("ui-style");if(/^(royal|glass|brutal|minimal|skeuo)$/.test(t))document.documentElement.setAttribute("data-style",t)}catch(e){}})()`;
+const restoreStyle = `(function(){try{var t=new URLSearchParams(location.search).get("style")||localStorage.getItem("ui-style");if(/^(royal|glass|brutal|minimal|skeuo)$/.test(t))document.documentElement.setAttribute("data-style",t);if(localStorage.getItem("practice-layout")==="collage")document.documentElement.setAttribute("data-practice","collage")}catch(e){}})()`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

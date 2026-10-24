@@ -2,6 +2,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { Icon } from "@/components/ui/ornaments";
+import { usePracticeLayout } from "@/components/ui/practiceLayout";
 import { playSound } from "@/components/ui/sound";
 import { openModule } from "./ModuleSheet";
 import { ModuleVisual } from "./ModuleVisual";
@@ -64,7 +65,39 @@ const SETTLE_MS = 160; // fallback idle time where the scrollend event isn't sup
 
 const setMood = (m: HomeModule) => document.documentElement.style.setProperty("--mood", m.theme?.stage ?? "var(--antique-gold)");
 
+/* The carousel, or (switched on in the StyleSwitcher menu) the collage */
 export function PracticeGallery({ modules }: { modules: HomeModule[] }) {
+  return usePracticeLayout() === "collage" ? <PracticeCollage modules={modules} /> : <PracticeCarousel modules={modules} />;
+}
+
+/* Collage: every card at once, in a mosaic of mixed sizes that repeats
+   every six (a tall card with two small ones beside it, a wide banner, two
+   small side by side), each tilted a touch like a pinned print and settling
+   as it scrolls into view. All are visible, so a tap opens the module. */
+function PracticeCollage({ modules }: { modules: HomeModule[] }) {
+  return (
+    <ul className={s.collage}>
+      {modules.map((m, i) => (
+        <li key={m.id} className={s.tile} style={{ "--card-bg": m.theme?.card, "--card-ink": m.theme?.ink, "--card-stage": m.theme?.stage } as CSSProperties}>
+          <button type="button" className={s.tileCard} onClick={(e) => openModule(m, e.currentTarget)}>
+            <span className={s.tileArt} aria-hidden>
+              <ModuleVisual module={m} slot="plate" />
+            </span>
+            <span className={s.tileNumber} aria-hidden>
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <span className={s.tileText}>
+              <span className={s.tileTitle}>{m.title}</span>
+              <span className={s.tileNote}>{m.description}</span>
+            </span>
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function PracticeCarousel({ modules }: { modules: HomeModule[] }) {
   const n = modules.length;
   const slots = Array.from({ length: COPIES * n }, (_, k) => modules[k % n]);
 
