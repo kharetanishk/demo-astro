@@ -12,10 +12,10 @@ type Destination = { label: string; icon: string; href: string };
 const ICON_SIZE = 30;
 
 const destinations: Destination[] = [
-  { label: "History", icon: "/history-icon.png", href: "/history" },
-  { label: "Home", icon: "/home-icon.png", href: "/" },
-  { label: "Kundli", icon: "/kundali-icon.png", href: "/kundli" },
-  { label: "Profile", icon: "/profile-icon.png", href: "/profile" },
+  { label: "History", icon: "/history-icon.webp", href: "/history" },
+  { label: "Home", icon: "/home-icon.webp", href: "/" },
+  { label: "Kundli", icon: "/kundali-icon.webp", href: "/kundli" },
+  { label: "Profile", icon: "/profile-icon.webp", href: "/profile" },
 ];
 
 /* Lamp navigation: a lamp on the bar's top edge shines a beam down onto the

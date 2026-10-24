@@ -29,7 +29,7 @@ export const homeOffers: Offer[] = [
     description: "Begin your journey with a little celestial guidance.",
     cta: { label: "Claim now", notice: "Claiming the offer isn't part of this demo yet." },
     // Transparent copy of /3question-poster.png (checkerboard removed, margins trimmed)
-    poster: { src: "/3question-poster-alpha.png", width: 1440, height: 784 },
+    poster: { src: "/3question-poster-alpha.webp", width: 1440, height: 784 },
   },
   {
     id: "sarvadrishti",
@@ -38,6 +38,6 @@ export const homeOffers: Offer[] = [
     description: "Explore AI-powered insights across love, career, health and more.",
     cta: { label: "Explore now", notice: "Sarvadrishti isn't part of this demo yet." },
     // Transparent copy of /poster-2.png (checkerboard removed, margins trimmed)
-    poster: { src: "/poster-2-alpha.png", width: 1520, height: 848 },
+    poster: { src: "/poster-2-alpha.webp", width: 1520, height: 848 },
   },
 ];
