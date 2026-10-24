@@ -1,0 +1,161 @@
+/* Ivory panel standing in the courtyard: opaque enough to read over the
+   balustrade, with the artwork still showing faintly through. */
+.panel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  overflow: hidden;
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--porcelain) 88%, transparent);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.7),
+    0 18px 36px -24px color-mix(in srgb, var(--mood) 80%, var(--walnut));
+}
+
+.copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.eyebrow {
+  color: var(--accent);
+}
+
+.heading {
+  margin-top: var(--space-2);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+/* Display figure: larger, lighter, in terracotta; sits on the baseline */
+.emphasis {
+  font-style: normal;
+  font-size: 1.9em;
+  font-weight: var(--weight-medium);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: var(--accent);
+  vertical-align: -0.06em;
+}
+
+.description {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+}
+
+/* The shared primary button (globals.css), placed under the copy */
+.cta {
+  margin-top: var(--space-4);
+}
+
+.image {
+  flex: none;
+  object-fit: contain;
+}
+
+/* Poster variant: the artwork stands in the courtyard on its own (it has
+   its own frame), slightly wider than the column so its ornaments breathe. */
+.poster {
+  position: relative;
+  overflow: clip; /* keeps the claim sweep inside (the drop shadow still shows) */
+  margin-inline: calc(-1 * var(--space-2));
+  filter: drop-shadow(0 16px 20px color-mix(in srgb, var(--mood) 55%, rgb(74 48 37 / 0.5)));
+}
+
+.posterTarget {
+  display: block;
+  width: 100%;
+}
+
+.posterImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.poster .sweep {
+  -webkit-mask-image: linear-gradient(transparent 8%, #000 25%, #000 80%, transparent 95%);
+  mask-image: linear-gradient(transparent 8%, #000 25%, #000 80%, transparent 95%);
+}
+
+/* A band of light across the panel, sent by the claim action */
+.sweep {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 38%, rgb(255 249 241 / 0.7) 50%, transparent 62%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-sweep] .sweep {
+  animation: sweep 1s var(--ease-out);
+}
+
+@keyframes sweep {
+  from {
+    opacity: 1;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-sweep] .sweep {
+    animation: none;
+  }
+}
+
+/* ── UI styles (see StyleSwitcher) ──────────────────────────────────── */
+:global([data-style="glass"]) .panel {
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow), inset 0 0 0 1px var(--glass-edge);
+}
+
+:global([data-style="glass"]) .poster {
+  filter: drop-shadow(0 22px 26px color-mix(in srgb, var(--mood) 70%, rgb(74 48 37 / 0.5)));
+}
+
+/* Neubrutal: the poster sits like a sticker with a hard ink shadow */
+:global([data-style="brutal"]) .panel {
+  background: var(--porcelain);
+  border: var(--stroke);
+  box-shadow: var(--hard);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+
+
+:global([data-style="minimal"]) .panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+
+:global([data-style="minimal"]) .poster {
+  filter: drop-shadow(0 12px 18px rgb(74 48 37 / 0.14));
+}
+
+:global([data-style="skeuo"]) .panel {
+  background: var(--parchment);
+  box-shadow: var(--shadow-soft);
+}
+
+
+:global([data-style="skeuo"]) .poster {
+  filter: drop-shadow(0 6px 4px rgb(58 37 27 / 0.35)) drop-shadow(0 20px 22px rgb(58 37 27 / 0.4));
+}

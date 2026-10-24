@@ -1,0 +1,170 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.capsule {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 2px;
+  border-radius: var(--radius-pill);
+}
+
+.button {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .button:hover {
+    background: var(--palace-ivory);
+  }
+}
+
+.points {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: var(--space-3);
+  font-size: var(--text-md);
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.star {
+  color: var(--ornament);
+}
+
+.addDisc {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--brand);
+  color: var(--on-brand);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.button:active .addDisc {
+  transform: scale(0.92);
+}
+
+.badge {
+  position: absolute;
+  top: 5px;
+  right: 3px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--text-on-dark);
+  font-size: 10px;
+  font-weight: var(--weight-bold);
+  line-height: 18px;
+  box-shadow: 0 0 0 2px var(--surface);
+}
+
+/* ── UI styles (see StyleSwitcher) ──────────────────────────────────── */
+@media (hover: hover) {
+  :global([data-style="glass"]) .button:hover {
+    background: rgb(255 255 255 / 0.5);
+  }
+
+  :global([data-style="brutal"]) .button:hover {
+    background: var(--block-gold);
+  }
+
+  :global([data-style="minimal"]) .button:hover {
+    background: color-mix(in srgb, var(--separator) 35%, transparent);
+  }
+
+  :global([data-style="skeuo"]) .button:hover {
+    background: rgb(198 161 91 / 0.18);
+  }
+}
+
+:global([data-style="glass"]) .addDisc {
+  background: linear-gradient(160deg, color-mix(in srgb, var(--antique-gold) 55%, #fff), var(--antique-gold));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.8),
+    0 4px 10px -4px color-mix(in srgb, var(--antique-gold) 80%, var(--walnut));
+}
+
+:global([data-style="glass"]) .badge {
+  box-shadow:
+    0 0 0 2px rgb(255 255 255 / 0.7),
+    0 4px 10px -4px var(--accent);
+}
+
+:global([data-style="brutal"]) .addDisc {
+  background: var(--antique-gold);
+  border: 2px solid var(--walnut);
+}
+
+:global([data-style="brutal"]) .star {
+  color: var(--accent);
+}
+
+:global([data-style="brutal"]) .badge {
+  top: 2px;
+  right: 0;
+  border-radius: 6px;
+  border: 2px solid var(--walnut);
+  line-height: 14px;
+  box-shadow: 2px 2px 0 var(--walnut);
+}
+
+:global([data-style="minimal"]) .addDisc {
+  width: 28px;
+  height: 28px;
+  background: none;
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--antique-gold);
+}
+
+:global([data-style="minimal"]) .badge {
+  min-width: 8px;
+  width: 8px;
+  height: 8px;
+  top: 11px;
+  right: 11px;
+  padding: 0;
+  font-size: 0; /* a quiet dot; the count stays in the label */
+  box-shadow: 0 0 0 2px var(--surface);
+}
+
+:global([data-style="skeuo"]) .star {
+  color: var(--bronze);
+  filter: drop-shadow(var(--emboss));
+}
+
+:global([data-style="skeuo"]) .points {
+  text-shadow: var(--emboss);
+}
+
+/* A domed gold button set into the plaque */
+:global([data-style="skeuo"]) .addDisc {
+  background: radial-gradient(circle at 35% 30%, #fff3cf, #d9b66e 45%, #a27a3e);
+  box-shadow:
+    inset 0 -1px 2px rgb(74 48 37 / 0.35),
+    0 1px 0 rgb(255 255 255 / 0.7),
+    0 0 0 1px var(--metal-edge),
+    0 2px 3px rgb(58 37 27 / 0.4);
+}
+
+:global([data-style="skeuo"]) .badge {
+  background: radial-gradient(circle at 40% 30%, #e08a66, var(--terracotta-deep) 60%, #7e4029);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.35),
+    0 0 0 1.5px #f3dc9c,
+    0 2px 3px rgb(58 37 27 / 0.45);
+}

@@ -1,0 +1,34 @@
+/* Artwork (transparent PNGs). Every image fills its frame box; the slot and
+   fit decide how the picture sits inside it. */
+.image {
+  object-fit: contain;
+}
+
+/* Guidance art stands on the card's bottom edge */
+.guide {
+  object-position: 50% 100%;
+}
+
+/* Squat objects fit the 132px box too short to rise; grow them from the base */
+.guide.object {
+  scale: 1.3;
+  transform-origin: 50% 100%;
+}
+
+.plate.object {
+  padding: 2%;
+}
+
+.plate.scene {
+  object-fit: cover;
+  object-position: 50% 0;
+  border-radius: var(--radius-md);
+  -webkit-mask-image: linear-gradient(#000 60%, transparent), linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(#000 60%, transparent), linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  mask-composite: intersect;
+}
+
+.chip.object {
+  padding: 10%;
+}

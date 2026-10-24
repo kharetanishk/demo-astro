@@ -1,0 +1,57 @@
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom) + var(--nav-height) + var(--nav-offset) + var(--space-5));
+  z-index: var(--z-toast);
+  max-width: calc(100vw - 2 * var(--gutter));
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--rose-surface);
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--brand-partner), var(--shadow-float);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, 6px);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+}
+
+.toast[data-open="true"] {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.toast:empty {
+  visibility: hidden;
+}
+
+/* ── UI styles (see StyleSwitcher) ──────────────────────────────────── */
+:global([data-style="glass"]) .toast {
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow), inset 0 0 0 1px var(--glass-edge);
+}
+
+:global([data-style="brutal"]) .toast {
+  background: var(--block-gold);
+  border: var(--stroke);
+  box-shadow: var(--hard-sm);
+  font-weight: var(--weight-bold);
+}
+
+:global([data-style="minimal"]) .toast {
+  background: var(--walnut);
+  color: var(--porcelain);
+  box-shadow: var(--shadow-float);
+}
+
+:global([data-style="skeuo"]) .toast {
+  background: var(--parchment);
+  box-shadow: var(--shadow-soft);
+  text-shadow: var(--emboss);
+}

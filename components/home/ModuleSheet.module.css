@@ -1,0 +1,627 @@
+/* The sheet fills the app column. Layers, back to front:
+   veil    → the page colour, fading in over Home
+   colour  → the card's colour, clipped from the card's shape to the
+             stage's during the flight (shown only while flying)
+   scroll  → the stage (artwork on its plinth), then the panel of copy
+             rising over it
+   actions → the one action, floating at the bottom */
+.sheet {
+  --hero-bg: var(--card-bg, var(--gold-light));
+  --panel-bg: var(--porcelain);
+  --stage-h: min(56dvh, 470px);
+  --overlap: 32px; /* how far the panel rises over the stage */
+  --plinth-y: calc(var(--overlap) + var(--space-6)); /* plinth's foot above the stage's bottom */
+  --actions-h: calc(64px + var(--space-4) + env(safe-area-inset-bottom));
+
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: var(--content-width);
+  height: 100dvh;
+  max-height: none;
+  margin: 0 auto;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  background: transparent;
+  color: var(--text);
+}
+
+/* Beyond the column (wide screens) Home dims rather than vanishes */
+.sheet::backdrop {
+  background: rgb(74 48 37 / 0.28);
+  animation: fade-in 620ms ease both;
+}
+
+.sheet[data-state="closing"]::backdrop {
+  animation: fade-out 440ms ease both;
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  animation: fade-in 620ms ease both;
+}
+
+.sheet[data-state="closing"] .veil {
+  animation: fade-out 440ms ease both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.colour {
+  position: absolute;
+  inset: 0;
+  display: none;
+  background: var(--hero-bg);
+}
+
+.sheet[data-state="opening"] .colour,
+.sheet[data-state="closing"] .colour {
+  display: block;
+}
+
+.scroll {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Stage ──────────────────────────────────────────────────────────── */
+.header {
+  position: relative;
+  height: var(--stage-h);
+  background: var(--hero-bg);
+}
+
+/* While flying, the colour layer stands in for the stage's own */
+.sheet[data-state="opening"] .header,
+.sheet[data-state="closing"] .header {
+  background: none;
+}
+
+.sheet[data-state="opening"] .spotlight,
+.sheet[data-state="opening"] .plinth,
+.sheet[data-state="closing"] .spotlight,
+.sheet[data-state="closing"] .plinth {
+  opacity: 0;
+}
+
+.toolbar {
+  position: absolute;
+  z-index: 2;
+  top: calc(env(safe-area-inset-top) + var(--space-3));
+  left: var(--gutter);
+  right: var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  animation: fade-in 400ms ease 300ms both;
+}
+
+.sheet[data-state="closing"] .toolbar {
+  animation: fade-out 200ms ease both;
+}
+
+.backIcon {
+  transform: scaleX(-1);
+}
+
+/* Breadcrumb: Home ◆ group, a pill the height of the icon buttons */
+.crumbs ol {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 44px;
+  padding: 0 var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.crumbs {
+  border-radius: var(--radius-pill);
+}
+
+.crumbs li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.crumbs li + li::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  background: var(--diamond, var(--antique-gold));
+  box-shadow: var(--diamond-ring, none);
+  transform: rotate(45deg);
+}
+
+.crumbLink {
+  color: var(--text-muted);
+}
+
+.crumbs [aria-current="page"] {
+  color: var(--text);
+}
+
+/* Light falling from above onto the plinth */
+.spotlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(46% 55% at 50% 0%, rgb(255 249 241 / 0.55), transparent 72%),
+    radial-gradient(42% 14% at 50% calc(100% - var(--plinth-y) - 20px), rgb(255 232 180 / 0.65), transparent 80%);
+  transition: opacity 300ms ease;
+}
+
+/* The plinth: a lit top face over a shadowed side, its rim catching gold */
+.plinth {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--plinth-y);
+  width: min(64%, 250px);
+  height: 44px;
+  margin-inline: auto;
+  border-radius: 50%;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--card-stage, var(--antique-gold)) 60%, var(--walnut)), color-mix(in srgb, var(--card-stage, var(--antique-gold)) 30%, var(--walnut)));
+  box-shadow: 0 24px 30px -14px rgb(58 37 27 / 0.6);
+  transition: opacity 300ms ease;
+}
+
+.plinth::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 30px;
+  border-radius: 50%;
+  background: radial-gradient(70% 90% at 50% 30%, color-mix(in srgb, var(--card-stage, var(--antique-gold)) 35%, var(--porcelain)), color-mix(in srgb, var(--card-stage, var(--antique-gold)) 85%, var(--walnut)));
+  box-shadow:
+    inset 0 0 0 1.5px color-mix(in srgb, var(--antique-gold) 85%, transparent),
+    0 0 22px 2px color-mix(in srgb, var(--antique-gold) 55%, transparent);
+}
+
+/* The artwork stands at the centre of the plinth's top face */
+.artBox {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--plinth-y) + 15px);
+  width: min(66%, 250px);
+  height: min(calc(var(--stage-h) - var(--plinth-y) - 15px - 76px), 270px);
+  margin-inline: auto;
+  animation: float 7s ease-in-out 900ms infinite;
+}
+
+@keyframes float {
+  50% {
+    translate: 0 -6px;
+  }
+}
+
+/* transform-origin 0 0: the flight's translate + scale are measured from
+   the top-left of the picture */
+.art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 100%;
+  transform-origin: 0 0;
+  filter: drop-shadow(0 14px 12px rgb(58 37 27 / 0.4));
+}
+
+.scene {
+  -webkit-mask-image: linear-gradient(#000 70%, transparent);
+  mask-image: linear-gradient(#000 70%, transparent);
+}
+
+/* ── Panel ──────────────────────────────────────────────────────────── */
+.panel {
+  position: relative;
+  min-height: calc(100dvh - var(--stage-h) + var(--overlap));
+  margin-top: calc(-1 * var(--overlap));
+  padding: calc(var(--space-8) + var(--space-6)) var(--gutter) calc(var(--actions-h) + var(--space-8));
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background: var(--panel-bg);
+  box-shadow: 0 -12px 32px -20px rgb(58 37 27 / 0.45);
+  animation: panel-up 620ms var(--ease-out) 120ms both;
+}
+
+@keyframes panel-up {
+  from {
+    opacity: 0;
+    transform: translateY(56px);
+  }
+}
+
+.sheet[data-state="closing"] .panel {
+  animation: panel-down 300ms ease-in both;
+}
+
+@keyframes panel-down {
+  to {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+}
+
+/* At a glance: three facts on one strip across the panel's edge */
+.glance {
+  position: absolute;
+  top: 0;
+  left: var(--gutter);
+  right: var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: var(--space-3) 0;
+  border-radius: var(--radius-md);
+  translate: 0 -50%;
+}
+
+.glanceItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0 var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  text-align: center;
+}
+
+.glanceItem + .glanceItem {
+  border-left: 1px solid var(--border);
+}
+
+.title {
+  margin-top: var(--space-2);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-bold);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.tagline {
+  margin-top: var(--space-2);
+  font-size: var(--text-lg);
+  color: var(--text-muted);
+}
+
+.block {
+  margin-top: var(--space-8);
+}
+
+.blockHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.count {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-eyebrow);
+}
+
+.about {
+  margin-top: var(--space-3);
+  line-height: 1.6;
+}
+
+/* Features: a row of cards that runs off the edge, swiped sideways */
+.features {
+  display: flex;
+  gap: var(--space-3);
+  margin: var(--space-3) calc(-1 * var(--gutter)) 0;
+  padding: var(--space-1) var(--gutter) var(--space-3);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+}
+
+.features::-webkit-scrollbar {
+  display: none;
+}
+
+.feature {
+  flex: 0 0 min(72%, 240px);
+  display: flex;
+  flex-direction: column;
+  min-height: 168px;
+  padding: var(--space-5) var(--space-4);
+  border-radius: var(--radius-md);
+  scroll-snap-align: start;
+}
+
+.featureIndex {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--gold-deep);
+}
+
+.featureTitle {
+  margin-top: auto;
+  padding-top: var(--space-4);
+  font-weight: var(--weight-bold);
+}
+
+.featureNote {
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+/* ── The one action, floating ───────────────────────────────────────── */
+
+/* The panel fades out under the bar, so no copy peeks round its ends */
+.fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(var(--actions-h) + var(--space-6));
+  background: linear-gradient(transparent, var(--fade, var(--panel-bg)) 55%);
+  pointer-events: none;
+  animation: fade-in 400ms ease 500ms both;
+}
+
+.sheet[data-state="closing"] .fade {
+  animation: fade-out 200ms ease both;
+}
+.actions {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: calc(env(safe-area-inset-bottom) + var(--space-4));
+  padding: var(--space-2);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-float);
+  animation: rise 520ms var(--ease-out) 560ms both;
+}
+
+.cta {
+  width: 100%;
+}
+
+/* The copy rises in line after line once the panel is up, and sinks with
+   it on the way out */
+.rise {
+  animation: rise 520ms var(--ease-out) both;
+  animation-delay: calc(280ms + var(--n, 0) * 50ms);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+.sheet[data-state="closing"] .actions {
+  animation: fade-out 200ms ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet::backdrop,
+  .veil,
+  .toolbar,
+  .artBox,
+  .panel,
+  .rise,
+  .actions,
+  .fade,
+  .sheet[data-state="closing"] .toolbar,
+  .sheet[data-state="closing"] .panel,
+  .sheet[data-state="closing"] .actions {
+    animation: none;
+  }
+}
+
+/* ── UI styles (see StyleSwitcher) ──────────────────────────────────── */
+
+/* Glass: Home blurs behind; a glass disc for a plinth, a frosted panel */
+:global([data-style="glass"]) .sheet {
+  --hero-bg: linear-gradient(180deg, rgb(255 255 255 / 0.3), transparent 45%), var(--card-bg);
+  --fade: rgb(255 249 241 / 0.85);
+}
+
+:global([data-style="glass"]) .veil {
+  background: color-mix(in srgb, var(--bg) 62%, transparent);
+  -webkit-backdrop-filter: blur(30px) saturate(160%);
+  backdrop-filter: blur(30px) saturate(160%);
+}
+
+:global([data-style="glass"]) .panel {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.82), rgb(255 249 241 / 0.7));
+  -webkit-backdrop-filter: blur(24px) saturate(170%);
+  backdrop-filter: blur(24px) saturate(170%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 -12px 32px -20px rgb(58 37 27 / 0.4);
+}
+
+/* A solid crystal disc: frosted side, bright top face, light pooling under */
+:global([data-style="glass"]) .plinth {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.75), color-mix(in srgb, var(--card-stage) 35%, rgb(255 255 255 / 0.45)));
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow:
+    inset 0 -1px 0 rgb(255 255 255 / 0.9),
+    0 0 0 1px rgb(255 255 255 / 0.5),
+    0 24px 30px -14px color-mix(in srgb, var(--card-stage) 70%, var(--walnut));
+}
+
+:global([data-style="glass"]) .plinth::before {
+  background: radial-gradient(70% 90% at 50% 30%, #fff, rgb(255 255 255 / 0.7));
+  box-shadow:
+    inset 0 0 0 1px #fff,
+    inset 0 -4px 8px -2px color-mix(in srgb, var(--card-stage) 40%, transparent),
+    0 0 26px 4px rgb(255 255 255 / 0.6);
+}
+
+/* Bars over content: frosted solid, so what scrolls beneath only blurs */
+:global([data-style="glass"]) .glance,
+:global([data-style="glass"]) .actions {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.88), rgb(255 249 241 / 0.78));
+  -webkit-backdrop-filter: blur(24px) saturate(170%);
+  backdrop-filter: blur(24px) saturate(170%);
+}
+
+:global([data-style="glass"]) .glanceItem + .glanceItem {
+  border-left-color: rgb(74 48 37 / 0.12);
+}
+
+/* Neubrutal: flat slab, a block plinth, an ink-ruled panel */
+:global([data-style="brutal"]) .sheet {
+  --hero-bg: var(--card-stage, var(--block-gold));
+  --panel-bg: var(--porcelain);
+}
+
+:global([data-style="brutal"]) .veil {
+  background-color: var(--palace-ivory);
+  background-image: radial-gradient(color-mix(in srgb, var(--walnut) 22%, transparent) 1px, transparent 1.4px);
+  background-size: 18px 18px;
+}
+
+:global([data-style="brutal"]) .spotlight {
+  display: none;
+}
+
+:global([data-style="brutal"]) .plinth {
+  background: var(--walnut);
+  box-shadow: none;
+}
+
+:global([data-style="brutal"]) .plinth::before {
+  background: var(--block-gold);
+  box-shadow: inset 0 0 0 2.5px var(--walnut);
+}
+
+:global([data-style="brutal"]) .panel {
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  border-top: var(--stroke);
+  box-shadow: none;
+}
+
+:global([data-style="brutal"]) .glanceItem + .glanceItem {
+  border-left: 2px solid var(--walnut);
+}
+
+:global([data-style="brutal"]) .title {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+:global([data-style="brutal"]) .featureIndex {
+  font-weight: 800;
+  color: var(--walnut);
+}
+
+:global([data-style="brutal"]) .actions {
+  border-radius: var(--radius-md);
+}
+
+/* Minimal: a soft tint, a shadow for a plinth, a hairline panel */
+:global([data-style="minimal"]) .sheet {
+  --hero-bg: color-mix(in srgb, var(--card-stage, var(--antique-gold)) 22%, var(--surface));
+  --panel-bg: var(--surface);
+}
+
+:global([data-style="minimal"]) .spotlight {
+  display: none;
+}
+
+:global([data-style="minimal"]) .plinth {
+  height: 20px;
+  background: radial-gradient(closest-side, rgb(74 48 37 / 0.18), transparent);
+  box-shadow: none;
+}
+
+:global([data-style="minimal"]) .plinth::before {
+  display: none;
+}
+
+:global([data-style="minimal"]) .artBox {
+  bottom: calc(var(--plinth-y) + 10px);
+}
+
+:global([data-style="minimal"]) .panel {
+  box-shadow: inset 0 1px 0 var(--border);
+}
+
+:global([data-style="minimal"]) .title {
+  font-weight: var(--weight-semibold);
+}
+
+:global([data-style="minimal"]) .featureIndex {
+  font-weight: var(--weight-regular);
+  color: var(--antique-gold);
+}
+
+/* Skeuomorph: a marble-and-gold dais, a parchment panel rimmed in gold */
+:global([data-style="skeuo"]) .sheet {
+  --hero-bg: var(--grain), var(--card-bg);
+  --panel-bg: var(--parchment);
+  --fade: #f1e1c4;
+}
+
+:global([data-style="skeuo"]) .veil {
+  background:
+    var(--grain),
+    radial-gradient(120% 70% at 50% 0%, #fbf0dc, #ecd8b7 60%, #dcc199);
+}
+
+:global([data-style="skeuo"]) .plinth {
+  background: var(--metal);
+  box-shadow:
+    inset 0 -2px 3px rgb(74 48 37 / 0.35),
+    0 24px 30px -14px rgb(58 37 27 / 0.65);
+}
+
+:global([data-style="skeuo"]) .plinth::before {
+  background: var(--grain), radial-gradient(70% 90% at 45% 30%, #fffaf0, #eadcc6 70%, #cdb795);
+  box-shadow:
+    inset 0 0 0 2px #e0bf78,
+    inset 0 0 0 3px var(--metal-edge),
+    0 0 24px 2px color-mix(in srgb, var(--antique-gold) 50%, transparent);
+}
+
+:global([data-style="skeuo"]) .panel {
+  box-shadow:
+    0 -1px 0 var(--metal-edge),
+    0 -3px 0 #e0bf78,
+    0 -4px 0 var(--metal-edge),
+    0 -14px 28px -16px rgb(58 37 27 / 0.55);
+}
+
+:global([data-style="skeuo"]) .title,
+:global([data-style="skeuo"]) .featureIndex {
+  font-family: var(--font-cinzel), serif;
+  letter-spacing: 0.02em;
+  text-shadow: var(--engrave);
+}
