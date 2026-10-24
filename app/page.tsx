@@ -2,7 +2,7 @@ import { HomeHeader } from "@/components/home/HomeHeader";
 import { ModuleSection } from "@/components/home/ModuleSection";
 import { ModuleSheet } from "@/components/home/ModuleSheet";
 import { CourtyardBackdrop, Sanctum } from "@/components/home/Sanctum";
-import { BACKDROP_ARTWORK, HERO_ARTWORK, homeModules } from "@/components/home/modules";
+import { BACKDROP_ARTWORK, homeModules } from "@/components/home/modules";
 import { homeOffers } from "@/components/home/offer";
 
 // Demo user until the app's user API is wired in.
@@ -13,7 +13,7 @@ export default function HomePage() {
     <main className="page">
       <CourtyardBackdrop src={BACKDROP_ARTWORK} />
       <HomeHeader unread={user.unreadNotifications} points={user.points} />
-      <Sanctum name={user.name} relic={HERO_ARTWORK} offers={homeOffers} />
+      <Sanctum name={user.name} offers={homeOffers} />
       <ModuleSection modules={homeModules} />
       <ModuleSheet />
     </main>

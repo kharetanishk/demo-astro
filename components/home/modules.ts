@@ -9,8 +9,7 @@ export type Tone = "gold" | "rose" | "sand";
    - "guidance" rows: 132px wide, rising above the card; any proportion.
    - "practice" gallery cards: square plate.
    - "soon" chips: 44px circle.
-   - Home hero: BACKDROP_ARTWORK (2:3 painting behind the top of Home) with
-     HERO_ARTWORK (2:3) suspended in it. */
+   - Home hero: BACKDROP_ARTWORK (2:3 painting behind the top of Home). */
 export type ModuleId =
   | "ai-astrology"
   | "astro-guru"
@@ -27,7 +26,6 @@ export type ModuleId =
    scene  → crops to fill, edges fade into the surface (landscapes) */
 export type ArtworkFit = "object" | "figure" | "scene";
 
-export const HERO_ARTWORK = "/relic.webp";
 export const BACKDROP_ARTWORK = "/hero-bg.webp";
 
 export type HomeModule = {
