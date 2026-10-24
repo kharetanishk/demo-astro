@@ -133,6 +133,11 @@
 
 /* ── UI styles (see StyleSwitcher) ──────────────────────────────────── */
 
+/* Royal: no courtyard painting behind the hero */
+:global([data-style="royal"]) .backdrop {
+  display: none;
+}
+
 /* Glass: the relic floats inside a frosted crystal orb */
 :global([data-style="glass"]) .glow {
   width: 176px;
