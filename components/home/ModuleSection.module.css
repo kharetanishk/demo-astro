@@ -103,6 +103,53 @@
   }
 }
 
+/* Stack (Daily practice's Stack switch): six artworks of every shape, so
+   no object is scaled past its box. Each box rises --rise above the card's
+   content and the art stands on the card's bottom edge, bulging out of the
+   top; squat art (artwork.inCard) sits inside the card instead. The gap
+   clears the rise, so no art reaches the row above. */
+.stack {
+  --rise: 44px;
+  --object-scale: 1;
+
+  gap: calc(var(--rise) + var(--space-6));
+  padding-top: var(--rise);
+}
+
+.stack .guide {
+  grid-template-columns: 1fr 150px;
+}
+
+.stack li:nth-child(even) .guide {
+  grid-template-columns: 150px 1fr;
+}
+
+/* The box also reaches through the card's outer padding to its edge, so
+   squat art gets the width to read */
+.stack .guideArt {
+  height: calc(100% + var(--rise) + var(--space-5));
+  margin: calc(-1 * var(--rise)) calc(-1 * var(--space-5)) 0 0;
+}
+
+.stack li:nth-child(even) .guideArt {
+  margin-inline: calc(-1 * var(--space-5)) 0;
+}
+
+/* Squat art (artwork.inCard) sits centred inside the card's padding */
+.stack .guide .guideArt[data-in-card] {
+  height: auto;
+  margin: 0;
+}
+
+.stack .guideArt[data-in-card] img {
+  object-position: center;
+}
+
+/* A soft shadow on the card under each piece, so it stands off it */
+.stack .guideArt img {
+  filter: drop-shadow(0 10px 10px rgb(74 48 37 / 0.28));
+}
+
 .guideText {
   display: flex;
   flex-direction: column;

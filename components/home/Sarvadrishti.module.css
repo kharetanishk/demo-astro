@@ -20,6 +20,29 @@
   margin: var(--space-3) auto var(--space-2);
 }
 
+/* Circle orbit (the "Circle" switch, see StyleSwitcher): a flat ring round
+   the whole talisman, as on the app's welcome screen. Everything centres on
+   the talisman's middle; the ring clears it by a coin, and the stage grows
+   to hold it. Medallions keep one size and never cross the talisman. */
+:global([data-orbit="circle"]) .stage {
+  --art-h: 190px;
+  --rx: calc(var(--art-h) / 2 + var(--coin) / 2 + 6px);
+  --ry: var(--rx);
+  --eye-y: calc(var(--rx) + var(--coin) / 2 + 2px);
+  --art-top: calc(var(--eye-y) - var(--art-h) / 2);
+
+  height: calc(var(--rx) * 2 + var(--coin) + 4px);
+}
+
+:global([data-orbit="circle"]) .rashi {
+  scale: 1;
+  opacity: 1;
+}
+
+:global([data-orbit="circle"]) .shadow {
+  display: none;
+}
+
 .stage > * {
   position: absolute;
   pointer-events: none;
@@ -138,9 +161,32 @@
   opacity: calc(0.55 + 0.45 * var(--d));
   border-radius: 50%;
   box-shadow:
-    0 0 0 1.5px var(--porcelain),
-    0 0 0 2.5px var(--antique-gold),
+    0 0 0 1px var(--porcelain),
     0 4px 8px -2px rgb(74 48 37 / 0.4);
+}
+
+/* A solid Faded Rose rim, lit from the top left like the talisman: rose
+   deepening to plum at the bottom right, one bright glint where the light
+   lands, and a fine plum edge so it reads on the light stage */
+.rashi::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  padding: 3px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 270deg,
+    var(--faded-rose),
+    #f6dcd6 8%,
+    var(--faded-rose) 18%,
+    color-mix(in srgb, var(--faded-rose) 70%, var(--walnut)) 50%,
+    var(--faded-rose) 82%,
+    #f6dcd6 94%,
+    var(--faded-rose)
+  );
+  box-shadow: inset 0 0 0 0.5px color-mix(in srgb, var(--faded-rose) 50%, var(--walnut));
+  -webkit-mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
 }
 
 .rashi img {
@@ -159,15 +205,6 @@
   translate: -50% -50%;
   border-radius: 50%;
   background: radial-gradient(closest-side, rgb(74 48 37 / 0.3), transparent);
-  animation: shadow 10s ease-in-out infinite;
-}
-
-@keyframes shadow {
-  25%,
-  75% {
-    transform: scale(0.85);
-    opacity: 0.7;
-  }
 }
 
 .emblem {
@@ -177,30 +214,13 @@
   height: var(--art-h);
   aspect-ratio: 1275 / 2003;
   translate: -50% 0;
-  perspective: 700px;
 }
 
-/* Floats and turns to each side, like a pendant on a thread; its planes
-   (edges behind, face in front) share one 3D space, so it shows depth */
+/* Stands straight and still; only its lights move */
 .talisman {
   position: absolute;
   inset: 0;
-  transform-style: preserve-3d;
-  animation: sway 10s ease-in-out infinite;
-}
-
-@keyframes sway {
-  0%,
-  100% {
-    transform: translateY(0) rotateY(-20deg) rotateX(4deg);
-  }
-  25%,
-  75% {
-    transform: translateY(-6px) rotateY(0deg) rotateX(-2deg);
-  }
-  50% {
-    transform: translateY(0) rotateY(20deg) rotateX(4deg);
-  }
+  filter: drop-shadow(0 12px 14px rgb(74 48 37 / 0.38));
 }
 
 .talisman > * {
@@ -208,17 +228,6 @@
   inset: 0;
   width: 100%;
   height: 100%;
-}
-
-/* Thickness: four darkened copies 1.5px apart behind the face, so its rim
-   shows as solid bronze when it turns; the last one casts the shadow */
-.edge {
-  translate: 0 0 calc(var(--n) * -1.5px);
-  filter: brightness(0.5) saturate(1.2);
-}
-
-.edge:first-child {
-  filter: brightness(0.45) saturate(1.2) drop-shadow(0 12px 14px rgb(74 48 37 / 0.38));
 }
 
 /* The face: a flat group, so its blend layers mix with the artwork only */

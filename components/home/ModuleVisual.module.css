@@ -9,10 +9,23 @@
   object-position: 50% 100%;
 }
 
-/* Squat objects fit the 132px box too short to rise; grow them from the base */
+/* Squat objects fit the 132px box too short to rise; grow them from the base
+   (the Stack rows set --object-scale: 1) */
 .guide.object {
-  scale: 1.3;
+  scale: var(--object-scale, 1.3);
   transform-origin: 50% 100%;
+}
+
+/* Landscapes in a row: whole and grown a little from the base, so the peak
+   rises free of the card (the sky is transparent); the cut sides and base
+   fade into the card */
+.guide.scene {
+  scale: 1.15;
+  transform-origin: 50% 100%;
+  -webkit-mask-image: linear-gradient(#000 70%, transparent), linear-gradient(90deg, transparent, #000 26%, #000 74%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(#000 70%, transparent), linear-gradient(90deg, transparent, #000 26%, #000 74%, transparent);
+  mask-composite: intersect;
 }
 
 .plate.object {

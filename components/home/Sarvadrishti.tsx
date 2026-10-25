@@ -6,8 +6,9 @@ import { ZodiacOrbit } from "./ZodiacOrbit";
 /* The Sarvadrishti eye, the app's own artwork (Sarvadrishti-AI-App-v2
    assets/hero/centerpiece), with its 12 rashi medallions travelling a tilted
    orbit round it: behind it across the top, in front of it across the
-   bottom. The eye floats and sways, its glint breathes, it blinks; the
-   Tripundra glows and catches a passing light. Decorative only. */
+   bottom (or a flat ring round it, see [data-orbit]). The eye stands still;
+   its glint breathes, it blinks; the Tripundra glows and catches a passing
+   light. Decorative only. */
 export function Sarvadrishti() {
   return (
     <div className={s.stage} aria-hidden>
@@ -42,8 +43,8 @@ const GLINT = Array.from({ length: 16 }, (_, n) => {
   return `${(IRIS.x + r * Math.cos(a)).toFixed(1)},${(IRIS.y + r * Math.sin(a)).toFixed(1)}`;
 }).join("L");
 
-/* The artwork as a thick pendant (see .edge), its face washed lightly in
-   the theme with a Faded Rose iris, lit for metal (see .gloss, .shine), plus: a kumkum glow behind the Tripundra and a light sweeping
+/* The artwork, its face washed lightly in the theme with a Faded Rose
+   iris, lit for metal (see .gloss, .shine), plus: a kumkum glow behind the Tripundra and a light sweeping
    its bands (masked by the artwork itself, so only the bands' own pixels
    light up), the glint, and the lids (clipped to the eye opening, over the
    glint so it vanishes on a blink). */
@@ -53,25 +54,11 @@ function Talisman() {
       className={s.talisman}
       style={{ "--art": `url(${ART})` } as CSSProperties}
     >
-      {/* the pendant's thickness: darkened copies stacked behind the face */}
-      {EDGES.map((n) => (
-        <Image
-          key={n}
-          src={ART}
-          alt=""
-          width={SRC.w}
-          height={SRC.h}
-          unoptimized
-          loading="eager"
-          className={s.edge}
-          style={{ "--n": n } as CSSProperties}
-        />
-      ))}
       <div className={s.face}>
         <span className={s.kumkum} />
         <span className={s.rim} />
         <span className={s.outline} />
-        {/* unoptimized: the same file is every mask and edge, so it loads once */}
+        {/* unoptimized: the same file is every mask, so it loads once */}
         <Image
           src={ART}
           alt=""
@@ -136,8 +123,6 @@ function Talisman() {
     </div>
   );
 }
-
-const EDGES = [4, 3, 2, 1];
 
 /* 24 tapered sun rays behind the eye, turning slowly */
 const RAYS = Array.from({ length: 24 }, (_, i) => {

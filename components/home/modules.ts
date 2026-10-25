@@ -36,7 +36,9 @@ export type HomeModule = {
   group: "guidance" | "practice";
   status: "available" | "soon";
   href?: string;
-  artwork: { src: string; fit: ArtworkFit };
+  /** inCard: in rows, sits inside its card instead of rising out of it
+      (squat art too wide to rise without crowding the text) */
+  artwork: { src: string; fit: ArtworkFit; inCard?: boolean };
   /** Atmosphere, built from palette tokens:
       card  → the card's own background (also the header of its sheet)
       ink   → its title colour (contrast-checked against card)
@@ -55,13 +57,13 @@ export const homeModules: HomeModule[] = [
   { id: "astro-guru", title: "Astro Guru", description: "Speak with an astrologer", tone: "rose", group: "guidance", status: "available", artwork: { src: "/astroguru.webp", fit: "figure" },
     // Rose sandstone
     theme: { card: "linear-gradient(180deg, var(--rose-surface), var(--faded-rose))", ink: "var(--walnut)", stage: "var(--faded-rose)" } },
-  { id: "panchang", title: "Panchang", description: "Tithi, nakshatra and muhurat for today", tone: "sand", group: "practice", status: "available", artwork: { src: "/panchang-manuscript.webp", fit: "object" },
+  { id: "panchang", title: "Panchang", description: "Tithi, nakshatra and muhurat for today", tone: "sand", group: "practice", status: "available", artwork: { src: "/panchang-manuscript.webp", fit: "object", inCard: true },
     // Parchment: the bright counterpart to Tarot's night, its ring neighbour
     theme: { card: "linear-gradient(180deg, var(--porcelain), color-mix(in srgb, var(--pale-sand) 80%, var(--antique-gold)))", ink: "var(--walnut)", stage: "color-mix(in srgb, var(--pale-sand) 65%, var(--antique-gold))" } },
   { id: "din-chakra", title: "Din Chakra", description: "How the hours of your day unfold", tone: "sand", group: "practice", status: "available", artwork: { src: "/sacred-mountain-alpha.webp", fit: "scene" },
     // Dawn over the peaks
     theme: { card: "linear-gradient(180deg, var(--rose-surface), color-mix(in srgb, var(--antique-gold) 70%, var(--rose-surface)))", ink: "var(--walnut)", stage: "color-mix(in srgb, var(--antique-gold) 60%, var(--rose-surface))" } },
-  { id: "maala-jaap", title: "Maala Jaap", description: "Count your chants, bead by bead", tone: "sand", group: "practice", status: "available", artwork: { src: "/mala.webp", fit: "object" },
+  { id: "maala-jaap", title: "Maala Jaap", description: "Count your chants, bead by bead", tone: "sand", group: "practice", status: "available", artwork: { src: "/mala.webp", fit: "object", inCard: true },
     // Kumkum
     theme: { card: "radial-gradient(120% 90% at 50% 25%, var(--terracotta), var(--terracotta-deep))", ink: "var(--porcelain)", stage: "var(--terracotta)" } },
   { id: "e-puja", title: "E-Puja", description: "Offer rituals from anywhere", tone: "sand", group: "practice", status: "available", artwork: { src: "/diya.webp", fit: "object" },

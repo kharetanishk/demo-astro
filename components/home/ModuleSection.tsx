@@ -20,27 +20,12 @@ export function ModuleSection({ modules }: { modules: HomeModule[] }) {
     <>
       <section className={s.section} aria-labelledby="guidance-heading">
         <SectionHeading id="guidance-heading">Seek guidance</SectionHeading>
-        <ul className={s.guides}>
-          {guidance.map((m, i) => (
-            <li key={m.id} className="rise" style={{ "--stagger": i + 3 } as CSSProperties}>
-              <ModuleTarget module={m} className={`${s.guide} pressable`}>
-                <span className={s.guideText}>
-                  <span className={s.guideTitle}>{m.title}</span>
-                  <span className={s.guideNote}>{m.description}</span>
-                  <Icon name="arrow" size={18} className={s.guideArrow} />
-                </span>
-                <span className={s.guideArt} aria-hidden>
-                  <ModuleVisual module={m} slot="guide" />
-                </span>
-              </ModuleTarget>
-            </li>
-          ))}
-        </ul>
+        <GuideRows modules={guidance} />
       </section>
 
       <section className={s.section} aria-labelledby="practice-heading">
         <SectionHeading id="practice-heading">Daily practice</SectionHeading>
-        <PracticeGallery modules={practice} />
+        <PracticeGallery modules={practice} stack={<GuideRows modules={practice} stack />} />
       </section>
 
       {soon.length > 0 && (
@@ -64,6 +49,29 @@ export function ModuleSection({ modules }: { modules: HomeModule[] }) {
         </section>
       )}
     </>
+  );
+}
+
+/* Editorial rows, artwork rising out of each card and alternating sides:
+   Seek guidance, and Daily practice in its Stack layout */
+function GuideRows({ modules, stack }: { modules: HomeModule[]; stack?: boolean }) {
+  return (
+    <ul className={stack ? `${s.guides} ${s.stack}` : s.guides}>
+      {modules.map((m, i) => (
+        <li key={m.id} className="rise" style={{ "--stagger": i + 3 } as CSSProperties}>
+          <ModuleTarget module={m} className={`${s.guide} pressable`}>
+            <span className={s.guideText}>
+              <span className={s.guideTitle}>{m.title}</span>
+              <span className={s.guideNote}>{m.description}</span>
+              <Icon name="arrow" size={18} className={s.guideArrow} />
+            </span>
+            <span className={s.guideArt} data-in-card={m.artwork.inCard || undefined} aria-hidden>
+              <ModuleVisual module={m} slot="guide" />
+            </span>
+          </ModuleTarget>
+        </li>
+      ))}
+    </ul>
   );
 }
 
