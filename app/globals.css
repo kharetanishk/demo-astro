@@ -66,6 +66,10 @@
   --space-10: 40px;
   --gutter: var(--space-5);
   --content-width: 500px;
+  /* The device's safe areas; the iPhone frame on desktop sets its own (see
+     PhoneFrame) */
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
 
   /* Radius */
   --radius-sm: 12px;
@@ -191,14 +195,29 @@ ul {
   outline-offset: 3px;
 }
 
+/* Inside the desktop iPhone frame: clear its Dynamic Island and home indicator */
+[data-frame="screen"] {
+  --safe-top: 54px;
+  --safe-bottom: 34px;
+}
+
+/* Hosting the frame: only the phone shows; the app itself runs in it */
+[data-frame="host"] body {
+  overflow: hidden;
+}
+
+[data-frame="host"] body > :not(#phone-frame) {
+  display: none !important;
+}
+
 /* Page shell */
 .page {
   position: relative;
   isolation: isolate; /* page-level backdrops (z-index: -1) stay inside */
   max-width: var(--content-width);
   margin: 0 auto;
-  padding: calc(env(safe-area-inset-top) + var(--space-5)) var(--gutter)
-    calc(env(safe-area-inset-bottom) + var(--nav-height) + var(--nav-offset) + var(--space-10));
+  padding: calc(var(--safe-top) + var(--space-5)) var(--gutter)
+    calc(var(--safe-bottom) + var(--nav-height) + var(--nav-offset) + var(--space-10));
 }
 
 /* Shared utilities */

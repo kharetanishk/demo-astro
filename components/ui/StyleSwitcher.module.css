@@ -3,7 +3,7 @@
 .trigger {
   position: fixed;
   right: max(var(--gutter), calc(50vw - var(--content-width) / 2 + var(--gutter)));
-  bottom: calc(env(safe-area-inset-bottom) + var(--nav-height) + var(--nav-offset) + var(--space-4));
+  bottom: calc(var(--safe-bottom) + var(--nav-height) + var(--nav-offset) + var(--space-4));
   z-index: var(--z-nav);
   display: inline-flex;
   align-items: center;
@@ -33,7 +33,7 @@
 .menu {
   inset: auto;
   right: max(var(--gutter), calc(50vw - var(--content-width) / 2 + var(--gutter)));
-  bottom: calc(env(safe-area-inset-bottom) + var(--nav-height) + var(--nav-offset) + var(--space-4) + 48px);
+  bottom: calc(var(--safe-bottom) + var(--nav-height) + var(--nav-offset) + var(--space-4) + 48px);
   width: 230px;
   margin: 0;
   padding: var(--space-2);

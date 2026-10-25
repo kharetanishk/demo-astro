@@ -1,7 +1,7 @@
 .nav {
   position: fixed;
   inset-inline: 0;
-  bottom: calc(env(safe-area-inset-bottom) + var(--nav-offset));
+  bottom: calc(var(--safe-bottom) + var(--nav-offset));
   z-index: var(--z-nav);
   display: flex;
   justify-content: center;

@@ -11,7 +11,7 @@
   --stage-h: min(56dvh, 470px);
   --overlap: 32px; /* how far the panel rises over the stage */
   --plinth-y: calc(var(--overlap) + var(--space-6)); /* plinth's foot above the stage's bottom */
-  --actions-h: calc(64px + var(--space-4) + env(safe-area-inset-bottom));
+  --actions-h: calc(64px + var(--space-4) + var(--safe-bottom));
 
   position: fixed;
   inset: 0;
@@ -107,7 +107,7 @@
 .toolbar {
   position: absolute;
   z-index: 2;
-  top: calc(env(safe-area-inset-top) + var(--space-3));
+  top: calc(var(--safe-top) + var(--space-3));
   left: var(--gutter);
   right: var(--gutter);
   display: flex;
@@ -397,7 +397,7 @@
   position: absolute;
   left: var(--gutter);
   right: var(--gutter);
-  bottom: calc(env(safe-area-inset-bottom) + var(--space-4));
+  bottom: calc(var(--safe-bottom) + var(--space-4));
   padding: var(--space-2);
   border-radius: var(--radius-pill);
   box-shadow: var(--shadow-float);

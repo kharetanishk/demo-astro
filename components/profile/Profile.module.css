@@ -1,6 +1,6 @@
 /* ── Cover: the courtyard painting, curving off under the avatar ────── */
 .profile {
-  --cover-h: calc(env(safe-area-inset-top) + 232px);
+  --cover-h: calc(var(--safe-top) + 232px);
 }
 
 .cover {
