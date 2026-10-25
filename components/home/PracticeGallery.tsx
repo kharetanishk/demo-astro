@@ -65,13 +65,13 @@ const SETTLE_MS = 160; // fallback idle time where the scrollend event isn't sup
 
 const setMood = (m: HomeModule) => document.documentElement.style.setProperty("--mood", m.theme?.stage ?? "var(--antique-gold)");
 
-/* The carousel, or (switched on in the StyleSwitcher menu) the stack: the
-   same rows as Seek guidance, rendered by ModuleSection and passed in */
-export function PracticeGallery({ modules, stack }: { modules: HomeModule[]; stack: ReactNode }) {
-  return usePracticeLayout() === "stack" ? stack : <PracticeCarousel modules={modules} />;
+/* Home's modules as sections with this carousel, or (the Stack switch in
+   the StyleSwitcher menu) one stack of rows; both rendered by ModuleSection */
+export function PracticeLayout({ carousel, stack }: { carousel: ReactNode; stack: ReactNode }) {
+  return usePracticeLayout() === "stack" ? stack : carousel;
 }
 
-function PracticeCarousel({ modules }: { modules: HomeModule[] }) {
+export function PracticeGallery({ modules }: { modules: HomeModule[] }) {
   const n = modules.length;
   const slots = Array.from({ length: COPIES * n }, (_, k) => modules[k % n]);
 

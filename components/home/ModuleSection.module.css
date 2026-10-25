@@ -103,7 +103,7 @@
   }
 }
 
-/* Stack (Daily practice's Stack switch): six artworks of every shape, so
+/* Stack (the Stack switch): every module's artwork, of every shape, so
    no object is scaled past its box. Each box rises --rise above the card's
    content and the art stands on the card's bottom edge, bulging out of the
    top; squat art (artwork.inCard) sits inside the card instead. The gap
