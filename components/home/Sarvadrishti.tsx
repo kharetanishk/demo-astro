@@ -4,9 +4,9 @@ import s from "./Sarvadrishti.module.css";
 import { ZodiacOrbit } from "./ZodiacOrbit";
 
 /* The Sarvadrishti eye, the app's own artwork (Sarvadrishti-AI-App-v2
-   assets/hero/centerpiece), with its 12 rashi medallions travelling a tilted
-   orbit round it: behind it across the top, in front of it across the
-   bottom (or a flat ring round it, see [data-orbit]). The eye stands still;
+   assets/hero/centerpiece), with its 12 rashi medallions travelling a flat
+   ring round it, or (see [data-orbit]) a tilted orbit: behind it across the
+   top, in front of it across the bottom. The eye stands still;
    its glint breathes, it blinks; the Tripundra glows and catches a passing
    light. Decorative only. */
 export function Sarvadrishti() {

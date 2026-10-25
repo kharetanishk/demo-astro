@@ -65,8 +65,9 @@ const SETTLE_MS = 160; // fallback idle time where the scrollend event isn't sup
 
 const setMood = (m: HomeModule) => document.documentElement.style.setProperty("--mood", m.theme?.stage ?? "var(--antique-gold)");
 
-/* Home's modules as sections with this carousel, or (the Stack switch in
-   the StyleSwitcher menu) one stack of rows; both rendered by ModuleSection */
+/* Home's modules as one stack of rows (default), or (the Carousel switch
+   in the StyleSwitcher menu) as sections with this carousel; both rendered
+   by ModuleSection */
 export function PracticeLayout({ carousel, stack }: { carousel: ReactNode; stack: ReactNode }) {
   return usePracticeLayout() === "stack" ? stack : carousel;
 }

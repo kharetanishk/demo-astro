@@ -20,7 +20,7 @@
   margin: var(--space-3) auto var(--space-2);
 }
 
-/* Circle orbit (the "Circle" switch, see StyleSwitcher): a flat ring round
+/* Circle orbit (the default; "Tilted orbit" in StyleSwitcher turns it off): a flat ring round
    the whole talisman, as on the app's welcome screen. Everything centres on
    the talisman's middle; the ring clears it by a coin, and the stage grows
    to hold it. Medallions keep one size and never cross the talisman. */

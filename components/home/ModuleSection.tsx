@@ -11,7 +11,8 @@ import s from "./ModuleSection.module.css";
    guidance → editorial rows, artwork rising out of each card (primary)
    practice → centred gallery with a focused detail (secondary, tactile)
    soon     → quiet chips (honest about availability)
-   With the Stack switch, guidance and practice are one stack of rows. */
+   By default (the Carousel switch off) guidance and practice are one stack
+   of rows instead. */
 export function ModuleSection({ modules }: { modules: HomeModule[] }) {
   const guidance = modules.filter((m) => m.status === "available" && m.group === "guidance");
   const practice = modules.filter((m) => m.status === "available" && m.group === "practice");

@@ -19,14 +19,14 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-// Restores the chosen UI style, practice layout and zodiac orbit before first
-// paint (see StyleSwitcher);
+// Restores the chosen UI style, and the carousel or tilted orbit if switched
+// on, before first paint (see StyleSwitcher); <html> carries the defaults.
 // ?style=glass in the URL overrides it, for sharing one style.
-const restoreStyle = `(function(){try{var t=new URLSearchParams(location.search).get("style")||localStorage.getItem("ui-style");if(/^(royal|glass|brutal|minimal|skeuo)$/.test(t))document.documentElement.setAttribute("data-style",t);if(localStorage.getItem("practice-layout")==="stack")document.documentElement.setAttribute("data-practice","stack");if(localStorage.getItem("zodiac-orbit")==="circle")document.documentElement.setAttribute("data-orbit","circle")}catch(e){}})()`;
+const restoreStyle = `(function(){try{var t=new URLSearchParams(location.search).get("style")||localStorage.getItem("ui-style");if(/^(royal|glass|brutal|minimal|skeuo)$/.test(t))document.documentElement.setAttribute("data-style",t);if(localStorage.getItem("home-layout")==="carousel")document.documentElement.setAttribute("data-practice","carousel");if(localStorage.getItem("rashi-orbit")==="tilted")document.documentElement.setAttribute("data-orbit","tilted")}catch(e){}})()`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${jakarta.variable} ${cinzel.variable}`} data-style="royal" suppressHydrationWarning>
+    <html lang="en" className={`${jakarta.variable} ${cinzel.variable}`} data-style="royal" data-practice="stack" data-orbit="circle" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: restoreStyle }} />
       </head>
