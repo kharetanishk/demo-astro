@@ -1,41 +1,3 @@
-/* ── Backdrop ───────────────────────────────────────────────────────── */
-.backdrop {
-  position: absolute;
-  z-index: -1; /* .page isolates, so this stays inside Home */
-  top: 0;
-  left: 0;
-  right: 0;
-  aspect-ratio: 2 / 3;
-  max-height: 600px; /* ends just below the offer, however wide the column (crops the floor) */
-  -webkit-mask-image: linear-gradient(#000 74%, transparent 98%);
-  mask-image: linear-gradient(#000 74%, transparent 98%);
-  pointer-events: none;
-}
-
-.backdropImage {
-  object-fit: cover;
-  object-position: 50% 0;
-}
-
-/* The screen's mood washes the courtyard light (soft-light keeps the
-   painting's detail). */
-.backdrop::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: color-mix(in srgb, var(--mood) 40%, transparent);
-  mix-blend-mode: soft-light;
-}
-
-/* A soft ivory veil quiets the pillars' blossoms behind the greeting */
-.backdrop::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  background: radial-gradient(78% 15% at 50% 21%, color-mix(in srgb, var(--palace-ivory) 82%, transparent), transparent);
-}
-
 /* ── Greeting ───────────────────────────────────────────────────────── */
 .sanctum {
   margin-top: var(--space-6);
@@ -65,32 +27,7 @@
 
 /* ── UI styles (see StyleSwitcher) ──────────────────────────────────── */
 
-/* Royal: no courtyard painting behind the hero */
-:global([data-style="royal"]) .backdrop {
-  display: none;
-}
-
-/* Neubrutal: the courtyard becomes a framed poster */
-:global([data-style="brutal"]) .backdrop {
-  /* a framed poster that ends above the offer, so the two never collide */
-  aspect-ratio: auto;
-  height: 372px;
-  max-height: none;
-  top: var(--space-2);
-  left: var(--space-2);
-  right: var(--space-2);
-  overflow: hidden;
-  border: var(--stroke);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--hard);
-  -webkit-mask-image: none;
-  mask-image: none;
-}
-
-:global([data-style="brutal"]) .backdrop::after {
-  display: none;
-}
-
+/* Neubrutal: heavy type, a stamped date */
 :global([data-style="brutal"]) .line {
   font-weight: 800;
   letter-spacing: -0.03em;
@@ -110,28 +47,14 @@
   box-shadow: 2px 2px 0 var(--walnut);
 }
 
-/* Minimal: no painting */
-:global([data-style="minimal"]) .backdrop {
-  display: none;
-}
-
+/* Minimal: a larger, lighter greeting */
 :global([data-style="minimal"]) .line {
   font-weight: var(--weight-semibold);
   font-size: var(--text-3xl);
   letter-spacing: -0.03em;
 }
 
-/* Skeuomorph: an aged painting, engraved lettering */
-:global([data-style="skeuo"]) .backdropImage {
-  filter: sepia(0.22) saturate(1.1) contrast(1.04);
-}
-
-:global([data-style="skeuo"]) .backdrop::before {
-  background:
-    radial-gradient(78% 15% at 50% 21%, color-mix(in srgb, #f6e8cf 85%, transparent), transparent),
-    radial-gradient(120% 80% at 50% 40%, transparent 60%, rgb(74 48 37 / 0.35));
-}
-
+/* Skeuomorph: engraved lettering */
 :global([data-style="skeuo"]) .line {
   font-family: var(--font-cinzel), serif;
   font-size: var(--text-xl); /* Cinzel's capitals run wide */
@@ -147,4 +70,3 @@
 :global([data-style="skeuo"]) .date {
   text-shadow: var(--emboss);
 }
-
