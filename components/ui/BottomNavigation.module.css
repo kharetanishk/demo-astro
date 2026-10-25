@@ -172,7 +172,18 @@
 
 /* ── UI styles (see StyleSwitcher) ──────────────────────────────────── */
 
-/* Royal: no lamp or beam; the active tab is a rose block, as in Neubrutal */
+/* Royal: no lamp or beam; the active tab is a rose block, and the bar takes
+   Neubrutal's walnut outline and tighter corners (its radii set here, so the
+   tabs inside follow) */
+:global([data-style="royal"]) .bar {
+  --radius-lg: 14px;
+  --radius-sm: 8px;
+  --inset: 5px;
+
+  border: 2.5px solid var(--walnut);
+  box-shadow: var(--shadow-float);
+}
+
 :global([data-style="royal"]) .beamClip,
 :global([data-style="royal"]) .lamp {
   display: none;
@@ -194,23 +205,6 @@
     0 3px 0 var(--walnut),
     0 6px 8px -2px rgb(74 48 37 / 0.35);
   transform: translateY(-3px);
-}
-
-/* An end tab's block reaches through the bar's padding to its edge and
-   rounds with the bar's corners, so no strip of bar shows beside it; the
-   matching padding keeps its icon and label where they were */
-:global([data-style="royal"]) .slot:first-child .active {
-  margin-left: calc(-1 * var(--inset));
-  padding-left: var(--inset);
-  border-top-left-radius: calc(var(--radius-lg) - 3px);
-  border-bottom-left-radius: calc(var(--radius-lg) - 3px);
-}
-
-:global([data-style="royal"]) .slot:last-child .active {
-  margin-right: calc(-1 * var(--inset));
-  padding-right: var(--inset);
-  border-top-right-radius: calc(var(--radius-lg) - 3px);
-  border-bottom-right-radius: calc(var(--radius-lg) - 3px);
 }
 
 :global([data-style="royal"]) .active .icon {
