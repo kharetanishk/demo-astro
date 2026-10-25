@@ -196,6 +196,23 @@
   transform: translateY(-3px);
 }
 
+/* An end tab's block reaches through the bar's padding to its edge and
+   rounds with the bar's corners, so no strip of bar shows beside it; the
+   matching padding keeps its icon and label where they were */
+:global([data-style="royal"]) .slot:first-child .active {
+  margin-left: calc(-1 * var(--inset));
+  padding-left: var(--inset);
+  border-top-left-radius: calc(var(--radius-lg) - 3px);
+  border-bottom-left-radius: calc(var(--radius-lg) - 3px);
+}
+
+:global([data-style="royal"]) .slot:last-child .active {
+  margin-right: calc(-1 * var(--inset));
+  padding-right: var(--inset);
+  border-top-right-radius: calc(var(--radius-lg) - 3px);
+  border-bottom-right-radius: calc(var(--radius-lg) - 3px);
+}
+
 :global([data-style="royal"]) .active .icon {
   filter: drop-shadow(2px 2px 0 var(--walnut));
   transform: scale(1.08);
