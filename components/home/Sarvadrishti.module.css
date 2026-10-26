@@ -6,7 +6,7 @@
 
 .stage {
   --art-h: 196px;
-  --art-top: 14px;
+  --art-top: 4px;
   --eye-y: calc(var(--art-top) + var(--art-h) * 0.609); /* iris at y 1220 of 2003 */
 
   position: relative;
@@ -115,7 +115,7 @@
   width: 100%;
   height: 100%;
   /* the source is an orange gold; this calms it before the wash */
-  filter: saturate(0.68) contrast(1.06) brightness(1.14);
+  filter: saturate(0.7) contrast(0.96) brightness(1.04);
 }
 
 /* Every layer below is masked to the artwork's own pixels */
@@ -147,13 +147,13 @@
 
 /* Metal volume: light from the top left, shade to the bottom right */
 .gloss {
-  background: linear-gradient(140deg, rgb(255 250 235 / 0.55), rgb(255 255 255 / 0) 42%, rgb(0 0 0 / 0) 60%, rgb(74 48 37 / 0.4));
+  background: linear-gradient(140deg, rgb(255 250 235 / 0.28), rgb(255 255 255 / 0) 42%, rgb(0 0 0 / 0) 60%, rgb(74 48 37 / 0.3));
   mix-blend-mode: overlay;
 }
 
-/* A light that passes over the metal every 7s */
+/* A soft light that passes over the metal every 7s */
 .shine {
-  background: linear-gradient(115deg, transparent 42%, rgb(255 248 228 / 0.65) 50%, transparent 58%) 150% 0 / 260% 100% no-repeat;
+  background: linear-gradient(115deg, transparent 42%, rgb(255 248 228 / 0.35) 50%, transparent 58%) 150% 0 / 260% 100% no-repeat;
   mix-blend-mode: overlay;
   animation: shine 7s ease-in-out infinite;
 }
