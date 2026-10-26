@@ -1,27 +1,34 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import s from "./Sarvadrishti.module.css";
-import { ZodiacOrbit } from "./ZodiacOrbit";
 
 /* The Sarvadrishti eye, the app's own artwork (Sarvadrishti-AI-App-v2
-   assets/hero/centerpiece), with its 12 rashi medallions travelling a flat
-   ring round it, or (see [data-orbit]) a tilted orbit: behind it across the
-   top, in front of it across the bottom. The eye stands still;
-   its glint breathes, it blinks; the Tripundra glows and catches a passing
-   light. Decorative only. */
+   assets/hero/centerpiece), in antique gold, over its name. The eye stands
+   still; its glint breathes, it blinks; the Tripundra glows and catches a
+   passing light. The eye is decorative; the name is read. */
 export function Sarvadrishti() {
   return (
-    <div className={s.stage} aria-hidden>
-      <span className={s.glow} />
-      <Rays />
-      <OrbitHalf className={s.ringBack} d="M-100 0A100 100 0 0 1 100 0" />
-      <ZodiacOrbit />
-      <span className={s.shadow} />
-      <div className={s.emblem}>
-        <Talisman />
+    <div className={s.sarvadrishti}>
+      <div className={s.stage} aria-hidden>
+        <span className={s.glow} />
+        <Rays />
+        <div className={s.emblem}>
+          <Talisman />
+        </div>
       </div>
-      <OrbitHalf className={s.ringFront} d="M100 0A100 100 0 0 1 -100 0" />
+      <Wordmark />
     </div>
+  );
+}
+
+/* The name as lettered on the Sarvadrishti poster (/poster-2.png): Cinzel
+   capitals with Cinzel Decorative's swash S and R's, and a diamond over the I */
+function Wordmark() {
+  return (
+    <p className={s.wordmark}>
+      <span className={s.swash}>S</span>A<span className={s.swash}>R</span>VD<span className={s.swash}>R</span>
+      <span className={s.dotted}>I</span>SHTI
+    </p>
   );
 }
 
@@ -43,8 +50,8 @@ const GLINT = Array.from({ length: 16 }, (_, n) => {
   return `${(IRIS.x + r * Math.cos(a)).toFixed(1)},${(IRIS.y + r * Math.sin(a)).toFixed(1)}`;
 }).join("L");
 
-/* The artwork, its face washed lightly in the theme with a Faded Rose
-   iris, lit for metal (see .gloss, .shine), plus: a kumkum glow behind the Tripundra and a light sweeping
+/* The artwork, its face washed in Antique Gold with a Faded Rose
+   iris, softly lit for aged metal (see .gloss, .shine), plus: a kumkum glow behind the Tripundra and a light sweeping
    its bands (masked by the artwork itself, so only the bands' own pixels
    light up), the glint, and the lids (clipped to the eye opening, over the
    glint so it vanishes on a blink). */
@@ -84,8 +91,8 @@ function Talisman() {
               <stop offset="1" stopColor="#ffe6a8" stopOpacity="0" />
             </radialGradient>
             <linearGradient id="sd-lid" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="#ecd08f" />
-              <stop offset="1" stopColor="#ad8240" />
+              <stop offset="0" stopColor="#dcc48f" />
+              <stop offset="1" stopColor="#9a7942" />
             </linearGradient>
             <linearGradient
               id="sd-lid-up"
@@ -99,7 +106,7 @@ function Talisman() {
           <g clipPath="url(#sd-open)">
             <g className={s.glint}>
               <circle cx={IRIS.x} cy={IRIS.y} r="120" fill="url(#sd-halo)" />
-              <path d={`M${GLINT}Z`} fill="#fff8e0" fillOpacity="0.9" />
+              <path d={`M${GLINT}Z`} fill="#fff4dc" fillOpacity="0.75" />
             </g>
             <rect
               x="0"
@@ -143,20 +150,6 @@ function Rays() {
         </radialGradient>
       </defs>
       <path d={RAYS} fill="url(#sd-ray)" />
-    </svg>
-  );
-}
-
-/* Half of the orbit's track, stretched to the ellipse's box */
-function OrbitHalf({ className, d }: { className: string; d: string }) {
-  return (
-    <svg
-      className={`${s.orbit} ${className}`}
-      viewBox="-100 -100 200 200"
-      preserveAspectRatio="none"
-    >
-      <path d={d} className={s.track} />
-      <path d={d} className={s.trail} />
     </svg>
   );
 }

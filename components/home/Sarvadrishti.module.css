@@ -1,46 +1,19 @@
-/* A fixed-height stage (240px) that keeps the offer below where it was; it
-   narrows with the column. The talisman stands 210px tall; the orbit is an
-   ellipse centred on its eye (--eye-y), --rx wide (sized from the stage, so
-   a coin at either end stays inside it) and --k as deep. */
+/* The eye over its name. The stage is as tall as the talisman (196px);
+   its glow and rays centre on the eye (--eye-y). */
+.sarvadrishti {
+  margin: var(--space-3) auto var(--space-4);
+}
+
 .stage {
-  --k: 0.34;
-  --coin: 36px;
-  /* resolved in the children, against this container */
-  --rx: calc(50cqw - var(--coin) / 2 - 2px);
-  --ry: calc(var(--rx) * var(--k));
-  --art-h: 210px;
-  --art-top: 12px;
+  --art-h: 196px;
+  --art-top: 14px;
   --eye-y: calc(var(--art-top) + var(--art-h) * 0.609); /* iris at y 1220 of 2003 */
 
   position: relative;
-  container-type: inline-size;
   overflow-x: clip; /* nothing may widen the page */
   width: min(100%, 340px);
-  height: 240px;
-  margin: var(--space-3) auto var(--space-2);
-}
-
-/* Circle orbit (the default; "Tilted orbit" in StyleSwitcher turns it off): a flat ring round
-   the whole talisman, as on the app's welcome screen. Everything centres on
-   the talisman's middle; the ring clears it by a coin, and the stage grows
-   to hold it. Medallions keep one size and never cross the talisman. */
-:global([data-orbit="circle"]) .stage {
-  --art-h: 190px;
-  --rx: calc(var(--art-h) / 2 + var(--coin) / 2 + 6px);
-  --ry: var(--rx);
-  --eye-y: calc(var(--rx) + var(--coin) / 2 + 2px);
-  --art-top: calc(var(--eye-y) - var(--art-h) / 2);
-
-  height: calc(var(--rx) * 2 + var(--coin) + 4px);
-}
-
-:global([data-orbit="circle"]) .rashi {
-  scale: 1;
-  opacity: 1;
-}
-
-:global([data-orbit="circle"]) .shadow {
-  display: none;
+  height: calc(var(--art-top) + var(--art-h));
+  margin-inline: auto;
 }
 
 .stage > * {
@@ -90,7 +63,7 @@
 
 .rayLit {
   stop-color: var(--antique-gold);
-  stop-opacity: 0.55;
+  stop-opacity: 0.4;
 }
 
 .rayFade {
@@ -104,109 +77,7 @@
   }
 }
 
-/* ── Orbit ── */
-/* The track is drawn straight into the ellipse's box (no transform), so it
-   never reaches past the stage */
-.orbit {
-  left: 50%;
-  top: var(--eye-y);
-  width: calc(var(--rx) * 2);
-  height: calc(var(--ry) * 2);
-  translate: -50% -50%;
-  overflow: visible;
-  fill: none;
-}
-
-/* The far half of the track runs behind the eye, the near half in front */
-.ringBack {
-  z-index: 1;
-}
-
-.ringFront {
-  z-index: 3;
-}
-
-.track {
-  stroke: color-mix(in srgb, var(--gold-deep) 75%, transparent);
-  stroke-width: 1.2;
-  vector-effect: non-scaling-stroke;
-}
-
-/* A dotted Faded Rose trail running along the track with the rashis */
-.trail {
-  stroke: var(--faded-rose);
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-dasharray: 0.1 7;
-  vector-effect: non-scaling-stroke;
-  animation: trail 2.4s linear infinite;
-}
-
-@keyframes trail {
-  to {
-    stroke-dashoffset: -7.1;
-  }
-}
-
-/* A medallion at its unit position (--x, --y, set by ZodiacOrbit) scaled
-   to the orbit; nearer the front (--d) it is larger and brighter. Its
-   z-index (also set there) puts it in front of the eye for the near half. */
-.rashi {
-  left: calc(50% - var(--coin) / 2);
-  top: calc(var(--eye-y) - var(--coin) / 2);
-  width: var(--coin);
-  height: var(--coin);
-  translate: calc(var(--rx) * var(--x)) calc(var(--ry) * var(--y));
-  scale: calc(0.6 + 0.5 * var(--d));
-  opacity: calc(0.55 + 0.45 * var(--d));
-  border-radius: 50%;
-  box-shadow:
-    0 0 0 1px var(--porcelain),
-    0 4px 8px -2px rgb(74 48 37 / 0.4);
-}
-
-/* A solid Faded Rose rim, lit from the top left like the talisman: rose
-   deepening to plum at the bottom right, one bright glint where the light
-   lands, and a fine plum edge so it reads on the light stage */
-.rashi::after {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  padding: 3px;
-  border-radius: 50%;
-  background: conic-gradient(
-    from 270deg,
-    var(--faded-rose),
-    #f6dcd6 8%,
-    var(--faded-rose) 18%,
-    color-mix(in srgb, var(--faded-rose) 70%, var(--walnut)) 50%,
-    var(--faded-rose) 82%,
-    #f6dcd6 94%,
-    var(--faded-rose)
-  );
-  box-shadow: inset 0 0 0 0.5px color-mix(in srgb, var(--faded-rose) 50%, var(--walnut));
-  -webkit-mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-}
-
-.rashi img {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
 /* ── Talisman ── */
-.shadow {
-  z-index: 1;
-  left: 50%;
-  top: calc(var(--art-top) + var(--art-h) + 2px);
-  width: 110px;
-  height: 14px;
-  translate: -50% -50%;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgb(74 48 37 / 0.3), transparent);
-}
-
 .emblem {
   z-index: 2;
   left: 50%;
@@ -220,7 +91,7 @@
 .talisman {
   position: absolute;
   inset: 0;
-  filter: drop-shadow(0 12px 14px rgb(74 48 37 / 0.38));
+  filter: drop-shadow(0 10px 12px rgb(74 48 37 / 0.3));
 }
 
 .talisman > * {
@@ -243,7 +114,8 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  filter: saturate(1.04) contrast(1.16) brightness(1.06);
+  /* the source is an orange gold; this calms it before the wash */
+  filter: saturate(0.68) contrast(1.06) brightness(1.14);
 }
 
 /* Every layer below is masked to the artwork's own pixels */
@@ -257,12 +129,12 @@
   mask: var(--art) 0 0 / 100% 100%;
 }
 
-/* A light Antique Gold wash; `color` blending takes only the hue, so the
-   artwork keeps its light and detail */
+/* An Antique Gold wash; `color` blending takes only the hue and
+   saturation, so the artwork keeps its light and detail */
 .tint {
   background: var(--antique-gold);
   mix-blend-mode: color;
-  opacity: 0.38;
+  opacity: 0.72;
 }
 
 /* The iris in Faded Rose (iris at 52% / 61% of the artwork); the pupil
@@ -275,15 +147,15 @@
 
 /* Metal volume: light from the top left, shade to the bottom right */
 .gloss {
-  background: linear-gradient(140deg, rgb(255 250 235 / 0.75), rgb(255 255 255 / 0) 42%, rgb(0 0 0 / 0) 60%, rgb(74 48 37 / 0.5));
+  background: linear-gradient(140deg, rgb(255 250 235 / 0.55), rgb(255 255 255 / 0) 42%, rgb(0 0 0 / 0) 60%, rgb(74 48 37 / 0.4));
   mix-blend-mode: overlay;
 }
 
-/* A bright glint that runs across the metal every 5s */
+/* A light that passes over the metal every 7s */
 .shine {
-  background: linear-gradient(115deg, transparent 42%, rgb(255 248 228 / 0.9) 50%, transparent 58%) 150% 0 / 260% 100% no-repeat;
+  background: linear-gradient(115deg, transparent 42%, rgb(255 248 228 / 0.65) 50%, transparent 58%) 150% 0 / 260% 100% no-repeat;
   mix-blend-mode: overlay;
-  animation: shine 5s ease-in-out infinite;
+  animation: shine 7s ease-in-out infinite;
 }
 
 @keyframes shine {
@@ -303,7 +175,7 @@
   inset: 0;
   background: var(--art) 0 0 / 100% 100%;
   filter: drop-shadow(0 0 1px var(--gold-deep)) drop-shadow(0 0 1px var(--antique-gold))
-    drop-shadow(0 0 7px color-mix(in srgb, var(--antique-gold) 60%, transparent));
+    drop-shadow(0 0 5px color-mix(in srgb, var(--antique-gold) 45%, transparent));
 }
 
 /* A fine walnut border round the Tripundra's three bands: a copy of the
@@ -353,7 +225,7 @@
    alpha, clipped to the bands (source px x 414–912, y 316–490) */
 .tripundra {
   clip-path: inset(15.6% 28% 75.5% 32%);
-  background: linear-gradient(105deg, transparent 40%, rgb(255 251 240 / 0.95) 50%, transparent 60%) 120% 0 / 300% 100% no-repeat;
+  background: linear-gradient(105deg, transparent 40%, rgb(255 251 240 / 0.6) 50%, transparent 60%) 120% 0 / 300% 100% no-repeat;
   mix-blend-mode: screen;
   animation: sweep 6s ease-in-out infinite;
 }
@@ -423,7 +295,66 @@
   }
 }
 
-/* Still, but each rashi held at its own place on the orbit */
+/* ── Wordmark ── */
+/* Lettered as on the poster (/poster-2.png): oxblood lacquer, lit from the
+   top, with a fine gold rim and a soft shadow. The poster's own colours,
+   not theme tokens, so it matches it exactly. The rim is drop-shadows, not
+   a text stroke, which would trace the font's overlapping contours. The
+   padding (taken back by the margins) lets the lacquer reach the swash S. */
+.wordmark {
+  --lacquer: #761805;
+
+  margin: calc(var(--space-2) - 0.3em) 0 -0.5em;
+  padding: 0.3em 0 0.5em;
+  font-family: var(--font-cinzel), serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-align: center;
+  /* the swash S's loop overhangs left; this centres the ink on the eye */
+  translate: 0.09em 0;
+  color: var(--lacquer);
+  background: linear-gradient(180deg, #a5391a 22%, var(--lacquer) 50%, #4c0901 78%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 0.5px #c98d42) drop-shadow(0 0 0.4px #c98d42)
+    drop-shadow(0 1.5px 1.5px rgb(76 20 4 / 0.35));
+}
+
+/* Cinzel Decorative's capitals are the swash forms: the R's long tail, and
+   the S, which stands half again as tall and drops below the line */
+.swash {
+  font-family: var(--font-cinzel-decorative), serif;
+  font-weight: 700;
+}
+
+.swash:first-child {
+  font-size: 1.75em;
+  line-height: 0;
+  vertical-align: -0.2em;
+  margin-right: -0.04em;
+}
+
+/* A small diamond in place of the I's dot */
+.dotted {
+  position: relative;
+}
+
+.dotted::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -0.08em;
+  width: 0.16em;
+  aspect-ratio: 1;
+  translate: -50% 0;
+  rotate: 45deg;
+  background: linear-gradient(135deg, #a5391a, #4c0901);
+}
+
+/* Still */
 @media (prefers-reduced-motion: reduce) {
   .stage * {
     animation-play-state: paused !important;

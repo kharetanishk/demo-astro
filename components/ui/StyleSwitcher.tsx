@@ -18,20 +18,11 @@ const UI_STYLES = [
 
 const STYLE_KEY = "ui-style";
 
-/* The rashi orbit round the Sarvadrishti eye: a flat circle (default) or
-   tilted, on <html data-orbit> and in localStorage like the rest */
-function setOrbit(orbit: "tilted" | "circle") {
-  document.documentElement.dataset.orbit = orbit;
-  try {
-    localStorage.setItem("rashi-orbit", orbit);
-  } catch {}
-}
-
 const read = () => document.documentElement.dataset.style ?? "royal";
 
 function subscribe(onChange: () => void) {
   const observer = new MutationObserver(onChange);
-  observer.observe(document.documentElement, { attributeFilter: ["data-style", "data-orbit"] });
+  observer.observe(document.documentElement, { attributeFilter: ["data-style"] });
   return () => observer.disconnect();
 }
 
@@ -39,7 +30,6 @@ export function StyleSwitcher() {
   const current = useSyncExternalStore(subscribe, read, () => "royal");
   const label = UI_STYLES.find((st) => st.id === current)?.label ?? "Royal";
   const carousel = usePracticeLayout() === "carousel";
-  const tilted = useSyncExternalStore(subscribe, () => document.documentElement.dataset.orbit === "tilted", () => false);
 
   function choose(id: string) {
     document.documentElement.dataset.style = id;
@@ -72,14 +62,6 @@ export function StyleSwitcher() {
           <span className={s.optionText}>
             <span className={s.optionLabel}>Carousel</span>
             <span className={s.optionNote}>{carousel ? "Daily practice on a toran carousel" : "Off: one stack of cards"}</span>
-          </span>
-          <span className={s.knob} aria-hidden />
-        </button>
-        <p className={s.heading}>Zodiac orbit</p>
-        <button type="button" role="switch" aria-checked={tilted} className={s.toggle} onClick={() => setOrbit(tilted ? "circle" : "tilted")}>
-          <span className={s.optionText}>
-            <span className={s.optionLabel}>Tilted orbit</span>
-            <span className={s.optionNote}>{tilted ? "Behind and in front of the eye" : "Off: a flat ring round the eye"}</span>
           </span>
           <span className={s.knob} aria-hidden />
         </button>
