@@ -4,43 +4,21 @@ import { Icon } from "@/components/ui/ornaments";
 import { ModuleOpener } from "./ModuleSheet";
 import { ModuleVisual } from "./ModuleVisual";
 import type { HomeModule } from "./modules";
-import { PracticeGallery, PracticeLayout } from "./PracticeGallery";
 import s from "./ModuleSection.module.css";
 
-/* Three tiers, three forms:
-   guidance → editorial rows, artwork rising out of each card (primary)
-   practice → centred gallery with a focused detail (secondary, tactile)
-   soon     → quiet chips (honest about availability)
-   By default (the Carousel switch off) guidance and practice are one stack
-   of rows instead. */
+/* Two tiers:
+   available → one stack of editorial rows, artwork rising out of each card
+   soon      → quiet chips (honest about availability) */
 export function ModuleSection({ modules }: { modules: HomeModule[] }) {
-  const guidance = modules.filter((m) => m.status === "available" && m.group === "guidance");
-  const practice = modules.filter((m) => m.status === "available" && m.group === "practice");
+  const available = modules.filter((m) => m.status === "available");
   const soon = modules.filter((m) => m.status === "soon");
 
   return (
     <>
-      <PracticeLayout
-        carousel={
-          <>
-            <section className={s.section} aria-labelledby="guidance-heading">
-              <SectionHeading id="guidance-heading">Seek guidance</SectionHeading>
-              <GuideRows modules={guidance} />
-            </section>
-
-            <section className={s.section} aria-labelledby="practice-heading">
-              <SectionHeading id="practice-heading">Daily practice</SectionHeading>
-              <PracticeGallery modules={practice} />
-            </section>
-          </>
-        }
-        stack={
-          <section className={s.section} aria-labelledby="explore-heading">
-            <SectionHeading id="explore-heading">Explore</SectionHeading>
-            <GuideRows modules={[...guidance, ...practice]} stack />
-          </section>
-        }
-      />
+      <section className={s.section} aria-labelledby="explore-heading">
+        <SectionHeading id="explore-heading">Explore</SectionHeading>
+        <GuideRows modules={available} />
+      </section>
 
       {soon.length > 0 && (
         <section className={s.section} aria-labelledby="soon-heading">
@@ -66,11 +44,10 @@ export function ModuleSection({ modules }: { modules: HomeModule[] }) {
   );
 }
 
-/* Editorial rows, artwork rising out of each card and alternating sides:
-   Seek guidance, or every module in the Stack layout */
-function GuideRows({ modules, stack }: { modules: HomeModule[]; stack?: boolean }) {
+/* Editorial rows, artwork rising out of each card and alternating sides */
+function GuideRows({ modules }: { modules: HomeModule[] }) {
   return (
-    <ul className={stack ? `${s.guides} ${s.stack}` : s.guides}>
+    <ul className={`${s.guides} ${s.stack}`}>
       {modules.map((m, i) => (
         <li key={m.id} className="rise" style={{ "--stagger": i + 3 } as CSSProperties}>
           <ModuleTarget module={m} className={`${s.guide} pressable`}>

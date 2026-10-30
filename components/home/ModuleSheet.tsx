@@ -112,6 +112,8 @@ export function ModuleSheet() {
     closing.current = false;
     d.dataset.state = "opening";
     d.showModal();
+    // Its screen is one tap away: fetch it while the sheet opens
+    if (current.module.href) router.prefetch(current.module.href);
     // Only the sheet scrolls; the screen takes on the service's mood
     const root = document.documentElement;
     const mood = root.style.getPropertyValue("--mood");
@@ -123,6 +125,9 @@ export function ModuleSheet() {
       if (!closing.current) d.dataset.state = "open";
     });
     return () => {
+      // Also runs when Next keeps Home alive but hidden after a navigation:
+      // a modal left open there would make the next screen inert.
+      if (d.open) d.close();
       root.style.overflow = "";
       if (mood) root.style.setProperty("--mood", mood);
       if (sourceImg) sourceImg.style.visibility = "";
@@ -146,9 +151,13 @@ export function ModuleSheet() {
   const detail = moduleDetails[m.id];
   const group = m.group === "guidance" ? "Seek guidance" : "Daily practice";
 
+  /* Leave for the module's screen: the sheet shuts first, so returning to
+     Home finds it closed and the new screen isn't behind a modal. */
   function act() {
-    if (m.href) router.push(m.href);
-    else notify(`${m.title} isn't part of this demo yet.`);
+    if (!m.href) return notify(`${m.title} isn't part of this demo yet.`);
+    dialog.current?.close();
+    closeModule();
+    router.push(m.href);
   }
 
   return (

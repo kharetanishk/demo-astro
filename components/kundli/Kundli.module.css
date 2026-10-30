@@ -1,0 +1,451 @@
+/* ── Family ────────────────────────────────────────────────────────── */
+.family {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.member {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: 0 var(--space-4) 0 var(--space-1);
+  border-radius: var(--radius-pill);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1px var(--border);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.member[aria-pressed="true"] {
+  box-shadow: inset 0 0 0 1.5px var(--gold-deep);
+  background: var(--gold-light);
+}
+
+.memberInitial {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--faded-rose) 30%, var(--porcelain));
+  font-weight: var(--weight-bold);
+  color: var(--walnut);
+}
+
+.member[aria-pressed="true"] .memberInitial {
+  background: var(--antique-gold);
+}
+
+/* ── The chart board ───────────────────────────────────────────────── */
+.board {
+  margin-top: var(--space-4);
+  padding: var(--space-4);
+  border-radius: var(--radius-xl);
+  background: radial-gradient(90% 70% at 30% 0%, color-mix(in srgb, var(--antique-gold) 32%, var(--porcelain)), color-mix(in srgb, var(--antique-gold) 70%, var(--pale-sand)));
+  box-shadow:
+    inset 0 1px 0 rgb(255 249 241 / 0.6),
+    inset 0 0 0 1px var(--gold-deep),
+    var(--shadow-float);
+}
+
+.chart {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: visible;
+}
+
+.frame {
+  fill: rgb(255 249 241 / 0.55);
+  stroke: var(--gold-deep);
+  stroke-width: 2;
+}
+
+.house polygon {
+  fill: transparent;
+  stroke: var(--gold-deep);
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+  cursor: pointer;
+  outline: none;
+  transition: fill var(--dur-base) var(--ease-out);
+}
+
+.house polygon:focus-visible {
+  stroke: var(--focus);
+  stroke-width: 2.5;
+}
+
+@media (hover: hover) {
+  .house:hover polygon {
+    fill: rgb(255 249 241 / 0.45);
+  }
+}
+
+.house[data-active] polygon {
+  fill: color-mix(in srgb, var(--faded-rose) 45%, var(--porcelain));
+}
+
+.house text {
+  pointer-events: none;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.signNum {
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  fill: var(--bronze);
+}
+
+.planets {
+  font-size: 12.5px;
+  font-weight: var(--weight-bold);
+  fill: var(--walnut);
+  letter-spacing: 0.02em;
+}
+
+.asc {
+  font-family: var(--font-cinzel), serif;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-anchor: middle;
+  fill: var(--accent);
+  text-transform: uppercase;
+}
+
+.reading {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 50%, transparent);
+}
+
+/* The house number upright in a gold diamond, the brand mark writ large */
+.houseNum {
+  position: relative;
+  isolation: isolate;
+  flex: none;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+.houseNum::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  z-index: -1;
+  border-radius: 8px;
+  rotate: 45deg;
+  background: var(--antique-gold);
+  box-shadow: inset 0 0 0 1px var(--gold-deep);
+}
+
+.readingText {
+  min-width: 0;
+}
+
+.readingMeta {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-eyebrow);
+}
+
+.readingTitle {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+.readingWhat {
+  margin-top: 2px;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.readingPlanets {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--accent);
+}
+
+.ask {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+}
+
+/* ── Identity seals ────────────────────────────────────────────────── */
+.seals {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+
+.seal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.sealCoin {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  margin-bottom: var(--space-2);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--porcelain), var(--gold-light) 45%, var(--antique-gold));
+  box-shadow:
+    inset 0 0 0 1px var(--gold-deep),
+    0 0 0 3px var(--bg),
+    0 0 0 4px color-mix(in srgb, var(--antique-gold) 55%, transparent),
+    0 8px 16px -10px rgb(58 37 27 / 0.6);
+  font-size: 22px;
+  color: var(--walnut);
+}
+
+.sealLabel {
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-eyebrow);
+}
+
+.sealValue {
+  font-weight: var(--weight-bold);
+}
+
+.sealNote {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+/* ── Sections ──────────────────────────────────────────────────────── */
+.section {
+  margin-top: var(--space-8);
+}
+
+/* Dasha: each level steps in under its parent, like nested periods */
+.dashas {
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.dasha {
+  display: grid;
+  gap: 6px;
+  margin-left: calc(var(--depth) * 14px);
+  padding-left: var(--space-3);
+  border-left: 2px solid color-mix(in srgb, var(--antique-gold) calc(100% - var(--depth) * 15%), transparent);
+}
+
+.dashaHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.dashaLevel {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-eyebrow);
+}
+
+.dashaLord {
+  font-weight: var(--weight-bold);
+}
+
+.dasha:first-child .dashaLord {
+  font-family: var(--font-cinzel), serif;
+  font-size: var(--text-xl);
+}
+
+.dashaBar {
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--antique-gold) 18%, transparent);
+  overflow: hidden;
+}
+
+.dashaBar span {
+  display: block;
+  height: 100%;
+  width: calc(var(--done) * 100%);
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--faded-rose), var(--antique-gold));
+}
+
+.dashaDates {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Planets: a 3-up grid of coins */
+.planetGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+}
+
+.planet {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  text-align: left;
+  transition: box-shadow var(--dur-base) var(--ease-out);
+}
+
+.planet[aria-pressed="true"] {
+  box-shadow: var(--shadow-soft), inset 0 0 0 1.5px var(--gold-deep);
+}
+
+.planetGlyph {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  margin-bottom: var(--space-1);
+  border-radius: 50%;
+  background: var(--gold-light);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 60%, transparent);
+  color: var(--gold-deep);
+  font-size: 16px;
+}
+
+.planetName {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+}
+
+.retro {
+  padding: 0 4px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--terracotta) 18%, transparent);
+  color: var(--accent);
+  font-size: 10px;
+  text-decoration: none;
+}
+
+.planetSign {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  font-variant-numeric: tabular-nums;
+}
+
+.planetMeta {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.yogas {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.yoga {
+  display: flex;
+  gap: var(--space-3);
+  align-items: baseline;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+}
+
+.yogaName {
+  font-size: var(--text-md);
+  font-weight: var(--weight-bold);
+}
+
+.yogaNote {
+  margin-top: 2px;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.doshas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.dosha {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+}
+
+.doshaState {
+  display: inline-block;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--antique-gold) 18%, transparent);
+  font-size: 10px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bronze);
+}
+
+.dosha[data-present] {
+  background: linear-gradient(170deg, var(--porcelain), var(--rose-surface));
+  box-shadow: var(--shadow-soft), inset 0 0 0 1px var(--faded-rose);
+}
+
+.dosha[data-present] .doshaState {
+  background: var(--accent);
+  color: var(--porcelain);
+}
+
+.doshaName {
+  margin-top: var(--space-2);
+  font-size: var(--text-md);
+  font-weight: var(--weight-bold);
+}
+
+.doshaNote {
+  margin-top: 2px;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.birth {
+  margin-top: var(--space-8);
+  text-align: center;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}

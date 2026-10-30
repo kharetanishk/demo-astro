@@ -17,16 +17,16 @@ export type ProfileUser = {
   stats: { label: string; value: number }[];
 };
 
-type Row = { icon: GlyphName; title: string; note: string };
+type Row = { icon: GlyphName; title: string; note: string; href?: string };
 
 /* The settings the old profile listed, grouped by what they're for */
 const groups: { title: string; rows: Row[] }[] = [
   {
     title: "Your activity",
     rows: [
-      { icon: "wallet", title: "Payments", note: "Your payment history" },
-      { icon: "clock", title: "My bookings", note: "Your booked consultations" },
-      { icon: "chat", title: "My consultations", note: "Your past chats" },
+      { icon: "wallet", title: "Payments", note: "Your payment history", href: "/wallet" },
+      { icon: "clock", title: "My bookings", note: "Your booked consultations", href: "/history" },
+      { icon: "chat", title: "My consultations", note: "Your past chats", href: "/history" },
     ],
   },
   {
@@ -41,7 +41,7 @@ const groups: { title: string; rows: Row[] }[] = [
     title: "Preferences",
     rows: [
       { icon: "globe", title: "Language", note: "Change the app's language" },
-      { icon: "bell", title: "Notifications", note: "Alerts and reminders" },
+      { icon: "bell", title: "Notifications", note: "Alerts and reminders", href: "/notifications" },
     ],
   },
   {
@@ -184,9 +184,9 @@ export function Profile({ user }: { user: ProfileUser }) {
             {g.title}
           </h3>
           <ul className={`${s.card} surface`}>
-            {g.rows.map((r) => (
-              <li key={r.title}>
-                <DemoButton className={s.row} notice={`${r.title} isn't part of this demo yet.`}>
+            {g.rows.map((r) => {
+              const inner = (
+                <>
                   <span className="icon-chip" aria-hidden>
                     <Icon name={r.icon} size={18} />
                   </span>
@@ -195,9 +195,22 @@ export function Profile({ user }: { user: ProfileUser }) {
                     <span className={s.rowNote}>{r.note}</span>
                   </span>
                   <Icon name="chevron" size={18} className={s.chevron} />
-                </DemoButton>
-              </li>
-            ))}
+                </>
+              );
+              return (
+                <li key={r.title}>
+                  {r.href ? (
+                    <Link href={r.href} className={s.row}>
+                      {inner}
+                    </Link>
+                  ) : (
+                    <DemoButton className={s.row} notice={`${r.title} isn't part of this demo yet.`}>
+                      {inner}
+                    </DemoButton>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </section>
       ))}

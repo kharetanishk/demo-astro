@@ -1,133 +1,104 @@
-import type { CSSProperties } from "react";
 import Image from "next/image";
 import s from "./Sarvadrishti.module.css";
 
-/* The Sarvadrishti eye, the app's own artwork (Sarvadrishti-AI-App-v2
-   assets/hero/centerpiece), in antique gold, over its name. The eye stands
-   still; its glint breathes, it blinks; the Tripundra glows and catches a
-   passing light. The eye is decorative; the name is read. */
+/* The Sarvdrishti logo: the gold eye over its wordmark, cut from the final
+   artwork (1231 × 1278) at over 4× its size on screen. The eye's glint
+   breathes and it blinks: gold lids, drawn as vectors so they stay sharp,
+   close over the iris. The eye is decorative; the name is read. */
 export function Sarvadrishti() {
   return (
     <div className={s.sarvadrishti}>
-      <div className={s.stage} aria-hidden>
-        <span className={s.glow} />
+      <div className={s.lockup}>
+        <span className={s.glow} aria-hidden />
         <Rays />
-        <div className={s.emblem}>
-          <Talisman />
+        <div className={s.emblem} aria-hidden>
+          <Image
+            src={EYE.src}
+            alt=""
+            width={EYE.w}
+            height={EYE.h}
+            unoptimized
+            loading="eager"
+            fetchPriority="high"
+            className={s.art}
+          />
+          <span className={s.shine} />
+          <Lids />
         </div>
-      </div>
-      <Wordmark />
-    </div>
-  );
-}
-
-/* The name as lettered on the Sarvadrishti poster (/poster-2.png): Cinzel
-   capitals with Cinzel Decorative's swash S and R's, and a diamond over the I */
-function Wordmark() {
-  return (
-    <p className={s.wordmark}>
-      <span className={s.swash}>S</span>A<span className={s.swash}>R</span>VD<span className={s.swash}>R</span>
-      <span className={s.dotted}>I</span>SHTI
-    </p>
-  );
-}
-
-const ART = "/sarvadrishti.webp";
-
-/* Talisman geometry, in the artwork's source pixels (1275 × 2003): the
-   eye opening (a lens) and the iris */
-const SRC = { w: 1275, h: 2003 };
-const OPEN = { cx: 660, cy: 1195, h: 580, kx: 340, ky: 265 };
-const IRIS = { x: 660, y: 1220 };
-const OPEN_PATH =
-  `M${OPEN.cx},${OPEN.cy - OPEN.h}C${OPEN.cx - OPEN.kx},${OPEN.cy - OPEN.ky} ${OPEN.cx - OPEN.kx},${OPEN.cy + OPEN.ky} ${OPEN.cx},${OPEN.cy + OPEN.h}` +
-  `C${OPEN.cx + OPEN.kx},${OPEN.cy + OPEN.ky} ${OPEN.cx + OPEN.kx},${OPEN.cy - OPEN.ky} ${OPEN.cx},${OPEN.cy - OPEN.h}Z`;
-
-/* 8-pointed star with valleys between the points (the eye's glint) */
-const GLINT = Array.from({ length: 16 }, (_, n) => {
-  const a = ((n * 22.5 - 90) * Math.PI) / 180;
-  const r = n % 4 === 0 ? 150 : n % 2 === 0 ? 86 : 20;
-  return `${(IRIS.x + r * Math.cos(a)).toFixed(1)},${(IRIS.y + r * Math.sin(a)).toFixed(1)}`;
-}).join("L");
-
-/* The artwork, its face washed in Antique Gold with a Faded Rose
-   iris, softly lit for aged metal (see .gloss, .shine), plus: a kumkum glow behind the Tripundra and a light sweeping
-   its bands (masked by the artwork itself, so only the bands' own pixels
-   light up), the glint, and the lids (clipped to the eye opening, over the
-   glint so it vanishes on a blink). */
-function Talisman() {
-  return (
-    <div
-      className={s.talisman}
-      style={{ "--art": `url(${ART})` } as CSSProperties}
-    >
-      <div className={s.face}>
-        <span className={s.kumkum} />
-        <span className={s.rim} />
-        <span className={s.outline} />
-        {/* unoptimized: the same file is every mask, so it loads once */}
         <Image
-          src={ART}
-          alt=""
-          width={SRC.w}
-          height={SRC.h}
+          src="/logo/sarvdrishti-wordmark.webp"
+          alt="Sarvdrishti"
+          width={1135}
+          height={254}
           unoptimized
           loading="eager"
-          fetchPriority="high"
-          className={s.art}
+          className={s.wordmark}
         />
-        <span className={s.tint} />
-        <span className={s.iris} />
-        <span className={s.gloss} />
-        <span className={s.shine} />
-        <span className={s.tripundra} />
-        <svg className={s.eye} viewBox={`0 0 ${SRC.w} ${SRC.h}`}>
-          <defs>
-            <clipPath id="sd-open">
-              <path d={OPEN_PATH} />
-            </clipPath>
-            <radialGradient id="sd-halo">
-              <stop offset="0" stopColor="#fff" stopOpacity="0.6" />
-              <stop offset="1" stopColor="#ffe6a8" stopOpacity="0" />
-            </radialGradient>
-            <linearGradient id="sd-lid" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="#dcc48f" />
-              <stop offset="1" stopColor="#9a7942" />
-            </linearGradient>
-            <linearGradient
-              id="sd-lid-up"
-              href="#sd-lid"
-              x1="0"
-              y1="1"
-              x2="0"
-              y2="0"
-            />
-          </defs>
-          <g clipPath="url(#sd-open)">
-            <g className={s.glint}>
-              <circle cx={IRIS.x} cy={IRIS.y} r="120" fill="url(#sd-halo)" />
-              <path d={`M${GLINT}Z`} fill="#fff4dc" fillOpacity="0.75" />
-            </g>
-            <rect
-              x="0"
-              y={OPEN.cy - OPEN.h}
-              width={SRC.w}
-              height={OPEN.h}
-              fill="url(#sd-lid)"
-              className={`${s.lid} ${s.lidTop}`}
-            />
-            <rect
-              x="0"
-              y={OPEN.cy}
-              width={SRC.w}
-              height={OPEN.h}
-              fill="url(#sd-lid-up)"
-              className={`${s.lid} ${s.lidBottom}`}
-            />
-          </g>
-        </svg>
       </div>
     </div>
+  );
+}
+
+/* The emblem, in its own pixels: the iris (to the dark ring round it) and
+   the star at its heart */
+const EYE = { src: "/logo/sarvdrishti-eye.webp", w: 514, h: 982 };
+const IRIS = { x: 258, y: 588, r: 108 };
+const STAR = { x: 256, y: 582 };
+
+/* Each lid is a wide ellipse whose edge curves like a real lid's. Shut, the
+   upper lid comes down past the centre and the lower one rises to it, so
+   they overlap across the whole iris; open, both sit outside the clip. */
+const LID = { rx: 2 * IRIS.r, ry: 130 };
+const UPPER_EDGE = IRIS.y + 0.4 * IRIS.r; // the upper lid's edge, shut
+const LOWER_EDGE = IRIS.y; // the lower lid's edge, shut
+
+function Lids() {
+  const upperCy = UPPER_EDGE - LID.ry;
+  const lowerCy = LOWER_EDGE + LID.ry;
+  return (
+    <svg className={s.lids} viewBox={`0 0 ${EYE.w} ${EYE.h}`}>
+      <defs>
+        <clipPath id="sd-iris">
+          <circle cx={IRIS.x} cy={IRIS.y} r={IRIS.r} />
+        </clipPath>
+        <radialGradient id="sd-glint">
+          <stop offset="0" stopColor="#fffaf0" stopOpacity="0.9" />
+          <stop offset="0.35" stopColor="#ffe2a6" stopOpacity="0.35" />
+          <stop offset="1" stopColor="#ffd27a" stopOpacity="0" />
+        </radialGradient>
+        {/* Polished gold, shaded under the brow, lit across the lid, dark in
+            the crease at its edge */}
+        <linearGradient id="sd-lid-upper" gradientUnits="userSpaceOnUse" x1="0" y1={IRIS.y - IRIS.r} x2="0" y2={UPPER_EDGE}>
+          <stop offset="0" stopColor="#6e3a0c" />
+          <stop offset="0.35" stopColor="#b97a2e" />
+          <stop offset="0.72" stopColor="#f2cd7c" />
+          <stop offset="0.9" stopColor="#c2843a" />
+          <stop offset="1" stopColor="#5a2806" />
+        </linearGradient>
+        <linearGradient id="sd-lid-lower" gradientUnits="userSpaceOnUse" x1="0" y1={LOWER_EDGE} x2="0" y2={IRIS.y + IRIS.r}>
+          <stop offset="0" stopColor="#5a2806" />
+          <stop offset="0.1" stopColor="#b5772c" />
+          <stop offset="0.4" stopColor="#ebc472" />
+          <stop offset="1" stopColor="#7d4512" />
+        </linearGradient>
+        <filter id="sd-lid-shadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="7" />
+        </filter>
+      </defs>
+      <g clipPath="url(#sd-iris)">
+        <circle className={s.glint} cx={STAR.x} cy={STAR.y} r="64" fill="url(#sd-glint)" />
+        <g className={s.lidUpper}>
+          {/* the shadow it casts on the iris as it comes down */}
+          <ellipse cx={IRIS.x} cy={upperCy + 10} rx={LID.rx} ry={LID.ry} fill="#2a0d00" fillOpacity="0.55" filter="url(#sd-lid-shadow)" />
+          <ellipse cx={IRIS.x} cy={upperCy} rx={LID.rx} ry={LID.ry} fill="url(#sd-lid-upper)" stroke="#3a1602" strokeWidth="3.5" />
+          <ellipse cx={IRIS.x} cy={upperCy - 9} rx={LID.rx - 6} ry={LID.ry - 6} fill="none" stroke="#fff1c4" strokeOpacity="0.45" strokeWidth="2" />
+        </g>
+        <g className={s.lidLower}>
+          <ellipse cx={IRIS.x} cy={lowerCy} rx={LID.rx} ry={LID.ry} fill="url(#sd-lid-lower)" stroke="#3a1602" strokeWidth="3.5" />
+          <ellipse cx={IRIS.x} cy={lowerCy + 8} rx={LID.rx - 6} ry={LID.ry - 6} fill="none" stroke="#fff1c4" strokeOpacity="0.35" strokeWidth="2" />
+        </g>
+      </g>
+    </svg>
   );
 }
 
@@ -142,7 +113,7 @@ const RAYS = Array.from({ length: 24 }, (_, i) => {
 
 function Rays() {
   return (
-    <svg className={s.rays} viewBox="-100 -100 200 200">
+    <svg className={s.rays} viewBox="-100 -100 200 200" aria-hidden>
       <defs>
         <radialGradient id="sd-ray" r="0.5">
           <stop offset="0.3" className={s.rayLit} />

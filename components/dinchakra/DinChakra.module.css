@@ -1,0 +1,413 @@
+/* Band colours: gold climbing to peak, terracotta sinking to low */
+.chakra [data-band="peak"] {
+  --band: var(--gold-deep);
+}
+.chakra [data-band="good"] {
+  --band: var(--antique-gold);
+}
+.chakra [data-band="neutral"] {
+  --band: color-mix(in srgb, var(--antique-gold) 40%, var(--faded-rose));
+}
+.chakra [data-band="caution"] {
+  --band: var(--faded-rose);
+}
+.chakra [data-band="low"] {
+  --band: var(--terracotta);
+}
+
+/* ── Week and streak ───────────────────────────────────────────────── */
+.week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr) auto;
+  gap: 4px;
+  margin-top: var(--space-5);
+  align-items: center;
+}
+
+.weekDay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-2) 0;
+  border-radius: var(--radius-sm);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.weekDay strong {
+  font-size: var(--text-md);
+  color: var(--text);
+}
+
+.weekDay[data-done] strong::after {
+  content: "";
+  display: block;
+  width: 4px;
+  height: 4px;
+  margin: 2px auto 0;
+  rotate: 45deg;
+  background: var(--antique-gold);
+}
+
+.weekDay[aria-current="date"] {
+  background: var(--walnut);
+  color: var(--pale-sand);
+}
+
+.weekDay[aria-current="date"] strong {
+  color: var(--porcelain);
+}
+
+.streak {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--gold-light);
+  box-shadow: inset 0 0 0 1px var(--antique-gold);
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.streak strong {
+  font-family: var(--font-cinzel), serif;
+  font-size: var(--text-xl);
+}
+
+/* ── Golden hour ───────────────────────────────────────────────────── */
+.golden {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-lg);
+  background: radial-gradient(120% 120% at 0% 0%, color-mix(in srgb, var(--antique-gold) 40%, var(--porcelain)), var(--antique-gold));
+  box-shadow: inset 0 0 0 1px var(--gold-deep), var(--shadow-float);
+  text-align: left;
+}
+
+.golden :global(.eyebrow) {
+  color: var(--walnut);
+}
+
+.goldenSun {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #fff3cf, var(--antique-gold) 60%, var(--terracotta));
+  box-shadow: 0 0 0 6px rgb(255 249 241 / 0.35), 0 0 24px 6px rgb(255 249 241 / 0.6);
+}
+
+.goldenText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.goldenTime {
+  font-family: var(--font-cinzel), serif;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+.goldenNote {
+  font-size: var(--text-xs);
+}
+
+.goldenScore {
+  font-family: var(--font-cinzel), serif;
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-bold);
+}
+
+/* ── Mountain ──────────────────────────────────────────────────────── */
+.mountain {
+  margin-top: var(--space-6);
+}
+
+.mountainHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.drag {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.scroller {
+  margin: var(--space-3) calc(-1 * var(--gutter)) 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.range {
+  position: relative;
+  height: 236px;
+}
+
+.terrain {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.night {
+  fill: color-mix(in srgb, var(--walnut) 9%, transparent);
+}
+
+.ridge {
+  fill: none;
+  stroke: var(--gold-deep);
+  stroke-width: 2;
+}
+
+.peak {
+  fill: var(--band);
+  stroke: var(--porcelain);
+  stroke-width: 2;
+  transition: r var(--dur-base) var(--ease-out);
+}
+
+.peak[data-now] {
+  stroke: var(--walnut);
+}
+
+.columns {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.column {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: var(--space-1);
+  border-radius: var(--radius-sm);
+}
+
+.column[aria-checked="true"] {
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--porcelain) 70%, transparent));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 45%, transparent);
+}
+
+.colLabel {
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.column[aria-checked="true"] .colLabel {
+  color: var(--text);
+  font-weight: var(--weight-bold);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  margin-top: var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.legend li::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--band);
+}
+
+.legend li[data-rahu]::before {
+  border-radius: 2px;
+  background: repeating-linear-gradient(45deg, color-mix(in srgb, var(--terracotta) 60%, transparent) 0 2px, transparent 2px 4px);
+}
+
+/* ── The chosen hour ───────────────────────────────────────────────── */
+.hour {
+  margin-top: var(--space-5);
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  animation: rise var(--dur-enter) var(--ease-out);
+}
+
+.hourHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.hourBand {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.hourBand::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  rotate: 45deg;
+  background: var(--band);
+}
+
+.hourTime {
+  font-family: var(--font-cinzel), serif;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+}
+
+/* Score as a gold ring filled to the score */
+.dial {
+  flex: none;
+  width: 60px;
+  height: 60px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background:
+    radial-gradient(closest-side, var(--porcelain) 78%, transparent 80%),
+    conic-gradient(var(--antique-gold) calc(var(--score) * 1%), color-mix(in srgb, var(--antique-gold) 18%, transparent) 0);
+  font-size: var(--text-lg);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  padding: var(--space-4) 0;
+  border-block: 1px solid var(--border);
+}
+
+.facts dt {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.facts dd {
+  font-weight: var(--weight-bold);
+}
+
+.facts dd[data-good] {
+  color: var(--gold-deep);
+}
+
+.uses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.use {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--gold-light);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 55%, transparent);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+}
+
+.use[data-avoid] {
+  background: var(--rose-surface);
+  box-shadow: inset 0 0 0 1px var(--faded-rose);
+  color: var(--accent);
+}
+
+.whyTitle {
+  margin-top: var(--space-5);
+}
+
+/* Each factor as a bar out from a centre line: right adds, left takes */
+.factors {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.factor {
+  display: grid;
+  grid-template-columns: 1fr 96px 28px;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+}
+
+.factorBar {
+  position: relative;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--antique-gold) 14%, transparent);
+}
+
+.factorBar::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -3px;
+  bottom: -3px;
+  border-left: 1px solid var(--bronze);
+}
+
+.factorBar span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: calc(max(var(--d), -1 * var(--d)) * 16%);
+  border-radius: var(--radius-pill);
+  background: var(--antique-gold);
+}
+
+/* Negative factors grow left, in terracotta */
+.factor[data-neg] .factorBar span {
+  left: auto;
+  right: 50%;
+  background: var(--terracotta);
+}
+
+.factorDelta {
+  font-weight: var(--weight-bold);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.section {
+  margin-top: var(--space-8);
+}
+
+.proof {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.share {
+  width: 100%;
+  margin-top: var(--space-4);
+}

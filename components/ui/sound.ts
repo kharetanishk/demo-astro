@@ -16,6 +16,15 @@ const SOUNDS = {
     { kind: "tone", freq: 3170, decay: 0.07, peak: 0.014 },
     { kind: "tone", at: 0.028, freq: 4560, decay: 0.05, peak: 0.01 },
   ],
+  // A rudraksha bead slipping past the thumb: one soft, woody tick.
+  bead: [{ kind: "noise", freq: 1800, q: 3, decay: 0.018, peak: 0.08 }],
+  // A temple bell at the end of each mala: a warm fundamental and its
+  // bright partial, ringing out.
+  bell: [
+    { kind: "tone", freq: 528, decay: 1.6, peak: 0.09 },
+    { kind: "tone", freq: 1335, decay: 0.9, peak: 0.03 },
+    { kind: "tone", freq: 2150, decay: 0.4, peak: 0.012 },
+  ],
 } satisfies Record<string, Layer[]>;
 
 let ctx: AudioContext | null = null;

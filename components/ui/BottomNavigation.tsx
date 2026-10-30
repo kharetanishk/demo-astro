@@ -37,7 +37,7 @@ export function BottomNavigation() {
   }
 
   return (
-    <nav aria-label="Primary" className={styles.nav}>
+    <nav aria-label="Primary" className={styles.nav} data-nav>
       <div className={styles.bar} style={{ "--active": activeIndex, "--count": destinations.length, "--dir": direction } as CSSProperties}>
         {activeIndex >= 0 && (
           <span className={styles.beamClip} aria-hidden>

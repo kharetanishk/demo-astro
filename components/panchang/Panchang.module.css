@@ -1,0 +1,296 @@
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-5);
+}
+
+.stepper button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.flip {
+  transform: scaleX(-1);
+}
+
+.date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.dateLabel {
+  font-family: var(--font-cinzel), serif;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  color: var(--text);
+}
+
+/* ── Sky ───────────────────────────────────────────────────────────── */
+.sky {
+  position: relative;
+  margin-top: var(--space-4);
+  padding: var(--space-4) var(--space-3) var(--space-4);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(70% 60% at 50% 100%, rgb(255 249 241 / 0.75), transparent 70%),
+    linear-gradient(180deg, color-mix(in srgb, var(--faded-rose) 45%, var(--rose-surface)), color-mix(in srgb, var(--antique-gold) 45%, var(--porcelain)));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 70%, transparent), var(--shadow-float);
+  overflow: hidden;
+}
+
+.arc {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.arc path {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.track {
+  stroke: rgb(255 249 241 / 0.7);
+  stroke-width: 10;
+}
+
+.passed {
+  stroke: color-mix(in srgb, var(--antique-gold) 70%, var(--porcelain));
+  stroke-width: 3;
+  stroke-dasharray: 1 6;
+}
+
+.good {
+  stroke: var(--antique-gold);
+  stroke-width: 10;
+}
+
+.bad {
+  stroke: color-mix(in srgb, var(--terracotta) 70%, transparent);
+  stroke-width: 10;
+}
+
+.horizon {
+  stroke: color-mix(in srgb, var(--walnut) 35%, transparent);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+}
+
+.sun {
+  transform: translate(var(--x), var(--y));
+}
+
+.sunGlow {
+  fill: color-mix(in srgb, var(--antique-gold) 35%, transparent);
+}
+
+.sunDisc {
+  fill: var(--antique-gold);
+  stroke: var(--porcelain);
+  stroke-width: 2;
+}
+
+.skyCentre {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 46%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.vara {
+  font-family: var(--font-cinzel), serif;
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  line-height: 1.15;
+}
+
+.now {
+  margin-top: 2px;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--accent);
+}
+
+.horizonLabels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-2);
+  padding: 0 var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+}
+
+.horizonLabels span {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  column-gap: 4px;
+}
+
+.horizonLabels span:last-child {
+  text-align: right;
+}
+
+.horizonLabels small {
+  grid-column: 1 / -1;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--text-muted);
+}
+
+.horizonLabels svg {
+  color: var(--bronze);
+}
+
+.section {
+  margin-top: var(--space-8);
+}
+
+/* ── Leaves: palm-leaf manuscripts ─────────────────────────────────── */
+.leaves {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.leaf {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-4);
+  border-radius: var(--radius-sm) var(--radius-lg);
+  background:
+    repeating-linear-gradient(180deg, transparent 0 22px, color-mix(in srgb, var(--antique-gold) 14%, transparent) 22px 23px),
+    linear-gradient(170deg, var(--porcelain), color-mix(in srgb, var(--pale-sand) 70%, var(--porcelain)));
+  box-shadow: var(--shadow-soft), inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 40%, transparent);
+}
+
+/* the binding hole of a palm leaf */
+.leaf::before {
+  content: "";
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px var(--antique-gold);
+}
+
+.leafLabel {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-eyebrow);
+}
+
+.leafValue {
+  margin-top: var(--space-2);
+  font-family: var(--font-cinzel), serif;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+.leafNote {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.leafEnds {
+  margin-top: var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  color: var(--accent);
+}
+
+/* ── Moon ──────────────────────────────────────────────────────────── */
+.moon {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+}
+
+/* The lit part of the disc: a shadow slid off by how much is dark */
+.moonDisc {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  box-shadow: inset calc((1 - var(--lit)) * 56px * var(--wane)) 0 0 0 color-mix(in srgb, var(--walnut) 80%, var(--faded-rose));
+  background: radial-gradient(circle at 40% 35%, #fffaf0, var(--pale-sand));
+  outline: 1px solid color-mix(in srgb, var(--antique-gold) 50%, transparent);
+  outline-offset: 3px;
+}
+
+.moonTitle {
+  font-weight: var(--weight-bold);
+}
+
+.moonNote {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+/* ── Windows ───────────────────────────────────────────────────────── */
+.windows {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.window {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+}
+
+.windowMark {
+  flex: none;
+  width: 6px;
+  align-self: stretch;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--terracotta) 70%, transparent);
+}
+
+.window[data-good] .windowMark {
+  background: var(--antique-gold);
+}
+
+.window[data-good] {
+  background: linear-gradient(120deg, var(--porcelain), var(--gold-light));
+}
+
+.windowText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.windowName {
+  font-weight: var(--weight-bold);
+}
+
+.windowNote {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.windowTime {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}

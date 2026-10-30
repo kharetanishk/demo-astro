@@ -1,5 +1,5 @@
-import { TabPlaceholder } from "@/components/ui/TabPlaceholder";
+import { Kundli } from "@/components/kundli/Kundli";
 
 export default function KundliPage() {
-  return <TabPlaceholder title="Kundli" />;
+  return <Kundli />;
 }

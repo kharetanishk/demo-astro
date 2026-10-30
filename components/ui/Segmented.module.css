@@ -1,0 +1,39 @@
+.track {
+  --pad: 4px;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--n), 1fr);
+  padding: var(--pad);
+  border-radius: var(--radius-pill);
+}
+
+.thumb {
+  position: absolute;
+  top: var(--pad);
+  bottom: var(--pad);
+  left: var(--pad);
+  width: calc((100% - 2 * var(--pad)) / var(--n));
+  border-radius: var(--radius-pill);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--antique-gold) 80%, var(--porcelain)), var(--antique-gold));
+  box-shadow:
+    inset 0 1px 0 rgb(255 249 241 / 0.5),
+    inset 0 0 0 1px var(--gold-deep);
+  transform: translateX(calc(var(--i) * 100%));
+  transition: transform var(--dur-slow) var(--ease-glide);
+}
+
+.option {
+  position: relative;
+  min-height: 38px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--text-muted);
+  transition: color var(--dur-base) var(--ease-out);
+}
+
+.option[aria-checked="true"] {
+  color: var(--on-brand);
+  font-weight: var(--weight-bold);
+}
