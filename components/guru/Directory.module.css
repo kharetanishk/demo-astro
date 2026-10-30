@@ -1,250 +1,610 @@
-/* ── Hero: the guru in a rose arch ─────────────────────────────────── */
-.hero {
+/* ── The crown: rose sandstone from the very top of the screen ──────── */
+.crown {
+  --from-top: calc(var(--safe-top) + var(--space-5) + 44px);
+
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr 132px;
-  align-items: end;
-  margin-top: var(--space-8);
-  padding: var(--space-5);
-  border-radius: var(--radius-xl);
-  background: linear-gradient(150deg, var(--rose-surface), var(--faded-rose));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--faded-rose) 70%, var(--walnut)), var(--shadow-float);
+  overflow-x: clip; /* the guru's rays reach past the screen's edge */
+  margin: calc(-1 * var(--from-top)) calc(-1 * var(--gutter)) 0;
+  padding: calc(var(--from-top) + var(--space-2)) var(--gutter) 0;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  background:
+    radial-gradient(70% 60% at 82% 46%, rgb(255 244 214 / 0.85), transparent 72%),
+    linear-gradient(180deg, var(--rose-surface), color-mix(in srgb, var(--faded-rose) 72%, var(--rose-surface)));
+  box-shadow:
+    0 1.5px 0 var(--antique-gold),
+    0 16px 28px -22px rgb(74 48 37 / 0.6);
 }
 
-.heroArt {
-  width: 150px;
-  height: auto;
-  margin: calc(-1 * var(--space-10)) calc(-1 * var(--space-4)) calc(-1 * var(--space-5)) 0;
-  align-self: end;
-  filter: drop-shadow(0 10px 14px rgb(58 37 27 / 0.3));
+.crownBody {
+  position: relative;
+  min-height: 232px;
+  display: flex;
+  align-items: center;
+}
+
+.crownText {
+  position: relative;
+  z-index: 1;
+  max-width: 56%;
+  padding-bottom: var(--space-5);
 }
 
 .live {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: 4px var(--space-3) 4px var(--space-2);
+  min-height: 28px;
+  padding: 0 var(--space-3) 0 var(--space-2);
   border-radius: var(--radius-pill);
   background: var(--porcelain);
+  box-shadow: inset 0 0 0 1px var(--gold-deep);
   font-size: var(--text-xs);
-  font-weight: var(--weight-bold);
+  font-weight: var(--weight-semibold);
 }
 
 .pulse {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+  background: #3f9a60;
+  animation: pulse 2.4s ease-in-out infinite;
 }
 
-.heroTitle {
+@keyframes pulse {
+  50% {
+    box-shadow: 0 0 0 5px rgb(63 154 96 / 0.2);
+  }
+}
+
+.crownTitle {
   margin-top: var(--space-3);
-  font-family: var(--font-cinzel), serif;
   font-size: var(--text-xl);
   font-weight: var(--weight-bold);
-  line-height: 1.2;
+  line-height: 1.16;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
-.heroNote {
-  margin-top: var(--space-1);
+.crownNote {
+  margin-top: var(--space-2);
   font-size: var(--text-sm);
+  line-height: 1.35;
 }
 
-.section {
-  margin-top: var(--space-8);
+/* The darshan: gold rays behind the guru, standing on a lit plinth */
+.darshan {
+  position: absolute;
+  right: calc(-1 * var(--space-3));
+  bottom: var(--space-5);
+  width: 150px;
+  height: 214px;
+  animation: rise var(--dur-enter) var(--ease-out) backwards;
 }
 
-/* ── Online rail: arched portraits that snap ───────────────────────── */
-.rail {
-  display: flex;
-  gap: var(--space-3);
-  margin-inline: calc(-1 * var(--gutter));
-  padding: var(--space-1) var(--gutter) var(--space-4);
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: var(--gutter);
-  scrollbar-width: none;
+.rays {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: 250px;
+  aspect-ratio: 1;
+  margin: -125px 0 0 -125px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(color-mix(in srgb, var(--antique-gold) 62%, transparent) 0 1.4deg, transparent 1.4deg 12deg);
+  mask-image: radial-gradient(closest-side, transparent 26%, #000 40%, transparent 92%);
+  animation: rays 120s linear infinite;
 }
 
-.portrait {
-  flex: none;
-  width: 196px;
-  scroll-snap-align: start;
-  display: flex;
-  flex-direction: column;
-  padding: var(--space-3) var(--space-3) var(--space-4);
-  border-radius: 100px 100px var(--radius-lg) var(--radius-lg);
-  background: linear-gradient(180deg, var(--porcelain), var(--gold-light));
-  box-shadow: var(--shadow-soft), inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 40%, transparent);
+@keyframes rays {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.plinth {
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 150px;
+  height: 20px;
+  margin-left: -75px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--porcelain), var(--antique-gold));
+  box-shadow:
+    inset 0 0 0 1px var(--gold-deep),
+    0 8px 14px -6px rgb(74 48 37 / 0.5);
+}
+
+.guru {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 142px;
+  height: auto;
+  max-width: none;
+  margin-left: -71px;
+  filter: drop-shadow(0 6px 10px rgb(74 48 37 / 0.3));
+}
+
+/* The panel's numbers, straddling its lower edge */
+.trust {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: calc(-1 * var(--space-6));
+  padding: var(--space-3) 0;
+  border-radius: var(--radius-lg);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--antique-gold) 65%, transparent), var(--shadow-float);
   text-align: center;
 }
 
-.portraitLink {
+.trust > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.trust > div + div {
+  border-left: 1px solid color-mix(in srgb, var(--antique-gold) 45%, transparent);
+}
+
+.trust dd {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+.trust dt {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rays,
+  .pulse {
+    animation: none;
+  }
+}
+
+/* ── Live now: a rail of gold-ringed medallions ─────────────────────── */
+.section {
+  margin-top: calc(var(--space-6) + var(--space-8));
+}
+
+.rail {
+  display: flex;
+  gap: var(--space-4);
+  margin-inline: calc(-1 * var(--gutter));
+  padding: var(--space-1) var(--gutter);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.liveLink {
+  width: 68px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
 }
 
-/* A jharokha arch framing the monogram */
-.arch {
+.liveRing {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  padding: 3px;
+  border-radius: 50%;
+  background: conic-gradient(from 210deg, #fbe9b6, #c6a15b, #8a6426, #e3bd6c, #fbe9b6);
+  box-shadow: 0 6px 12px -6px rgb(58 37 27 / 0.5);
+}
+
+.monogram {
   width: 100%;
-  aspect-ratio: 1 / 0.9;
+  height: 100%;
   display: grid;
   place-items: center;
-  border-radius: 100px 100px var(--radius-md) var(--radius-md);
-  background: var(--art-bg);
-  box-shadow: inset 0 0 0 1px var(--art-line), inset 0 0 0 6px rgb(255 249 241 / 0.35);
-  font-family: var(--font-cinzel), serif;
-  font-size: 40px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px var(--porcelain);
+  font-size: var(--text-md);
   font-weight: var(--weight-bold);
   color: var(--walnut);
 }
 
-.portraitName {
-  margin-top: var(--space-3);
-  font-weight: var(--weight-bold);
-  line-height: 1.25;
+/* The app's three atmospheres, in turn */
+.monogram[data-tone="gold"],
+.arch[data-tone="gold"] {
+  background: var(--surface-leaf);
 }
 
-.portraitTitle {
+.monogram[data-tone="rose"],
+.arch[data-tone="rose"] {
+  background: var(--surface-rose);
+}
+
+.monogram[data-tone="sand"],
+.arch[data-tone="sand"] {
+  background: linear-gradient(180deg, var(--porcelain), color-mix(in srgb, var(--pale-sand) 80%, var(--antique-gold)));
+}
+
+.liveDot {
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #3f9a60;
+  box-shadow: 0 0 0 2.5px var(--porcelain);
+}
+
+.liveName {
+  max-width: 100%;
+  overflow: hidden;
+  margin-top: var(--space-1);
   font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.liveRate {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
   color: var(--text-muted);
 }
 
-.portraitRate {
-  margin-top: var(--space-2);
-  font-size: var(--text-xs);
-}
-
-.portraitActions {
+/* ── The bar: stays under the header once you reach it ──────────────── */
+.tools {
+  position: sticky;
+  top: calc(var(--bar-bottom) + 4px);
+  z-index: 4;
+  height: 60px;
   display: flex;
+  align-items: center;
   gap: var(--space-2);
-  margin-top: var(--space-3);
+  margin: var(--space-3) calc(-1 * var(--gutter)) 0;
+  padding-inline: var(--gutter);
+  background: var(--bg);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--antique-gold) 40%, transparent),
+    0 -1px 0 color-mix(in srgb, var(--antique-gold) 40%, transparent);
 }
 
-.portraitActions :global(.btn) {
-  min-height: 40px;
-  padding: 0 var(--space-4);
-  font-size: var(--text-sm);
-}
-
-.portraitActions :global(.btn-primary) {
-  flex: 1;
-}
-
-.chatBtn {
-  width: 40px;
-  padding: 0 !important;
-}
-
-/* ── Directory ─────────────────────────────────────────────────────── */
-.skills {
-  display: flex;
-  gap: var(--space-2);
-  margin-inline: calc(-1 * var(--gutter));
-  padding: 0 var(--gutter) var(--space-1);
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.skill {
+.toolIcon,
+.filter,
+.chip {
   flex: none;
-  min-height: 36px;
-  padding: 0 var(--space-4);
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: var(--radius-pill);
-  box-shadow: inset 0 0 0 1px var(--border);
   background: var(--porcelain);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 70%, transparent);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
 }
 
-.skill[aria-pressed="true"] {
-  background: var(--walnut);
-  color: var(--porcelain);
-  box-shadow: none;
+.toolIcon {
+  width: 40px;
 }
 
-.list {
-  display: grid;
-  gap: var(--space-2);
-  margin-top: var(--space-4);
+.filter {
+  gap: var(--space-1);
+  padding: 0 var(--space-3);
 }
 
-.row {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-md);
-}
-
-.avatar {
-  position: relative;
-  flex: none;
-  width: 52px;
-  height: 52px;
+.filterCount {
+  min-width: 18px;
+  height: 18px;
   display: grid;
   place-items: center;
-  border-radius: 50%;
-  background: var(--art-bg);
-  box-shadow: inset 0 0 0 1px var(--art-line);
+  margin-left: 2px;
+  padding-inline: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-kumkum);
+  color: var(--porcelain);
+  font-size: 11px;
   font-weight: var(--weight-bold);
 }
 
-.avatar::after {
-  content: "";
-  position: absolute;
-  right: 1px;
-  bottom: 1px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 2px solid var(--porcelain);
-  background: var(--separator);
+.toolRule {
+  flex: none;
+  width: 1px;
+  height: 24px;
+  background: color-mix(in srgb, var(--antique-gold) 50%, transparent);
 }
 
-.avatar[data-status="online"]::after {
-  background: var(--accent);
-}
-
-.avatar[data-status="busy"]::after {
-  background: var(--antique-gold);
-}
-
-.rowText {
+.chips {
   flex: 1;
   min-width: 0;
   display: flex;
-  flex-direction: column;
+  gap: var(--space-2);
+  margin-right: calc(-1 * var(--gutter));
+  padding-right: var(--gutter);
+  overflow-x: auto;
+  scrollbar-width: none;
 }
 
-.rowName {
+.chips::-webkit-scrollbar {
+  display: none;
+}
+
+.chip {
+  padding: 0 var(--space-4);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.chip[aria-pressed="true"] {
+  background: var(--surface-leaf);
+  box-shadow: inset 0 0 0 1.5px var(--gold-deep);
   font-weight: var(--weight-bold);
 }
 
-.rowMeta {
+.search {
+  flex: 1;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-1) 0 var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1.5px var(--gold-deep);
+  color: var(--gold-deep);
+}
+
+.search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 16px; /* any smaller and iOS zooms the page on focus */
+  color: var(--text);
+  outline: none;
+}
+
+.searchClose {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  color: var(--text-muted);
+}
+
+.summary {
+  margin-top: var(--space-4);
   font-size: var(--text-xs);
   color: var(--text-muted);
 }
 
-.rowFoot {
+.summary strong {
+  font-weight: var(--weight-bold);
+  color: var(--text);
+}
+
+/* ── The cards ─────────────────────────────────────────────────────── */
+.list {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  border: 1.5px solid color-mix(in srgb, var(--antique-gold) 55%, transparent);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(170deg, var(--porcelain), color-mix(in srgb, var(--gold-light) 60%, var(--porcelain)));
+  box-shadow: var(--shadow-soft);
+}
+
+.cardTop {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-4) var(--space-3);
+}
+
+.portrait {
   display: flex;
-  justify-content: space-between;
-  margin-top: var(--space-1);
+  flex-direction: column;
+  align-items: center;
+}
+
+/* A jharokha arch in the app's atmospheres; a photo takes the monogram's place */
+.arch {
+  width: 86px;
+  height: 100px;
+  display: grid;
+  place-items: center;
+  border-radius: 43px 43px var(--radius-sm) var(--radius-sm);
+  box-shadow:
+    inset 0 0 0 1.5px var(--gold-deep),
+    inset 0 0 0 4px var(--porcelain),
+    inset 0 0 0 4.75px color-mix(in srgb, var(--gold-deep) 55%, transparent),
+    0 8px 14px -8px rgb(58 37 27 / 0.45);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  color: var(--walnut);
+}
+
+.rating {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: var(--gold-deep);
+}
+
+.orders {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.info {
+  min-width: 0;
+}
+
+.tier {
+  margin-bottom: 2px;
+  font-size: 10px;
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* The whole card opens the profile */
+.name a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.seal {
+  flex: none;
+  width: 17px;
+  height: 17px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e3bd6c, #a5752e);
+  color: var(--porcelain);
+}
+
+.skills {
+  margin-top: 2px;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+
+.meta {
   font-size: var(--text-xs);
+  color: var(--text-muted);
 }
 
 .status {
-  font-weight: var(--weight-bold);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
   color: var(--text-muted);
 }
 
+.status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--walnut) 35%, transparent);
+}
+
 .status[data-status="online"] {
+  color: #2f7d4c;
+}
+
+.status[data-status="online"]::before {
+  background: #3f9a60;
+}
+
+.status[data-status="busy"] {
   color: var(--accent);
 }
 
-.chevron {
-  flex: none;
-  color: var(--gold-deep);
+.status[data-status="busy"]::before {
+  background: var(--accent);
+}
+
+.cardFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid color-mix(in srgb, var(--antique-gold) 28%, transparent);
+}
+
+.price {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.price strong {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  color: var(--text);
+}
+
+.was {
+  color: var(--text-muted);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* Above the name's card-wide link */
+.action {
+  position: relative;
+  z-index: 1;
+  min-height: 42px;
+  padding-inline: var(--space-5);
+  font-size: var(--text-sm);
+}
+
+.round {
+  width: 42px;
+  padding: 0;
+}
+
+.offer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  padding: 6px var(--space-3);
+  background: var(--surface-kumkum);
+  font-size: 11px;
+  font-weight: var(--weight-semibold);
+  color: var(--porcelain);
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-8);
+  font-size: var(--text-sm);
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.emptyTitle {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  color: var(--text);
 }

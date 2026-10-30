@@ -41,9 +41,8 @@ export type HomeModule = {
   artwork: { src: string; fit: ArtworkFit; inCard?: boolean };
   /** Atmosphere, built from palette tokens:
       card  → the card's own background (also the header of its sheet)
-      ink   → its title colour (contrast-checked against card)
-      stage → the mood the screen takes on while its sheet is open */
-  theme?: { card: string; ink: string; stage: string };
+      ink   → its title colour (contrast-checked against card) */
+  theme?: { card: string; ink: string };
 };
 
 /* Shades used by the atmospheres below */
@@ -53,28 +52,28 @@ const saffron = "color-mix(in srgb, var(--antique-gold) 55%, var(--terracotta))"
 export const homeModules: HomeModule[] = [
   { id: "ai-astrology", title: "AI Astrology", description: "Ask your chart anything", tone: "gold", group: "guidance", status: "available", href: "/ai-astrology", artwork: { src: "/ai-astrology-new.webp", fit: "object" },
     // Gold leaf
-    theme: { card: "radial-gradient(90% 70% at 50% 35%, color-mix(in srgb, var(--antique-gold) 40%, var(--porcelain)), var(--antique-gold))", ink: "var(--walnut)", stage: "var(--antique-gold)" } },
+    theme: { card: "radial-gradient(90% 70% at 50% 35%, color-mix(in srgb, var(--antique-gold) 40%, var(--porcelain)), var(--antique-gold))", ink: "var(--walnut)" } },
   { id: "astro-guru", title: "Astro Guru", description: "Speak with an astrologer", tone: "rose", group: "guidance", status: "available", href: "/astro-guru", artwork: { src: "/astroguru.webp", fit: "figure" },
     // Rose sandstone
-    theme: { card: "linear-gradient(180deg, var(--rose-surface), var(--faded-rose))", ink: "var(--walnut)", stage: "var(--faded-rose)" } },
+    theme: { card: "linear-gradient(180deg, var(--rose-surface), var(--faded-rose))", ink: "var(--walnut)" } },
   { id: "panchang", title: "Panchang", description: "Tithi, nakshatra and muhurat for today", tone: "sand", group: "practice", status: "available", href: "/panchang", artwork: { src: "/panchang-manuscript.webp", fit: "object", inCard: true },
     // Parchment: the bright counterpart to Tarot's night, its ring neighbour
-    theme: { card: "linear-gradient(180deg, var(--porcelain), color-mix(in srgb, var(--pale-sand) 80%, var(--antique-gold)))", ink: "var(--walnut)", stage: "color-mix(in srgb, var(--pale-sand) 65%, var(--antique-gold))" } },
+    theme: { card: "linear-gradient(180deg, var(--porcelain), color-mix(in srgb, var(--pale-sand) 80%, var(--antique-gold)))", ink: "var(--walnut)" } },
   { id: "din-chakra", title: "Din Chakra", description: "How the hours of your day unfold", tone: "sand", group: "practice", status: "available", href: "/din-chakra", artwork: { src: "/sacred-mountain-alpha.webp", fit: "scene" },
     // Dawn over the peaks
-    theme: { card: "linear-gradient(180deg, var(--rose-surface), color-mix(in srgb, var(--antique-gold) 70%, var(--rose-surface)))", ink: "var(--walnut)", stage: "color-mix(in srgb, var(--antique-gold) 60%, var(--rose-surface))" } },
+    theme: { card: "linear-gradient(180deg, var(--rose-surface), color-mix(in srgb, var(--antique-gold) 70%, var(--rose-surface)))", ink: "var(--walnut)" } },
   { id: "maala-jaap", title: "Maala Jaap", description: "Count your chants, bead by bead", tone: "sand", group: "practice", status: "available", href: "/maala-jaap", artwork: { src: "/mala.webp", fit: "object", inCard: true },
     // Kumkum
-    theme: { card: "radial-gradient(120% 90% at 50% 25%, var(--terracotta), var(--terracotta-deep))", ink: "var(--porcelain)", stage: "var(--terracotta)" } },
+    theme: { card: "radial-gradient(120% 90% at 50% 25%, var(--terracotta), var(--terracotta-deep))", ink: "var(--porcelain)" } },
   { id: "e-puja", title: "E-Puja", description: "Offer rituals from anywhere", tone: "sand", group: "practice", status: "available", href: "/e-puja", artwork: { src: "/diya.webp", fit: "object" },
     // Aarti glow
-    theme: { card: `radial-gradient(90% 70% at 50% 35%, color-mix(in srgb, var(--antique-gold) 55%, var(--porcelain)), ${saffron})`, ink: "var(--walnut)", stage: saffron } },
+    theme: { card: `radial-gradient(90% 70% at 50% 35%, color-mix(in srgb, var(--antique-gold) 55%, var(--porcelain)), ${saffron})`, ink: "var(--walnut)" } },
   { id: "vastu-ai", title: "Vastu AI", description: "Harmony for your home", tone: "sand", group: "practice", status: "available", href: "/vastu-ai", artwork: { src: "/celestial-palace.webp", fit: "object" },
     // Pink City
-    theme: { card: "linear-gradient(180deg, color-mix(in srgb, var(--faded-rose) 45%, var(--rose-surface)), var(--faded-rose))", ink: "var(--walnut)", stage: "var(--faded-rose)" } },
+    theme: { card: "linear-gradient(180deg, color-mix(in srgb, var(--faded-rose) 45%, var(--rose-surface)), var(--faded-rose))", ink: "var(--walnut)" } },
   { id: "tarot", title: "Tarot", description: "Draw your cards", tone: "sand", group: "practice", status: "available", href: "/tarot", artwork: { src: "/tarot-alpha.webp", fit: "object" },
     // Celestial night
-    theme: { card: `radial-gradient(110% 80% at 50% 15%, ${plum(40)}, ${plum(18)})`, ink: "var(--antique-gold)", stage: plum(45) } },
+    theme: { card: `radial-gradient(110% 80% at 50% 15%, ${plum(40)}, ${plum(18)})`, ink: "var(--antique-gold)" } },
 ];
 
 /* Each service's own page: the sheet that opens from its card. Copy is
@@ -89,16 +88,6 @@ export type ModuleDetail = {
 };
 
 export const moduleDetails: Partial<Record<ModuleId, ModuleDetail>> = {
-  "astro-guru": {
-    meta: ["Live now", "Call · Chat", "Verified"],
-    about: "Talk one-to-one with Vedic astrologers on a call or in chat, matched to the question you bring.",
-    features: [
-      { title: "Verified astrologers", note: "Every guru is vetted for experience and tradition." },
-      { title: "Call or chat", note: "A voice call, or a quiet chat thread at your pace." },
-      { title: "Remedies that fit", note: "Mantras, gemstones and rituals suited to your chart." },
-    ],
-    cta: "Find an astrologer",
-  },
   panchang: {
     meta: ["Daily", "Your city", "Sunrise-timed"],
     about: "The Hindu almanac for your city each day: the lunar day, the star of the moment, and the hours that favour new beginnings.",
@@ -128,16 +117,6 @@ export const moduleDetails: Partial<Record<ModuleId, ModuleDetail>> = {
       { title: "A steady practice", note: "Track your rounds and keep your streak alive." },
     ],
     cta: "Begin chanting",
-  },
-  "e-puja": {
-    meta: ["Live", "In your name", "Prasad"],
-    about: "Book a puja at a sacred temple, performed by its priests in your name and gotra, and join the rituals live from wherever you are.",
-    features: [
-      { title: "Temple pujas", note: "Rituals at renowned temples across India." },
-      { title: "Watch it live", note: "Join the aarti as it happens, or watch it later." },
-      { title: "Prasad at home", note: "Blessed prasad delivered to your door." },
-    ],
-    cta: "Choose a puja",
   },
   "vastu-ai": {
     meta: ["Floor-plan scan", "Room by room", "No demolition"],

@@ -20,28 +20,28 @@ export const BHAVAS: Record<number, { name: string; what: string }> = {
   12: { name: "Vyaya Bhava", what: "Losses, expenses, foreign lands, solitude, liberation" },
 };
 
-export type Planet = { name: string; abbr: string; glyph: string; sign: number; degree: string; nakshatra: string; retro?: boolean };
+export type Planet = { name: string; abbr: string; glyph: string; sign: number; degree: string; nakshatra: string; retro?: boolean; rules: string };
 
 export const chart = {
   lagna: 5, // Simha
   ayanamsa: "Lahiri 23°53′",
   birth: { date: "14 Oct 2001", time: "6:45 AM", place: "Mumbai, IN" },
   identity: [
-    { label: "Lagna", value: "Simha", note: "Ascendant", glyph: "♌" },
-    { label: "Rashi", value: "Tula", note: "Moon sign", glyph: "♎" },
-    { label: "Sun", value: "Kanya", note: "Surya rashi", glyph: "♍" },
+    { label: "Lagna", value: "Simha", note: "Ascendant", glyph: "♌", sign: "simha" },
+    { label: "Rashi", value: "Tula", note: "Moon sign", glyph: "♎", sign: "tula" },
+    { label: "Sun", value: "Kanya", note: "Surya rashi", glyph: "♍", sign: "kanya" },
     { label: "Nakshatra", value: "Swati", note: "Pada 3", glyph: "✦" },
   ],
   planets: [
-    { name: "Sun", abbr: "Su", glyph: "☉", sign: 6, degree: "27°12′", nakshatra: "Chitra" },
-    { name: "Moon", abbr: "Mo", glyph: "☽", sign: 7, degree: "14°40′", nakshatra: "Swati" },
-    { name: "Mars", abbr: "Ma", glyph: "♂", sign: 11, degree: "8°05′", nakshatra: "Shatabhisha" },
-    { name: "Mercury", abbr: "Me", glyph: "☿", sign: 6, degree: "18°40′", nakshatra: "Hasta" },
-    { name: "Jupiter", abbr: "Ju", glyph: "♃", sign: 3, degree: "22°48′", nakshatra: "Punarvasu", retro: true },
-    { name: "Venus", abbr: "Ve", glyph: "♀", sign: 6, degree: "10°31′", nakshatra: "Hasta" },
-    { name: "Saturn", abbr: "Sa", glyph: "♄", sign: 2, degree: "21°10′", nakshatra: "Rohini", retro: true },
-    { name: "Rahu", abbr: "Ra", glyph: "☊", sign: 3, degree: "15°02′", nakshatra: "Ardra", retro: true },
-    { name: "Ketu", abbr: "Ke", glyph: "☋", sign: 9, degree: "15°02′", nakshatra: "Purva Ashadha", retro: true },
+    { name: "Sun", abbr: "Su", glyph: "☉", sign: 6, degree: "27°12′", nakshatra: "Chitra", rules: "Soul, authority, father, vitality" },
+    { name: "Moon", abbr: "Mo", glyph: "☽", sign: 7, degree: "14°40′", nakshatra: "Swati", rules: "Mind, mother, emotions, comfort" },
+    { name: "Mars", abbr: "Ma", glyph: "♂", sign: 11, degree: "8°05′", nakshatra: "Shatabhisha", rules: "Courage, energy, siblings, property" },
+    { name: "Mercury", abbr: "Me", glyph: "☿", sign: 6, degree: "18°40′", nakshatra: "Hasta", rules: "Intellect, speech, trade, learning" },
+    { name: "Jupiter", abbr: "Ju", glyph: "♃", sign: 3, degree: "22°48′", nakshatra: "Punarvasu", retro: true, rules: "Wisdom, children, fortune, teachers" },
+    { name: "Venus", abbr: "Ve", glyph: "♀", sign: 6, degree: "10°31′", nakshatra: "Hasta", rules: "Love, beauty, comforts, the arts" },
+    { name: "Saturn", abbr: "Sa", glyph: "♄", sign: 2, degree: "21°10′", nakshatra: "Rohini", retro: true, rules: "Discipline, karma, patience, longevity" },
+    { name: "Rahu", abbr: "Ra", glyph: "☊", sign: 3, degree: "15°02′", nakshatra: "Ardra", retro: true, rules: "Ambition, foreign lands, illusion" },
+    { name: "Ketu", abbr: "Ke", glyph: "☋", sign: 9, degree: "15°02′", nakshatra: "Purva Ashadha", retro: true, rules: "Detachment, past lives, liberation" },
   ] satisfies Planet[],
   /* Vimshottari, Mahadasha down to Prana; `done` is how far through it is */
   dasha: [
@@ -62,6 +62,8 @@ export const chart = {
     { name: "Pitra", present: false, note: "The Sun is free of Rahu and Saturn." },
   ],
 };
+
+export const planetArt = (name: string) => `/planets/${name.toLowerCase()}.webp`;
 
 export const signOfHouse = (house: number) => ((chart.lagna - 1 + house - 1) % 12) + 1;
 export const houseOfSign = (sign: number) => ((sign - chart.lagna + 12) % 12) + 1;

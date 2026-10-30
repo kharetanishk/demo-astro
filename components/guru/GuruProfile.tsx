@@ -153,7 +153,7 @@ export function GuruProfile({ id }: { id: string }) {
 
       <div className={`${s.bar} surface`}>
         <div className={s.barText}>
-          <span className={s.barTotal}>{total} credits</span>
+          <span className={s.barTotal}>{total} coins</span>
           <span className={s.barNote} data-short={short || undefined}>
             {short ? (
               <>

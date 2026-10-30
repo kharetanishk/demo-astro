@@ -95,6 +95,11 @@
   pointer-events: none;
 }
 
+/* The top of the screen is dark (see Universe) */
+:global([data-status-bar="light"]) .statusBar {
+  color: #fff9f1;
+}
+
 .island {
   position: absolute;
   left: 50%;

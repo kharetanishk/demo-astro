@@ -1,0 +1,89 @@
+.orrery {
+  position: relative;
+  aspect-ratio: 100 / 54;
+  container-type: inline-size;
+}
+
+.orbits {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke: rgb(227 189 108 / 0.42);
+  stroke-width: 0.22;
+}
+
+.sun,
+.planet {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+}
+
+.sun {
+  z-index: 5;
+  width: 25cqw;
+  height: 25cqw;
+  margin: -12.5cqw 0 0 -12.5cqw;
+  border-radius: 50%;
+  animation: sun-breathe 6s ease-in-out infinite;
+}
+
+.sun img {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes sun-breathe {
+  50% {
+    scale: 1.05;
+  }
+}
+
+/* The tap target is a thumb wide, whatever the planet's size */
+.planet {
+  z-index: 6;
+  width: 13cqw;
+  height: 13cqw;
+  margin: -6.5cqw 0 0 -6.5cqw;
+  border-radius: 50%;
+}
+
+.planet img {
+  width: calc(var(--size) * 1cqw);
+  height: calc(var(--size) * 1cqw);
+  max-width: none;
+  filter: drop-shadow(0 0.4cqw 0.8cqw rgb(0 0 0 / 0.45));
+}
+
+.planet[data-on]::after,
+.sun[data-on]::after {
+  content: "";
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  border: 1.5px solid #f0d596;
+  box-shadow: 0 0 2cqw rgb(240 213 150 / 0.7);
+  animation: ring-in 400ms var(--ease-out);
+}
+
+.sun[data-on]::after {
+  inset: 18%;
+}
+
+@keyframes ring-in {
+  from {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sun {
+    animation: none;
+  }
+}

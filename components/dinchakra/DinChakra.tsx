@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import Image from "next/image";
 import { notify } from "@/components/ui/demo";
+import { RASHIS, planetArt } from "@/components/kundli/chart";
+import { emblem, signs } from "@/components/rashifal/signs";
 import { Icon } from "@/components/ui/ornaments";
 import { ScreenHeader, SectionHeading } from "@/components/ui/ScreenHeader";
 import { BANDS, NOW_INDEX, STREAK, WEEK, golden, hours, nth } from "./day";
@@ -52,7 +55,7 @@ export function DinChakra() {
       </ol>
 
       <button type="button" className={`${s.golden} pressable rise`} style={{ "--stagger": 2 } as CSSProperties} onClick={() => setSelected(golden.index)}>
-        <span className={s.goldenSun} aria-hidden />
+        <Image src={planetArt(golden.hora.lord)} alt="" width={64} height={64} className={s.goldenArt} />
         <span className={s.goldenText}>
           <span className="eyebrow">Golden hour today</span>
           <span className={s.goldenTime}>{golden.label}</span>
@@ -82,7 +85,7 @@ export function DinChakra() {
                   <stop offset="1" stopColor="var(--antique-gold)" stopOpacity="0.05" />
                 </linearGradient>
                 <pattern id="dc-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-                  <line x1="0" y1="0" x2="0" y2="6" stroke="var(--terracotta)" strokeWidth="1.5" strokeOpacity="0.45" />
+                  <line x1="0" y1="0" x2="0" y2="6" stroke="#f7c7a8" strokeWidth="1.5" strokeOpacity="0.4" />
                 </pattern>
               </defs>
               <rect x={12 * COL} y="0" width={12 * COL} height={H} className={s.night} />
@@ -93,9 +96,16 @@ export function DinChakra() {
                 ))}
               <path d={`${ridge}L${W} ${H}L0 ${H}Z`} fill="url(#dc-fill)" />
               <path d={ridge} className={s.ridge} />
-              {points.map(([px, py], i) => (
-                <circle key={i} cx={px} cy={py} r={i === selected ? 7 : 4} className={s.peak} data-band={hours[i].band} data-now={i === NOW_INDEX || undefined} />
-              ))}
+              {points.map(([px, py], i) =>
+                i === selected ? (
+                  <g key={i}>
+                    <circle cx={px} cy={py} r="17" className={s.peakGlow} />
+                    <image href={planetArt(hours[i].hora.lord)} x={px - 13} y={py - 13} width="26" height="26" />
+                  </g>
+                ) : (
+                  <circle key={i} cx={px} cy={py} r={4} className={s.peak} data-band={hours[i].band} data-now={i === NOW_INDEX || undefined} />
+                ),
+              )}
             </svg>
             <div className={s.columns} role="radiogroup" aria-label="Hour">
               {hours.map((hr) => (
@@ -144,8 +154,9 @@ export function DinChakra() {
         <dl className={s.facts}>
           <div>
             <dt>Hora lord</dt>
-            <dd>
-              {h.hora.glyph} {h.hora.lord}
+            <dd className={s.withArt}>
+              <Image src={planetArt(h.hora.lord)} alt="" width={26} height={26} />
+              {h.hora.lord}
             </dd>
           </div>
           <div>
@@ -154,7 +165,8 @@ export function DinChakra() {
           </div>
           <div>
             <dt>Rising</dt>
-            <dd>
+            <dd className={s.withArt}>
+              <Image src={emblem(signs[RASHIS.indexOf(h.rising as (typeof RASHIS)[number])].id)} alt="" width={28} height={28} />
               {h.rising}, your {nth(h.house)}
             </dd>
           </div>

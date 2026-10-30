@@ -38,6 +38,13 @@
   --accent: var(--terracotta-deep);
   --accent-soft: var(--terracotta);
   --ornament: var(--antique-gold);
+  /* Emphasis surfaces: the Home cards' atmospheres. Walnut is for text, never for these. */
+  --surface-leaf: radial-gradient(90% 80% at 25% 0%, color-mix(in srgb, var(--antique-gold) 32%, var(--porcelain)), var(--antique-gold));
+  --surface-rose: linear-gradient(155deg, var(--rose-surface), var(--faded-rose));
+  --surface-kumkum: radial-gradient(120% 90% at 50% 25%, var(--terracotta), var(--terracotta-deep));
+  /* The one dark: the wordmark's crimson, in small focal spots where gold must pop */
+  --surface-crimson: radial-gradient(closest-side, #8a2219, #5e130f 66%, #470d0c);
+  --surface-parchment: linear-gradient(150deg, var(--porcelain), color-mix(in srgb, var(--gold-light) 70%, var(--antique-gold) 12%));
   --border: color-mix(in srgb, var(--separator) 70%, transparent);
   --focus: var(--terracotta-deep);
 
@@ -98,14 +105,13 @@
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
   --dur-sheet: 520ms;
   --dur-sheet-out: 440ms;
+  --dur-iris: 900ms;
   --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1); /* quick off the mark, a long settle */
   --dur-glide: 340ms; /* bottom-nav lamp sweep */
   --ease-glide: cubic-bezier(0.65, 0, 0.35, 1); /* flashlight swing: ease in and out */
 
   /* Bottom navigation geometry (shared by nav and page clearance) */
   --nav-height: 68px;
-  --nav-offset: var(--space-4);
-  --nav-width: 420px;
 
   color-scheme: light;
 }
@@ -119,6 +125,7 @@
     --dur-enter: 0ms;
     --dur-sheet: 0ms;
     --dur-sheet-out: 0ms;
+    --dur-iris: 0ms;
     --stagger-step: 0ms;
   }
 }
@@ -231,12 +238,13 @@ ol {
   max-width: var(--content-width);
   margin: 0 auto;
   padding: calc(var(--safe-top) + var(--space-5)) var(--gutter)
-    calc(var(--safe-bottom) + var(--nav-height) + var(--nav-offset) + var(--space-10));
+    calc(var(--safe-bottom) + var(--nav-height) + var(--space-8));
 }
 
 /* A screen's top bar: back, title and action stay in reach at any scroll.
-   Once the screen has scrolled, a veil rises behind the bar (up over the
-   status bar too) so the content passes under it, not through it. */
+   Once the screen has scrolled, a solid band appears behind the bar (up over
+   the status bar too), ending in a crisp gold line, so the content passes
+   cleanly under it. */
 .screen-bar {
   position: sticky;
   top: var(--bar-top);
@@ -247,11 +255,11 @@ ol {
   content: "";
   position: absolute;
   z-index: -1;
-  inset: calc(-1 * var(--bar-top)) calc(-1 * var(--gutter)) calc(-1 * var(--space-4));
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
-  mask-image: linear-gradient(#000 calc(100% - var(--space-4)), transparent);
+  inset: calc(-1 * var(--bar-top)) calc(-1 * var(--gutter)) calc(-1 * var(--space-2));
+  background: var(--bg);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--antique-gold) 55%, transparent),
+    0 8px 16px -14px rgb(74 48 37 / 0.45);
   pointer-events: none;
 }
 
@@ -303,6 +311,30 @@ ol {
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   box-shadow: 0 -8px 40px rgb(58 37 27 / 0.22);
   animation: sheet-sink var(--dur-sheet-out) var(--ease-sheet) both;
+}
+
+[data-sheet="fade"]::view-transition-old(root),
+[data-sheet="fade"]::view-transition-new(root) {
+  animation-duration: var(--dur-enter);
+}
+
+/* The end of onboarding: the app opens like an eye, out from where the logo sat */
+[data-sheet="enter"]::view-transition-old(root) {
+  animation: sheet-dim var(--dur-iris) var(--ease-glide) both;
+}
+
+[data-sheet="enter"]::view-transition-new(root) {
+  z-index: 1;
+  animation: iris-open var(--dur-iris) var(--ease-glide) both;
+}
+
+@keyframes iris-open {
+  from {
+    clip-path: circle(0% at 50% 30%);
+  }
+  to {
+    clip-path: circle(125% at 50% 30%);
+  }
 }
 
 @keyframes sheet-rise {

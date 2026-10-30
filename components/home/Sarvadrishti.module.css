@@ -93,6 +93,13 @@
   height: 100%;
 }
 
+.alone {
+  position: relative;
+  left: auto;
+  top: auto;
+  width: 100%;
+}
+
 .art {
   filter: drop-shadow(0 10px 12px rgb(74 48 37 / 0.3));
 }
@@ -201,7 +208,8 @@
 
 /* Still, eye open */
 @media (prefers-reduced-motion: reduce) {
-  .lockup * {
+  .lockup *,
+  .alone * {
     animation-play-state: paused !important;
   }
 }

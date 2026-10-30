@@ -11,20 +11,7 @@ export function Sarvadrishti() {
       <div className={s.lockup}>
         <span className={s.glow} aria-hidden />
         <Rays />
-        <div className={s.emblem} aria-hidden>
-          <Image
-            src={EYE.src}
-            alt=""
-            width={EYE.w}
-            height={EYE.h}
-            unoptimized
-            loading="eager"
-            fetchPriority="high"
-            className={s.art}
-          />
-          <span className={s.shine} />
-          <Lids />
-        </div>
+        <Emblem className={s.emblem} />
         <Image
           src="/logo/sarvdrishti-wordmark.webp"
           alt="Sarvdrishti"
@@ -37,6 +24,22 @@ export function Sarvadrishti() {
       </div>
     </div>
   );
+}
+
+function Emblem({ className }: { className: string }) {
+  return (
+    <div className={className} aria-hidden>
+      <Image src={EYE.src} alt="" width={EYE.w} height={EYE.h} unoptimized loading="eager" fetchPriority="high" className={s.art} />
+      <span className={s.shine} />
+      <Lids />
+    </div>
+  );
+}
+
+/* The blinking eye alone, for a screen that sets it in something else; it
+   fills its parent's width */
+export function SarvEye() {
+  return <Emblem className={`${s.emblem} ${s.alone}`} />;
 }
 
 /* The emblem, in its own pixels: the iris (to the dark ring round it) and

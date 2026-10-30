@@ -17,7 +17,7 @@ export function HomeHeader({ unread, points }: Props) {
           {points}
           <span className="sr-only"> points</span>
         </span>
-        <Link href="/wallet" className={s.button} aria-label="Add credits">
+        <Link href="/wallet" className={s.button} aria-label="Add Sarv Coins">
           <span className={s.addDisc}>
             <Icon name="plus" size={16} />
           </span>

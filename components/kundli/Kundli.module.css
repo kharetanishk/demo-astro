@@ -41,15 +41,153 @@
   background: var(--antique-gold);
 }
 
+/* ── The sky: deep crimson, gold rim, the planets alight ───────────── */
+/* isolate: the planets' z-indexes stay inside, under the sticky header */
+.sky {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-top: var(--space-4);
+  padding: var(--space-5) var(--space-2) var(--space-8);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(1px 1px at 12% 22%, #fff3cf, transparent),
+    radial-gradient(1.5px 1.5px at 30% 12%, #fff3cf, transparent),
+    radial-gradient(1px 1px at 72% 18%, #fff3cf, transparent),
+    radial-gradient(1.5px 1.5px at 88% 34%, #fff3cf, transparent),
+    radial-gradient(1px 1px at 6% 62%, #fff3cf, transparent),
+    radial-gradient(1px 1px at 94% 72%, #fff3cf, transparent),
+    radial-gradient(1.5px 1.5px at 22% 84%, #fff3cf, transparent),
+    radial-gradient(1px 1px at 64% 90%, #fff3cf, transparent),
+    radial-gradient(1px 1px at 48% 8%, #fff3cf, transparent),
+    radial-gradient(70% 60% at 50% 58%, #8a2219, #5e130f 62%, #470d0c);
+  box-shadow:
+    inset 0 0 0 1.5px var(--antique-gold),
+    inset 0 0 0 5px #5e130f,
+    inset 0 0 0 5.75px rgb(227 189 108 / 0.5),
+    var(--shadow-float);
+}
+
+.skyHead {
+  padding-inline: var(--space-3);
+  text-align: center;
+}
+
+.skyEyebrow {
+  justify-content: center;
+  color: #f0d596;
+}
+
+.skyTitle {
+  margin-top: 2px;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.02em;
+  color: var(--porcelain);
+}
+
+/* ── The chosen planet ─────────────────────────────────────────────── */
+.focus {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: calc(-1 * var(--space-6)) var(--space-3) 0;
+  padding: var(--space-3) var(--space-4) var(--space-3) var(--space-3);
+  border-radius: var(--radius-lg);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--antique-gold) 70%, transparent), var(--shadow-float);
+  animation: rise var(--dur-enter) var(--ease-out);
+}
+
+.focusArt {
+  flex: none;
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+}
+
+.focusText {
+  min-width: 0;
+}
+
+.focusName {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  line-height: 1.2;
+}
+
+.focusPlace {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.focusRules {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.retro {
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--terracotta) 16%, var(--porcelain));
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: var(--weight-bold);
+  text-decoration: none;
+}
+
+/* ── Choose a planet ───────────────────────────────────────────────── */
+.rail {
+  display: flex;
+  gap: var(--space-2);
+  margin: var(--space-3) calc(-1 * var(--gutter)) 0;
+  padding: var(--space-1) var(--gutter);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.railItem {
+  width: 66px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--space-2) 0;
+  border-radius: var(--radius-md);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.railItem[aria-pressed="true"] {
+  background: var(--surface-leaf);
+  box-shadow: inset 0 0 0 1.5px var(--gold-deep);
+  font-weight: var(--weight-bold);
+}
+
+.railArt {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
 /* ── The chart board ───────────────────────────────────────────────── */
 .board {
-  margin-top: var(--space-4);
-  padding: var(--space-4);
+  padding: var(--space-3);
   border-radius: var(--radius-xl);
-  background: radial-gradient(90% 70% at 30% 0%, color-mix(in srgb, var(--antique-gold) 32%, var(--porcelain)), color-mix(in srgb, var(--antique-gold) 70%, var(--pale-sand)));
+  background: var(--surface-parchment);
   box-shadow:
-    inset 0 1px 0 rgb(255 249 241 / 0.6),
-    inset 0 0 0 1px var(--gold-deep),
+    inset 0 0 0 1.5px color-mix(in srgb, var(--antique-gold) 70%, transparent),
     var(--shadow-float);
 }
 
@@ -61,15 +199,15 @@
 }
 
 .frame {
-  fill: rgb(255 249 241 / 0.55);
+  fill: var(--porcelain);
   stroke: var(--gold-deep);
-  stroke-width: 2;
+  stroke-width: 2.5;
 }
 
 .house polygon {
   fill: transparent;
-  stroke: var(--gold-deep);
-  stroke-width: 1.2;
+  stroke: color-mix(in srgb, var(--gold-deep) 80%, transparent);
+  stroke-width: 1.1;
   stroke-linejoin: round;
   cursor: pointer;
   outline: none;
@@ -83,16 +221,22 @@
 
 @media (hover: hover) {
   .house:hover polygon {
-    fill: rgb(255 249 241 / 0.45);
+    fill: color-mix(in srgb, var(--antique-gold) 16%, transparent);
   }
 }
 
+/* The chosen house takes the sky's crimson */
 .house[data-active] polygon {
-  fill: color-mix(in srgb, var(--faded-rose) 45%, var(--porcelain));
+  fill: #6f1812;
+  stroke: var(--antique-gold);
+}
+
+.house text,
+.house image {
+  pointer-events: none;
 }
 
 .house text {
-  pointer-events: none;
   text-anchor: middle;
   dominant-baseline: middle;
 }
@@ -100,57 +244,49 @@
 .signNum {
   font-size: 10px;
   font-weight: var(--weight-semibold);
-  fill: var(--bronze);
+  fill: var(--gold-deep);
+}
+
+.house[data-active] .signNum {
+  fill: #f0d596;
 }
 
 .planets {
-  font-size: 12.5px;
+  font-size: 8px;
   font-weight: var(--weight-bold);
   fill: var(--walnut);
-  letter-spacing: 0.02em;
+}
+
+.house[data-active] .planets {
+  fill: var(--porcelain);
 }
 
 .asc {
-  font-family: var(--font-cinzel), serif;
-  font-size: 9px;
-  letter-spacing: 0.2em;
+  font-size: 7px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.16em;
   text-anchor: middle;
   fill: var(--accent);
   text-transform: uppercase;
+  pointer-events: none;
 }
 
 .reading {
   display: flex;
   gap: var(--space-3);
-  margin-top: var(--space-4);
-  padding: var(--space-4);
+  margin-top: var(--space-3);
+  padding: var(--space-3);
   border-radius: var(--radius-md);
   background: var(--porcelain);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 50%, transparent);
+  animation: rise var(--dur-enter) var(--ease-out);
 }
 
-/* The house number upright in a gold diamond, the brand mark writ large */
-.houseNum {
-  position: relative;
-  isolation: isolate;
+.readingArt {
   flex: none;
-  width: 46px;
-  height: 46px;
-  display: grid;
-  place-items: center;
-  font-size: var(--text-lg);
-  font-weight: var(--weight-bold);
-}
-
-.houseNum::before {
-  content: "";
-  position: absolute;
-  inset: 7px;
-  z-index: -1;
-  border-radius: 8px;
-  rotate: 45deg;
-  background: var(--antique-gold);
-  box-shadow: inset 0 0 0 1px var(--gold-deep);
+  width: 60px;
+  height: 60px;
+  filter: drop-shadow(0 3px 4px rgb(74 48 37 / 0.3));
 }
 
 .readingText {
@@ -177,6 +313,31 @@
 }
 
 .readingPlanets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+}
+
+.readingPlanet {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 30px;
+  padding: 0 var(--space-3) 0 5px;
+  border-radius: var(--radius-pill);
+  background: var(--gold-light);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 60%, transparent);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+}
+
+.readingPlanet[aria-pressed="true"] {
+  background: var(--surface-leaf);
+  box-shadow: inset 0 0 0 1.5px var(--gold-deep);
+}
+
+.readingEmpty {
   margin-top: var(--space-2);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
@@ -186,12 +347,22 @@
 .ask {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  min-height: 44px;
+  justify-content: space-between;
+  min-height: 52px;
   margin-top: var(--space-2);
+  padding: 0 var(--space-2) 0 var(--space-4);
   font-size: var(--text-sm);
   font-weight: var(--weight-bold);
+}
+
+.askArrow {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--surface-kumkum);
+  color: var(--porcelain);
 }
 
 /* ── Identity seals ────────────────────────────────────────────────── */
@@ -207,6 +378,20 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+}
+
+/* A sign's seal leads to its reading */
+.sealLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sealEmblem {
+  width: 64px;
+  height: 64px;
+  margin: -6px 0 var(--space-1);
+  filter: drop-shadow(0 4px 5px rgb(58 37 27 / 0.3));
 }
 
 .sealCoin {
@@ -280,11 +465,13 @@
 }
 
 .dashaLord {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-weight: var(--weight-bold);
 }
 
 .dasha:first-child .dashaLord {
-  font-family: var(--font-cinzel), serif;
   font-size: var(--text-xl);
 }
 
@@ -309,52 +496,53 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Planets: a 3-up grid of coins */
+/* Planets: a 3-up grid, each world rising from its card */
 .planetGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-2);
+  gap: var(--space-3) var(--space-2);
+  margin-top: var(--space-6);
 }
 
 .planet {
+  position: relative;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 1px;
-  padding: var(--space-3);
+  align-items: center;
+  padding: 38px var(--space-1) var(--space-3);
   border-radius: var(--radius-md);
-  text-align: left;
-  transition: box-shadow var(--dur-base) var(--ease-out);
+  background: linear-gradient(170deg, var(--porcelain), var(--gold-light));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 55%, transparent), var(--shadow-soft);
+  text-align: center;
 }
 
 .planet[aria-pressed="true"] {
-  box-shadow: var(--shadow-soft), inset 0 0 0 1.5px var(--gold-deep);
+  background: var(--surface-leaf);
+  box-shadow: inset 0 0 0 1.5px var(--gold-deep), var(--shadow-soft);
 }
 
-.planetGlyph {
-  width: 30px;
-  height: 30px;
-  display: grid;
-  place-items: center;
-  margin-bottom: var(--space-1);
-  border-radius: 50%;
-  background: var(--gold-light);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 60%, transparent);
-  color: var(--gold-deep);
-  font-size: 16px;
+.planetArt {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  margin-left: -30px;
+  object-fit: contain;
 }
 
 .planetName {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   font-size: var(--text-sm);
   font-weight: var(--weight-bold);
 }
 
-.retro {
+.retroMark {
   padding: 0 4px;
   border-radius: 4px;
   background: color-mix(in srgb, var(--terracotta) 18%, transparent);
@@ -364,6 +552,7 @@
 }
 
 .planetSign {
+  margin-top: 1px;
   font-size: var(--text-xs);
   font-weight: var(--weight-medium);
   font-variant-numeric: tabular-nums;
@@ -371,7 +560,12 @@
 
 .planetMeta {
   font-size: 10px;
+  line-height: 1.25;
   color: var(--text-muted);
+}
+
+.planet[aria-pressed="true"] .planetMeta {
+  color: var(--walnut);
 }
 
 .yogas {

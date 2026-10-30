@@ -1,7 +1,7 @@
 .toast {
   position: fixed;
   left: 50%;
-  bottom: calc(var(--safe-bottom) + var(--nav-height) + var(--nav-offset) + var(--space-5));
+  bottom: calc(var(--safe-bottom) + var(--nav-height) + var(--space-5));
   z-index: var(--z-toast);
   max-width: calc(100vw - 2 * var(--gutter));
   padding: var(--space-3) var(--space-4);

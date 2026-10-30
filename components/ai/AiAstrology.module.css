@@ -94,7 +94,7 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: var(--walnut);
+  background: var(--surface-kumkum);
   color: var(--porcelain);
 }
 

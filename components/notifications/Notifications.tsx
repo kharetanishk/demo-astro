@@ -11,7 +11,7 @@ const INBOX: { id: string; icon: GlyphName; title: string; body: string; when: s
   { id: "n1", icon: "calendar", title: "Booking tomorrow", body: "Video call with Acharya Meera Joshi at 7:30 PM.", when: "8:40 AM", day: "Today", href: "/history", unread: true },
   { id: "n2", icon: "sun", title: "Your golden hour is 8–9 PM", body: "Jupiter hora with Chal choghadiya. Good for learning and money matters.", when: "6:30 AM", day: "Today", href: "/din-chakra", unread: true },
   { id: "n3", icon: "star", title: "Purnima today", body: "Full moon until 7:58 PM. A good day for Satyanarayan katha.", when: "6:00 AM", day: "Today", href: "/panchang" },
-  { id: "n4", icon: "wallet", title: "₹500 added", body: "550 credits are in your wallet, with a 10% bonus.", when: "7:58 PM", day: "Yesterday", href: "/wallet" },
+  { id: "n4", icon: "wallet", title: "₹500 added", body: "550 Sarv Coins are in your wallet, with a 10% bonus.", when: "7:58 PM", day: "Yesterday", href: "/wallet" },
   { id: "n5", icon: "heart", title: "Keep your streak", body: "12 days of jaap. One mala tonight keeps it going.", when: "8:00 PM", day: "Yesterday", href: "/maala-jaap" },
 ];
 

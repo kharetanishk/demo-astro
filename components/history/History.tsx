@@ -40,7 +40,7 @@ export function History() {
 
   return (
     <main className="page">
-      <ScreenHeader title="History" eyebrow="Your journey" />
+      <ScreenHeader title="History" eyebrow="Your journey" back="/" />
 
       {next?.kind === "booking" && <NextTicket entry={next} />}
 
@@ -162,7 +162,7 @@ function EntryCard({ entry: e }: { entry: Entry }) {
         <span className={s.facts}>
           <Icon name={media.icon} size={14} />
           {e.minutes} min
-          {e.kind === "consult" && <> · {e.credits} credits</>}
+          {e.kind === "consult" && <> · {e.credits} coins</>}
           {e.kind === "booking" && <span className={s.status} data-status={e.status}>{e.status === "upcoming" ? "Upcoming" : e.status === "done" ? "Completed" : "Cancelled"}</span>}
         </span>
       </div>

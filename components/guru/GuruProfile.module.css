@@ -1,6 +1,6 @@
 /* The booking bar floats over the nav */
 .profile {
-  padding-bottom: calc(var(--safe-bottom) + var(--nav-height) + var(--nav-offset) + 120px);
+  padding-bottom: calc(var(--safe-bottom) + var(--nav-height) + 120px);
 }
 
 .hero {
@@ -214,13 +214,13 @@
 .day[aria-checked="true"],
 .slot[aria-checked="true"],
 .duration[aria-checked="true"] {
-  background: var(--walnut);
-  color: var(--porcelain);
-  box-shadow: none;
+  background: var(--surface-leaf);
+  color: var(--walnut);
+  box-shadow: inset 0 0 0 1.5px var(--gold-deep);
 }
 
 .day[aria-checked="true"] .dayWeek {
-  color: var(--pale-sand);
+  color: var(--walnut);
 }
 
 .slots {
@@ -257,7 +257,7 @@
 .bar {
   position: fixed;
   left: 50%;
-  bottom: calc(var(--safe-bottom) + var(--nav-height) + var(--nav-offset) + var(--space-3));
+  bottom: calc(var(--safe-bottom) + var(--nav-height) + var(--space-3));
   z-index: var(--z-nav);
   width: calc(min(100vw, var(--content-width)) - 2 * var(--gutter));
   translate: -50% 0;
@@ -267,6 +267,16 @@
   padding: var(--space-2) var(--space-2) var(--space-2) var(--space-5);
   border-radius: var(--radius-pill);
   box-shadow: var(--shadow-float), inset 0 0 0 1px var(--gold-deep);
+}
+
+/* A solid band from the pill down to the nav, so the page ends here too */
+.bar::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: calc(-1 * var(--space-3) - 1px) calc(-1 * var(--gutter) - 1px); /* - 1px: from outside the pill's border */
+  background: color-mix(in srgb, var(--mood) 16%, var(--bg));
+  box-shadow: 0 -1px 0 color-mix(in srgb, var(--antique-gold) 45%, transparent);
 }
 
 .barText {

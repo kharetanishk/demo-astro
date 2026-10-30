@@ -50,12 +50,13 @@
 }
 
 .weekDay[aria-current="date"] {
-  background: var(--walnut);
-  color: var(--pale-sand);
+  background: var(--surface-leaf);
+  box-shadow: inset 0 0 0 1.5px var(--gold-deep);
+  color: var(--walnut);
 }
 
 .weekDay[aria-current="date"] strong {
-  color: var(--porcelain);
+  color: var(--walnut);
 }
 
 .streak {
@@ -72,7 +73,6 @@
 }
 
 .streak strong {
-  font-family: var(--font-cinzel), serif;
   font-size: var(--text-xl);
 }
 
@@ -94,13 +94,11 @@
   color: var(--walnut);
 }
 
-.goldenSun {
+.goldenArt {
   flex: none;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, #fff3cf, var(--antique-gold) 60%, var(--terracotta));
-  box-shadow: 0 0 0 6px rgb(255 249 241 / 0.35), 0 0 24px 6px rgb(255 249 241 / 0.6);
+  width: 60px;
+  height: 60px;
+  filter: drop-shadow(0 4px 6px rgb(74 48 37 / 0.35));
 }
 
 .goldenText {
@@ -110,7 +108,6 @@
 }
 
 .goldenTime {
-  font-family: var(--font-cinzel), serif;
   font-size: var(--text-lg);
   font-weight: var(--weight-bold);
 }
@@ -120,14 +117,33 @@
 }
 
 .goldenScore {
-  font-family: var(--font-cinzel), serif;
   font-size: var(--text-3xl);
   font-weight: var(--weight-bold);
 }
 
 /* ── Mountain ──────────────────────────────────────────────────────── */
+/* The day's hours on the app's deep crimson, so the gold ridge reads */
 .mountain {
+  isolation: isolate;
+  overflow: hidden;
   margin-top: var(--space-6);
+  padding: var(--space-4);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(1px 1px at 18% 14%, #fff3cf, transparent),
+    radial-gradient(1.5px 1.5px at 76% 10%, #fff3cf, transparent),
+    radial-gradient(1px 1px at 52% 24%, #fff3cf, transparent),
+    radial-gradient(90% 80% at 50% 40%, #8a2219, #5e130f 64%, #470d0c);
+  color: var(--porcelain);
+  box-shadow:
+    inset 0 0 0 1.5px var(--antique-gold),
+    inset 0 0 0 5px #5e130f,
+    inset 0 0 0 5.75px rgb(227 189 108 / 0.5),
+    var(--shadow-float);
+}
+
+.mountainHead :global(.eyebrow) {
+  color: #f0d596;
 }
 
 .mountainHead {
@@ -138,11 +154,11 @@
 
 .drag {
   font-size: var(--text-xs);
-  color: var(--text-muted);
+  color: var(--pale-sand);
 }
 
 .scroller {
-  margin: var(--space-3) calc(-1 * var(--gutter)) 0;
+  margin: var(--space-3) calc(-1 * var(--space-4)) 0;
   overflow-x: auto;
   scrollbar-width: none;
   overscroll-behavior-x: contain;
@@ -160,12 +176,12 @@
 }
 
 .night {
-  fill: color-mix(in srgb, var(--walnut) 9%, transparent);
+  fill: rgb(0 0 0 / 0.2);
 }
 
 .ridge {
   fill: none;
-  stroke: var(--gold-deep);
+  stroke: #f0d596;
   stroke-width: 2;
 }
 
@@ -176,8 +192,12 @@
   transition: r var(--dur-base) var(--ease-out);
 }
 
+.peak {
+  stroke: #5e130f;
+}
+
 .peak[data-now] {
-  stroke: var(--walnut);
+  stroke: #f7e3b4;
 }
 
 .columns {
@@ -196,19 +216,19 @@
 }
 
 .column[aria-checked="true"] {
-  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--porcelain) 70%, transparent));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 45%, transparent);
+  background: linear-gradient(180deg, transparent, rgb(255 236 196 / 0.18));
+  box-shadow: inset 0 0 0 1px rgb(227 189 108 / 0.55);
 }
 
 .colLabel {
   font-size: 10px;
   font-weight: var(--weight-semibold);
-  color: var(--text-muted);
+  color: var(--pale-sand);
   white-space: nowrap;
 }
 
 .column[aria-checked="true"] .colLabel {
-  color: var(--text);
+  color: var(--porcelain);
   font-weight: var(--weight-bold);
 }
 
@@ -218,7 +238,7 @@
   gap: var(--space-1) var(--space-3);
   margin-top: var(--space-3);
   font-size: var(--text-xs);
-  color: var(--text-muted);
+  color: var(--pale-sand);
 }
 
 .legend li {
@@ -237,7 +257,7 @@
 
 .legend li[data-rahu]::before {
   border-radius: 2px;
-  background: repeating-linear-gradient(45deg, color-mix(in srgb, var(--terracotta) 60%, transparent) 0 2px, transparent 2px 4px);
+  background: repeating-linear-gradient(45deg, rgb(247 199 168 / 0.8) 0 2px, transparent 2px 4px);
 }
 
 /* ── The chosen hour ───────────────────────────────────────────────── */
@@ -274,7 +294,6 @@
 }
 
 .hourTime {
-  font-family: var(--font-cinzel), serif;
   font-size: var(--text-xl);
   font-weight: var(--weight-bold);
 }
@@ -291,6 +310,22 @@
     radial-gradient(closest-side, var(--porcelain) 78%, transparent 80%),
     conic-gradient(var(--antique-gold) calc(var(--score) * 1%), color-mix(in srgb, var(--antique-gold) 18%, transparent) 0);
   font-size: var(--text-lg);
+}
+
+.withArt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.withArt img {
+  flex: none;
+}
+
+.peakGlow {
+  fill: color-mix(in srgb, var(--porcelain) 85%, transparent);
+  stroke: var(--gold-deep);
+  stroke-width: 1.5;
 }
 
 .facts {

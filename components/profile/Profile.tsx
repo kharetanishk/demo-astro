@@ -1,9 +1,14 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { BackLink } from "@/components/ui/BackLink";
 import { DemoButton } from "@/components/ui/demo";
 import { Icon, type GlyphName } from "@/components/ui/ornaments";
 import { BACKDROP_ARTWORK } from "@/components/home/modules";
+import { credits } from "@/components/ai/topics";
+import { emblemOfName } from "@/components/rashifal/signs";
+import { ZodiacWheel } from "@/components/rashifal/ZodiacWheel";
+import { SignOut } from "@/components/onboarding/SignOut";
 import s from "./Profile.module.css";
 
 export type ProfileUser = {
@@ -17,14 +22,21 @@ export type ProfileUser = {
   stats: { label: string; value: number }[];
 };
 
-type Row = { icon: GlyphName; title: string; note: string; href?: string };
+type Row = { icon: GlyphName; art?: string; title: string; note: string; href?: string };
+
+/* Each number's artwork and where it leads, by label */
+const STATS: Record<string, { art: string; href: string }> = {
+  Points: { art: "/wallet/coin.webp", href: "/wallet" },
+  Consultations: { art: "/profile-consult.webp", href: "/history" },
+  Bookings: { art: "/profile-booking.webp", href: "/history" },
+};
 
 /* The settings the old profile listed, grouped by what they're for */
 const groups: { title: string; rows: Row[] }[] = [
   {
     title: "Your activity",
     rows: [
-      { icon: "wallet", title: "Payments", note: "Your payment history", href: "/wallet" },
+      { icon: "wallet", art: "/wallet/coin.webp", title: "Wallet", note: `${credits.balance} Sarv Coins · Payment history`, href: "/wallet" },
       { icon: "clock", title: "My bookings", note: "Your booked consultations", href: "/history" },
       { icon: "chat", title: "My consultations", note: "Your past chats", href: "/history" },
     ],
@@ -56,9 +68,10 @@ const groups: { title: string; rows: Row[] }[] = [
 
 const TICKS = Array.from({ length: 12 }, (_, i) => i * 30);
 
-/* Profile: the person under a courtyard cover, their chart as the page's
-   centrepiece, then everything they can manage, grouped. Actions without a
-   backend give an honest demo notice. */
+/* Profile: the person under a courtyard cover, their numbers, their chart as
+   the page's walnut-and-gold centrepiece with the zodiac turning off its edge,
+   then everything they can manage, grouped. Actions without a backend give an
+   honest demo notice. */
 export function Profile({ user }: { user: ProfileUser }) {
   const initial = user.name.trim().charAt(0).toUpperCase() || "A";
   let n = 0;
@@ -71,6 +84,9 @@ export function Profile({ user }: { user: ProfileUser }) {
       </div>
 
       <header className={`${s.top} screen-bar`}>
+        <BackLink fallback="/" className="icon-btn surface">
+          <Icon name="arrow" size={20} className={s.backIcon} />
+        </BackLink>
         <h1 className={s.screenTitle}>Profile</h1>
         <DemoButton className="icon-btn surface" aria-label="Settings" notice="Settings aren't part of this demo yet.">
           <Icon name="settings" size={20} />
@@ -88,7 +104,9 @@ export function Profile({ user }: { user: ProfileUser }) {
             <circle r="56" className={s.ringArc} pathLength="100" />
             <circle cx="0" cy="-56" r="3.5" className={s.ringPlanet} transform="rotate(250)" />
           </svg>
-          <span className={s.monogram}>{initial}</span>
+          <span className={s.monogram}>
+            <span>{initial}</span>
+          </span>
           <DemoButton className={s.edit} aria-label="Change photo" notice="Changing your photo isn't part of this demo yet.">
             <Icon name="pencil" size={15} />
           </DemoButton>
@@ -113,46 +131,49 @@ export function Profile({ user }: { user: ProfileUser }) {
         </div>
       </section>
 
-      <ul className={`${s.stats} surface rise`} style={rise()} aria-label="Your numbers">
+      <ul className={`${s.stats} rise`} style={rise()} aria-label="Your numbers">
         {user.stats.map((st) => (
-          <li key={st.label} className={s.stat}>
-            <span className={s.statValue}>{st.value}</span>
-            <span className={s.statLabel}>{st.label}</span>
+          <li key={st.label}>
+            <Link href={STATS[st.label]?.href ?? "/history"} className={`${s.stat} pressable`}>
+              {STATS[st.label] && <Image src={STATS[st.label].art} alt="" width={48} height={48} className={s.statArt} />}
+              <span className={s.statValue}>{st.value}</span>
+              <span className={s.statLabel}>{st.label}</span>
+            </Link>
           </li>
         ))}
       </ul>
 
-      {/* Centrepiece: the chart, in gold */}
+      {/* Centrepiece: the chart */}
       <Link href="/kundli" className={`${s.chart} pressable rise`} style={rise()}>
-        <svg className={s.wheel} viewBox="-50 -50 100 100" aria-hidden>
-          <circle r="46" />
-          <circle r="30" />
-          {TICKS.map((a) => (
-            <path key={a} d="M0 -30V-46" transform={`rotate(${a})`} />
-          ))}
-          <circle r="4" className={s.wheelSun} />
-        </svg>
-        <span className="eyebrow">Your chart</span>
+        <ZodiacWheel className={s.wheel} />
+        <span className={`eyebrow ${s.chartEyebrow}`}>Your chart</span>
         <span className={s.chartTitle}>
           {user.rashi} moon, {user.lagna} rising
         </span>
         <dl className={s.chartFacts}>
           <div>
+            <Image src={emblemOfName(user.rashi)} alt="" width={52} height={52} className={s.factArt} />
             <dt>Rashi</dt>
             <dd>{user.rashi}</dd>
           </div>
           <div>
+            <span className={s.factStar} aria-hidden>
+              <Icon name="star" size={30} />
+            </span>
             <dt>Nakshatra</dt>
             <dd>{user.nakshatra}</dd>
           </div>
           <div>
+            <Image src={emblemOfName(user.lagna)} alt="" width={52} height={52} className={s.factArt} />
             <dt>Lagna</dt>
             <dd>{user.lagna}</dd>
           </div>
         </dl>
         <span className={s.chartLink}>
           Open your Kundli
-          <Icon name="arrow" size={16} className={s.chartArrow} />
+          <span className={s.chartArrow} aria-hidden>
+            <Icon name="arrow" size={16} />
+          </span>
         </span>
       </Link>
 
@@ -160,16 +181,16 @@ export function Profile({ user }: { user: ProfileUser }) {
         <h3 id="profile-details" className="eyebrow">
           Contact details
         </h3>
-        <dl className={`${s.card} surface`}>
+        <dl className={s.card}>
           <div className={s.detail}>
-            <span className="icon-chip" aria-hidden>
+            <span className={s.tile} aria-hidden>
               <Icon name="phone" size={18} />
             </span>
             <dt>Phone</dt>
             <dd>{user.phone}</dd>
           </div>
           <div className={s.detail}>
-            <span className="icon-chip" aria-hidden>
+            <span className={s.tile} aria-hidden>
               <Icon name="mail" size={18} />
             </span>
             <dt>Email</dt>
@@ -183,13 +204,17 @@ export function Profile({ user }: { user: ProfileUser }) {
           <h3 id={`profile-group-${gi}`} className="eyebrow">
             {g.title}
           </h3>
-          <ul className={`${s.card} surface`}>
+          <ul className={s.card}>
             {g.rows.map((r) => {
               const inner = (
                 <>
-                  <span className="icon-chip" aria-hidden>
-                    <Icon name={r.icon} size={18} />
-                  </span>
+                  {r.art ? (
+                    <Image src={r.art} alt="" width={40} height={40} className={s.rowArt} />
+                  ) : (
+                    <span className={s.tile} aria-hidden>
+                      <Icon name={r.icon} size={18} />
+                    </span>
+                  )}
                   <span className={s.rowText}>
                     <span className={s.rowTitle}>{r.title}</span>
                     <span className={s.rowNote}>{r.note}</span>
@@ -216,10 +241,7 @@ export function Profile({ user }: { user: ProfileUser }) {
       ))}
 
       <section className={`${s.account} rise`} style={rise()} aria-label="Account">
-        <DemoButton className={`btn btn-secondary ${s.signOut}`} notice="Signing out isn't part of this demo yet.">
-          <Icon name="logout" size={18} />
-          Sign out
-        </DemoButton>
+        <SignOut className={`btn btn-secondary ${s.signOut}`} />
         <DemoButton className={s.delete} notice="Deleting your account isn't part of this demo yet.">
           Delete account
         </DemoButton>
@@ -227,9 +249,9 @@ export function Profile({ user }: { user: ProfileUser }) {
 
       {/* Brand statement */}
       <footer className={s.statement}>
-        <span className="diamond" aria-hidden />
+        <Image src="/logo/sarvdrishti-wordmark.webp" alt="Sarvdrishti" width={1135} height={254} unoptimized className={s.statementMark} />
         <p className={s.statementLine}>Rooted in tradition. Guided by the stars.</p>
-        <p className={s.version}>Astro · Version 1.0</p>
+        <p className={s.version}>Version 1.0</p>
       </footer>
     </main>
   );

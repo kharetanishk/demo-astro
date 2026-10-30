@@ -5,7 +5,7 @@ import s from "./ScreenHeader.module.css";
 
 /* The top of every inner screen: back to where you came from (or to `back`,
    its parent, when opened cold), its title under an eyebrow, and one
-   optional action on the right. Tab screens (no `back`) keep the slot
+   optional action on the right. A screen with no `back` keeps the slot
    empty so the title still centres. It stays put as the screen scrolls
    (.screen-bar in globals.css). `sheet`: this screen opened as a sheet, so
    back sinks it (see sheet.tsx). */

@@ -1,6 +1,4 @@
-/* Kumkum stage, the mala's own colour (see its module theme on Home) */
 .session {
-  --mood: var(--terracotta);
   min-height: 100dvh;
   display: flex;
   flex-direction: column;

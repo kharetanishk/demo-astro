@@ -37,7 +37,7 @@ export function AiAstrology() {
         </span>
         <span className={s.balanceDot} aria-hidden />
         <span className={s.balanceItem}>
-          <strong>{credits.balance}</strong> credits
+          <strong>{credits.balance}</strong> Sarv Coins
         </span>
         <span className={s.balanceLink}>
           Buy more <Icon name="chevron" size={14} />

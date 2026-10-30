@@ -1,69 +1,163 @@
-/* ── Balance: a struck gold coin beside the plain facts ────────────── */
-.coin {
-  display: flex;
-  align-items: center;
-  gap: var(--space-5);
-  margin-top: var(--space-5);
-  padding: var(--space-5);
-  border-radius: var(--radius-xl);
-  background: linear-gradient(140deg, var(--walnut), color-mix(in srgb, var(--walnut) 75%, var(--faded-rose)));
-  color: var(--porcelain);
-  box-shadow: var(--shadow-float);
+/* ── Balance: a card on a fanned stack, a minted coin standing on it ── */
+.fan {
+  position: relative;
+  margin-top: var(--space-8);
 }
 
-.coinFace {
-  flex: none;
-  width: 128px;
-  height: 128px;
+/* They stop short of the card's notch, so it opens onto the page */
+.backCard {
+  position: absolute;
+  inset: 0 0 auto;
+  height: calc(100% - 76px);
+  border-radius: var(--radius-xl);
+  box-shadow: inset 0 0 0 1.5px var(--gold-deep), var(--shadow-soft);
+}
+
+.backCard[data-card="gold"] {
+  background: linear-gradient(150deg, color-mix(in srgb, var(--antique-gold) 55%, var(--porcelain)), var(--antique-gold));
+  transform: translate(10px, -24px) rotate(4deg) scale(0.94);
+}
+
+.backCard[data-card="rose"] {
+  background: linear-gradient(150deg, var(--porcelain), var(--pale-sand));
+  transform: translate(5px, -12px) rotate(2deg) scale(0.97);
+}
+
+.card {
+  position: relative;
+  isolation: isolate;
+  min-height: 226px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background:
-    repeating-conic-gradient(from 0deg, rgb(255 249 241 / 0.12) 0 3deg, transparent 3deg 6deg),
-    radial-gradient(circle at 35% 30%, #fff3cf, var(--antique-gold) 55%, var(--bronze));
-  box-shadow:
-    inset 0 0 0 6px color-mix(in srgb, var(--antique-gold) 80%, var(--porcelain)),
-    inset 0 0 0 7px var(--gold-deep),
-    0 10px 20px -8px rgb(0 0 0 / 0.5);
+  align-items: flex-start;
+  padding: var(--space-5);
   color: var(--walnut);
-  text-align: center;
 }
 
-.coinLabel {
-  font-size: 10px;
-  font-weight: var(--weight-bold);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+.cardShape {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 14px 18px rgb(58 37 27 / 0.34));
+  pointer-events: none;
 }
 
-.coinValue {
+.cardLabel {
+  color: var(--walnut);
+}
+
+.value {
+  margin-top: var(--space-1);
   font-family: var(--font-cinzel), serif;
-  font-size: 36px;
+  font-size: 54px;
   font-weight: var(--weight-bold);
   line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--walnut);
 }
 
-.coinUnit {
-  font-size: var(--text-xs);
+.unit {
+  font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
 }
 
-.coinSide strong {
-  font-family: var(--font-cinzel), serif;
-  font-size: var(--text-2xl);
-  color: var(--antique-gold);
+.aiChip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 34px;
+  margin-top: var(--space-3);
+  padding: 0 var(--space-2) 0 var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1px var(--gold-deep);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--walnut);
 }
 
-.coinNote {
-  margin-top: var(--space-2);
-  font-size: var(--text-xs);
-  color: var(--pale-sand);
+.aiChip strong {
+  font-weight: var(--weight-bold);
+  color: var(--accent);
+}
+
+/* Beside the notch, so it wraps short of the pill */
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-1);
+  max-width: calc(100% - 136px);
+  margin-top: auto;
+  padding-top: var(--space-3);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.note svg {
+  flex: none;
+}
+
+/* Sits in the card's notch, its curve concentric with the bite */
+.add {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 142px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-3) 0 5px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--antique-gold) 70%, var(--porcelain)), var(--antique-gold));
+  box-shadow: inset 0 0 0 1.5px var(--gold-deep), var(--shadow-soft);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: var(--walnut);
+  white-space: nowrap;
+}
+
+.addPlus {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--surface-kumkum);
+  color: var(--porcelain);
+}
+
+/* Stands proud of the card's top edge */
+.cardArt {
+  position: absolute;
+  top: -30px;
+  right: 6px;
+  filter: drop-shadow(0 12px 12px rgb(74 48 37 / 0.34));
+  pointer-events: none;
+}
+
+/* Small phones: smaller, so it stays clear of the balance */
+@media (max-width: 359px) {
+  .cardArt {
+    width: 124px;
+    height: 93px;
+    top: -22px;
+  }
+}
+
+.miniCoin {
+  flex: none;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 1px rgb(58 37 27 / 0.35));
 }
 
 .tabs {
   margin-top: var(--space-6);
+  scroll-margin-top: calc(var(--bar-bottom) + var(--space-3));
 }
 
 .panel {
@@ -71,7 +165,7 @@
   animation: rise var(--dur-enter) var(--ease-out);
 }
 
-/* ── Credits ───────────────────────────────────────────────────────── */
+/* ── Coins: each tier shows that much more gold ────────────────────── */
 .amounts {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -80,55 +174,130 @@
 
 .amount {
   position: relative;
+  overflow: hidden;
+  min-height: 112px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: var(--space-4);
-  border-radius: var(--radius-md);
+  border: 1.5px solid color-mix(in srgb, var(--antique-gold) 60%, transparent);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(160deg, var(--porcelain), var(--gold-light));
+  box-shadow: var(--shadow-soft);
   text-align: left;
+  transition:
+    background-color var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out);
 }
 
+.amount[data-popular] {
+  padding-top: calc(var(--space-4) + 24px);
+}
+
+/* The chosen one is struck in gold leaf */
 .amount[aria-checked="true"] {
-  background: var(--gold-light);
-  box-shadow: inset 0 0 0 2px var(--gold-deep), var(--shadow-soft);
+  border-color: var(--gold-deep);
+  background: var(--surface-leaf);
+  box-shadow: inset 0 0 0 1px var(--gold-deep), var(--shadow-float);
+}
+
+.ribbon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 var(--space-3) 0 var(--space-2);
+  border-radius: 0 0 var(--radius-sm) 0;
+  background: var(--accent);
+  color: var(--porcelain);
+  font-size: 11px;
+  font-weight: var(--weight-bold);
 }
 
 .bonus {
   position: absolute;
-  top: var(--space-3);
-  right: var(--space-3);
-  padding: 1px var(--space-2);
+  z-index: 1;
+  top: var(--space-2);
+  right: var(--space-2);
+  padding: 2px var(--space-2);
   border-radius: var(--radius-pill);
   background: var(--accent);
   color: var(--porcelain);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: var(--weight-bold);
 }
 
+
 .rupees {
+  position: relative;
   font-size: var(--text-xl);
   font-weight: var(--weight-bold);
+  line-height: 1.2;
 }
 
 .gets {
+  position: relative;
+  max-width: 60%;
+  margin-top: 2px;
   font-size: var(--text-xs);
   color: var(--text-muted);
 }
 
+.amount[aria-checked="true"] .gets {
+  color: var(--walnut);
+}
+
+.amountArt {
+  position: absolute;
+  right: 4px;
+  bottom: 6px;
+  filter: drop-shadow(0 6px 6px rgb(58 37 27 / 0.28));
+  pointer-events: none;
+}
+
 .breakdown {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
   margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--mood-tint);
+  box-shadow: inset 0 0 0 1px var(--border);
   font-size: var(--text-sm);
   color: var(--text-muted);
-  text-align: center;
 }
 
 .breakdown strong {
+  font-weight: var(--weight-bold);
   color: var(--text);
 }
 
 .pay {
+  position: relative;
   width: 100%;
   margin-top: var(--space-3);
+  padding-right: 56px;
+  padding-left: 56px;
+}
+
+.payArrow {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--surface-kumkum);
+  color: var(--porcelain);
+  transform: translateY(-50%);
 }
 
 /* ── Packs ─────────────────────────────────────────────────────────── */
@@ -139,7 +308,7 @@
 
 .packs {
   display: grid;
-  gap: var(--space-2);
+  gap: var(--space-3);
   margin-top: var(--space-3);
 }
 
@@ -147,32 +316,31 @@
   width: 100%;
   display: flex;
   align-items: center;
-  gap: var(--space-4);
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-md);
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4) var(--space-3) var(--space-3);
+  border: 1.5px solid color-mix(in srgb, var(--antique-gold) 60%, transparent);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(160deg, var(--porcelain), var(--gold-light));
+  box-shadow: var(--shadow-soft);
   text-align: left;
 }
 
 .pack[data-unlimited] {
-  background: linear-gradient(120deg, var(--rose-surface), var(--faded-rose));
+  border-color: var(--faded-rose);
+  background: var(--surface-rose);
 }
 
-.packCount {
+.packArt {
   flex: none;
-  width: 48px;
-  height: 48px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, var(--porcelain), var(--antique-gold));
-  box-shadow: inset 0 0 0 1px var(--gold-deep);
-  font-family: var(--font-cinzel), serif;
-  font-size: var(--text-xl);
-  font-weight: var(--weight-bold);
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 4px rgb(58 37 27 / 0.28));
 }
 
 .packText {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
 }
@@ -191,13 +359,12 @@
 }
 
 .packPrice {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-weight: var(--weight-bold);
-}
-
-.packPrice::after {
-  content: " cr";
-  font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
+  font-variant-numeric: tabular-nums;
 }
 
 /* ── Ledger ────────────────────────────────────────────────────────── */
@@ -206,8 +373,11 @@
 }
 
 .ledger {
-  padding: 0 var(--space-4);
+  padding: var(--space-1) var(--space-4);
+  border: 1.5px solid color-mix(in srgb, var(--antique-gold) 45%, transparent);
   border-radius: var(--radius-lg);
+  background: var(--porcelain);
+  box-shadow: var(--shadow-soft);
 }
 
 .entry {
@@ -223,17 +393,19 @@
 
 .entryIcon {
   flex: none;
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   display: grid;
   place-items: center;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--faded-rose) 22%, transparent);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--faded-rose) 20%, var(--porcelain));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--faded-rose) 40%, transparent);
   color: var(--accent);
 }
 
 .entryIcon[data-in] {
   background: var(--gold-light);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 55%, transparent);
   color: var(--gold-deep);
 }
 
@@ -255,9 +427,12 @@
 }
 
 .entryAmount {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-weight: var(--weight-bold);
   font-variant-numeric: tabular-nums;
-  color: var(--accent);
 }
 
 .entryAmount[data-in] {

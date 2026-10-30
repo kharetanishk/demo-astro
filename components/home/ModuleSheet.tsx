@@ -114,11 +114,9 @@ export function ModuleSheet() {
     d.showModal();
     // Its screen is one tap away: fetch it while the sheet opens
     if (current.module.href) router.prefetch(current.module.href);
-    // Only the sheet scrolls; the screen takes on the service's mood
+    // Only the sheet scrolls
     const root = document.documentElement;
-    const mood = root.style.getPropertyValue("--mood");
     root.style.overflow = "hidden";
-    if (current.module.theme) root.style.setProperty("--mood", current.module.theme.stage);
     if (sourceImg) sourceImg.style.visibility = "hidden";
     d.querySelector<HTMLElement>("[data-scroll]")?.scrollTo(0, 0);
     fly("open").then(() => {
@@ -129,7 +127,6 @@ export function ModuleSheet() {
       // a modal left open there would make the next screen inert.
       if (d.open) d.close();
       root.style.overflow = "";
-      if (mood) root.style.setProperty("--mood", mood);
       if (sourceImg) sourceImg.style.visibility = "";
     };
   }, [current]); // once per opening
@@ -170,7 +167,7 @@ export function ModuleSheet() {
         e.preventDefault();
         close();
       }}
-      style={{ "--card-bg": m.theme?.card, "--card-ink": m.theme?.ink, "--card-stage": m.theme?.stage } as CSSProperties}
+      style={{ "--card-bg": m.theme?.card, "--card-ink": m.theme?.ink } as CSSProperties}
     >
       <div className={s.veil} aria-hidden />
       <div ref={colour} className={s.colour} aria-hidden />

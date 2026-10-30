@@ -36,9 +36,8 @@
   justify-content: space-between;
 }
 
-.top::before {
-  content: "";
-  width: 44px; /* balances the settings button, so the title centres */
+.backIcon {
+  transform: scaleX(-1);
 }
 
 .screenTitle {
@@ -113,13 +112,18 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, var(--porcelain), var(--gold-light) 70%);
+  background: var(--surface-rose);
   box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 60%, transparent),
-    0 10px 22px -12px rgb(58 37 27 / 0.5);
-  font-size: 40px;
+    inset 0 0 0 1.5px var(--gold-deep),
+    inset 0 0 0 4px var(--rose-surface),
+    inset 0 0 0 5px color-mix(in srgb, var(--gold-deep) 55%, transparent),
+    0 12px 22px -12px rgb(58 37 27 / 0.6);
+  font-size: 42px;
   font-weight: var(--weight-bold);
-  color: var(--gold-deep);
+}
+
+.monogram span {
+  color: var(--walnut);
 }
 
 .edit {
@@ -165,29 +169,37 @@
   min-width: 200px;
 }
 
-/* ── Numbers ───────────────────────────────────────────────────────── */
+/* ── Numbers: three tiles, each with its own piece of art ──────────── */
 .stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
   margin-top: var(--space-6);
-  padding: var(--space-4) 0;
-  border-radius: var(--radius-lg);
 }
 
 .stat {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  padding: var(--space-3) var(--space-1);
+  border: 1.5px solid color-mix(in srgb, var(--antique-gold) 60%, transparent);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(160deg, var(--porcelain), var(--gold-light));
+  box-shadow: var(--shadow-soft);
 }
 
-.stat + .stat {
-  border-left: 1px solid var(--border);
+.statArt {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 4px rgb(58 37 27 / 0.28));
 }
 
 .statValue {
+  margin-top: var(--space-1);
   font-size: var(--text-xl);
   font-weight: var(--weight-bold);
+  line-height: 1.2;
   font-variant-numeric: tabular-nums;
 }
 
@@ -196,108 +208,106 @@
   color: var(--text-muted);
 }
 
-/* ── Chart: the centrepiece, in gold ───────────────────────────────── */
+/* ── Chart: the centrepiece, in gold leaf ──────────────────────────── */
 .chart {
   position: relative;
+  isolation: isolate;
   display: block;
-  margin-top: var(--space-6);
+  margin-top: var(--space-5);
   padding: var(--space-5);
   overflow: hidden;
-  border-radius: var(--radius-lg);
-  background: radial-gradient(90% 80% at 20% 0%, color-mix(in srgb, var(--antique-gold) 35%, var(--porcelain)), var(--antique-gold));
+  border-radius: var(--radius-xl);
+  background: var(--surface-leaf);
   color: var(--walnut);
   box-shadow:
-    inset 0 1px 0 rgb(255 249 241 / 0.5),
-    inset 0 0 0 1px var(--gold-deep),
+    inset 0 0 0 1.5px var(--gold-deep),
     var(--shadow-float);
 }
 
-.chart :global(.eyebrow) {
-  color: var(--walnut);
-}
-
-/* A zodiac wheel turning slowly behind the copy */
+/* The zodiac turning off the card's corner, behind everything */
 .wheel {
   position: absolute;
-  top: -28px;
-  right: -28px;
-  width: 156px;
-  height: 156px;
-  fill: none;
-  stroke: color-mix(in srgb, var(--walnut) 28%, transparent);
-  stroke-width: 0.8;
-  animation: turn 60s linear infinite;
+  z-index: -1;
+  top: -84px;
+  right: -92px;
+  width: 244px;
 }
 
-.wheelSun {
-  fill: rgb(255 249 241 / 0.7);
-  stroke: none;
-}
-
-@keyframes turn {
-  to {
-    rotate: 360deg;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .wheel {
-    animation: none;
-  }
+.chartEyebrow {
+  color: var(--walnut);
 }
 
 .chartTitle {
   display: block;
-  max-width: 72%;
+  max-width: 56%;
   margin-top: var(--space-2);
   font-size: var(--text-xl);
   font-weight: var(--weight-bold);
-  line-height: 1.25;
-  letter-spacing: -0.01em;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .chartFacts {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-2);
-  margin-top: var(--space-5);
+  margin-top: var(--space-8);
 }
 
 .chartFacts div {
-  padding: var(--space-3);
-  border-radius: var(--radius-sm);
-  background: rgb(255 249 241 / 0.5);
-  box-shadow: inset 0 0 0 1px rgb(255 249 241 / 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-2) 0 var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1px var(--gold-deep), var(--shadow-soft);
+  text-align: center;
+}
+
+.factArt {
+  width: 52px;
+  height: 52px;
+  filter: drop-shadow(0 3px 3px rgb(74 48 37 / 0.3));
+}
+
+.factStar {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  color: var(--gold-deep);
 }
 
 .chartFacts dt {
-  font-size: var(--text-xs);
+  margin-top: 2px;
+  font-size: 10px;
   font-weight: var(--weight-semibold);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--walnut) 75%, transparent);
+  color: var(--text-eyebrow);
 }
 
 .chartFacts dd {
-  margin-top: 2px;
   font-weight: var(--weight-bold);
 }
 
 .chartLink {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: var(--space-2);
-  margin-top: var(--space-5);
+  justify-content: space-between;
+  margin-top: var(--space-4);
   font-weight: var(--weight-bold);
 }
 
-/* The same arrow chip as the guide cards */
 .chartArrow {
-  box-sizing: content-box;
-  padding: 6px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
   border-radius: 50%;
-  background: var(--porcelain);
-  box-shadow: inset 0 0 0 1px var(--gold-deep);
+  background: var(--surface-kumkum);
+  color: var(--porcelain);
   transition: transform var(--dur-base) var(--ease-out);
 }
 
@@ -315,7 +325,30 @@
 .card {
   margin-top: var(--space-3);
   overflow: hidden;
+  border: 1.5px solid color-mix(in srgb, var(--antique-gold) 45%, transparent);
   border-radius: var(--radius-lg);
+  background: var(--porcelain);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Rounded gold tiles, as in the wallet's activity */
+.tile {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  background: var(--gold-light);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 55%, transparent);
+  color: var(--gold-deep);
+}
+
+.rowArt {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  filter: drop-shadow(0 2px 3px rgb(58 37 27 / 0.3));
 }
 
 .row {
@@ -381,7 +414,7 @@
   padding: var(--space-3) var(--space-4);
 }
 
-.detail :global(.icon-chip) {
+.detail .tile {
   grid-row: span 2;
 }
 
@@ -425,6 +458,11 @@
   gap: var(--space-2);
   margin-top: var(--space-10);
   text-align: center;
+}
+
+.statementMark {
+  width: 132px;
+  height: auto;
 }
 
 .statementLine {

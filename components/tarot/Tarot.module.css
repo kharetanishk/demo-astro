@@ -1,190 +1,586 @@
-/* Celestial night, Tarot's mood on Home */
+/* The stage is one box, sized to fit between the header and the nav; everything
+   inside is placed in cqw of it, so it scales as a piece. */
 .tarot {
-  --plum: color-mix(in srgb, var(--faded-rose) 30%, var(--walnut));
-  --plum-deep: color-mix(in srgb, var(--faded-rose) 14%, var(--walnut));
-  --mood: color-mix(in srgb, var(--faded-rose) 45%, var(--walnut));
+  --stage-chrome: calc(var(--safe-top) + var(--safe-bottom) + var(--nav-height) + 128px);
+  padding-bottom: calc(var(--safe-bottom) + var(--nav-height));
+}
+
+.tarot[data-phase="revealed"] {
+  padding-bottom: 0;
+}
+
+/* ── The palace, at dusk ───────────────────────────────────────────── */
+.scene {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--bg), var(--rose-surface) 34%, var(--faded-rose));
+}
+
+.gate {
+  position: absolute;
+  top: calc(var(--safe-top) + 112px);
+  left: 50%;
+  width: max(128%, 440px);
+  max-width: none;
+  height: auto;
+  translate: -50% 0;
+  mask-image: linear-gradient(#000 60%, transparent 90%);
+}
+
+/* ── Question and prompt ───────────────────────────────────────────── */
+.ask,
+.prompt {
+  position: relative;
+  z-index: 3;
+  min-height: 44px;
+  margin: var(--space-3) auto 0;
+  border-radius: var(--radius-pill);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1px var(--gold-deep), var(--shadow-soft);
+  font-size: var(--text-sm);
 }
 
 .ask {
-  display: block;
-  margin-top: var(--space-5);
-  padding: 0 var(--space-5);
-  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-4);
+  color: var(--gold-deep);
 }
 
 .ask input {
-  width: 100%;
-  min-height: 48px;
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
   border: 0;
   background: none;
   font: inherit;
+  font-size: 16px; /* any smaller and iOS zooms the page on focus */
   color: var(--text);
-  text-align: center;
   outline: none;
 }
 
 .ask input::placeholder {
+  font-size: var(--text-sm);
   color: var(--text-muted);
 }
 
-/* ── Spread ────────────────────────────────────────────────────────── */
-.spread {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-3);
-  margin-top: var(--space-6);
-  perspective: 900px;
+.prompt {
+  width: fit-content;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 0 var(--space-5);
+  font-weight: var(--weight-semibold);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  animation: prompt-in 500ms var(--ease-out);
+}
+
+@keyframes prompt-in {
+  from {
+    opacity: 0;
+    translate: 0 6px;
+  }
+}
+
+/* ── The stage ─────────────────────────────────────────────────────── */
+.play {
+  display: flex;
+  justify-content: center;
+  overflow: clip;
+  margin: var(--space-1) calc(-1 * var(--gutter)) 0;
+}
+
+/* isolate: its cards' z-indexes stay inside, below the sticky header */
+.stage {
+  position: relative;
+  isolation: isolate;
+  flex: none;
+  width: min(100%, calc((100dvh - var(--stage-chrome)) / 1.45));
+  aspect-ratio: 1 / 1.45;
+  container-type: inline-size;
+}
+
+/* The light behind her */
+.aura {
+  position: absolute;
+  top: 2cqw;
+  left: 50%;
+  width: 96cqw;
+  aspect-ratio: 1;
+  margin-left: -48cqw;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(255 240 200 / 0.95), rgb(255 226 160 / 0.5) 48%, transparent);
+  animation: aura 7s ease-in-out infinite;
+  transition: transform 1100ms var(--ease-sheet);
+}
+
+@keyframes aura {
+  50% {
+    opacity: 0.72;
+  }
+}
+
+/* The rig: two layers of her in step, the cards between them. On settling she
+   rises behind the table. */
+.angel {
+  position: absolute;
+  z-index: 2;
+  top: 2cqw;
+  left: -4cqw;
+  width: 108cqw;
+  aspect-ratio: 1155 / 1362;
+  transform-origin: 50% 0;
+  transition: transform 1100ms var(--ease-sheet);
+  pointer-events: none;
+}
+
+.hands {
+  z-index: 25;
+}
+
+.body {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Turns on her neck (x 578, y 560 of the art) */
+.head {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50.04% 41.12%;
+  transition: transform 900ms var(--ease-sheet);
+  animation: head-alive 9s ease-in-out infinite;
+}
+
+.headArt {
+  position: absolute;
+  left: 29.177%; /* x 337 */
+  top: 2.056%; /* y 28 */
+  width: 39.307%; /* 454 */
+  height: auto;
+}
+
+/* Small, unhurried: a tilt, a settle, a breath */
+@keyframes head-alive {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  30% {
+    rotate: -2.4deg;
+    translate: -0.4% -0.4%;
+  }
+  62% {
+    rotate: 1.8deg;
+    translate: 0.3% 0;
+  }
+}
+
+.stage[data-phase="shuffling"] .head,
+.stage[data-phase="dealing"] .head {
+  transform: rotate(1deg) translateY(0.3%);
+}
+
+.eyes {
+  position: absolute;
+  left: 41.385%; /* x 478 of 1155 */
+  top: 23.642%; /* y 322 of 1362 */
+  width: 16.797%; /* 194 of 1155 */
+  height: auto;
+  animation: blink 5.5s linear infinite;
+}
+
+@keyframes blink {
+  0%,
+  94%,
+  100% {
+    opacity: 1;
+  }
+  96.5%,
+  97.5% {
+    opacity: 0;
+  }
+}
+
+.piece {
+  position: absolute;
+  height: auto;
+}
+
+/* Her wings breathe on their shoulders */
+.wingLeft {
+  animation: wing-left 6s ease-in-out infinite;
+}
+
+.wingRight {
+  animation: wing-right 6s ease-in-out infinite;
+}
+
+@keyframes wing-left {
+  50% {
+    transform: rotate(-2.2deg);
+  }
+}
+
+@keyframes wing-right {
+  50% {
+    transform: rotate(2.2deg);
+  }
+}
+
+.stage:not([data-phase="intro"], [data-phase="shuffling"], [data-phase="dealing"]) .angel {
+  transform: scale(0.76);
+}
+
+.stage:not([data-phase="intro"], [data-phase="shuffling"], [data-phase="dealing"]) .aura {
+  transform: translateY(-6cqw) scale(0.82);
+}
+
+/* A ring of gold light round her while she shuffles */
+.swirl {
+  position: absolute;
+  z-index: 3;
+  top: 78cqw;
+  left: 57%;
+  width: 66cqw;
+  aspect-ratio: 1;
+  margin: -33cqw 0 0 -33cqw;
+  transform: scaleY(0.42);
+  opacity: 0;
+  transition: opacity 700ms ease;
+  pointer-events: none;
+}
+
+.stage[data-phase="shuffling"] .swirl {
+  opacity: 1;
+}
+
+.swirl span {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(rgb(255 226 150 / 0), rgb(255 226 150 / 0.9) 22%, rgb(255 226 150 / 0) 40%, rgb(255 226 150 / 0) 52%, rgb(255 226 150 / 0.9) 72%, rgb(255 226 150 / 0));
+  mask-image: radial-gradient(closest-side, transparent 93%, #000 95%, #000 97%, transparent 100%);
+  animation: swirl 2.6s linear infinite;
+}
+
+@keyframes swirl {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spark {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 40;
+  width: 2.2cqw;
+  aspect-ratio: 1;
+  margin: -1.1cqw 0 0 -1.1cqw;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, #fff8e4, rgb(255 216 130 / 0.75) 40%, transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── The table she lays the cards on ───────────────────────────────── */
+.table {
+  position: absolute;
+  z-index: 26;
+  top: 50cqw;
+  left: -12cqw;
+  width: 124cqw;
+  height: 110cqw;
+  overflow: hidden;
+  border-radius: 50% 50% 0 0 / 11cqw 11cqw 0 0;
+  background: radial-gradient(90% 62% at 50% 44%, #8a2219, #5e130f 70%, #470d0c);
+  box-shadow:
+    inset 0 2px 0 #e3bd6c,
+    inset 0 5px 0 #5e130f,
+    inset 0 5.75px 0 rgb(227 189 108 / 0.55),
+    0 -1cqw 4cqw rgb(94 19 15 / 0.45);
+  transform: translateY(100cqw);
+  transition: transform 1100ms var(--ease-sheet);
+}
+
+.stage:not([data-phase="intro"], [data-phase="shuffling"], [data-phase="dealing"]) .table {
+  transform: none;
+}
+
+.table svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: rgb(227 189 108 / 0.3);
+  stroke-width: 0.25;
+  vector-effect: non-scaling-stroke;
+}
+
+/* ── The three places ──────────────────────────────────────────────── */
+.slots {
+  position: absolute;
+  inset: 0;
+  z-index: 27;
+  opacity: 0;
+  transition: opacity 600ms ease 500ms;
+  pointer-events: none;
+}
+
+.stage[data-phase="settling"] .slots,
+.stage[data-phase="choose"] .slots,
+.stage[data-phase="ready"] .slots,
+.stage[data-phase="revealed"] .slots {
+  opacity: 1;
 }
 
 .slot {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-2);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 14.3cqw;
+  margin-left: -7.15cqw;
+  transform: translate(calc(var(--x) * 1cqw), 55cqw);
+  transition: transform 800ms var(--ease-sheet);
+}
+
+.slotFrame {
+  display: block;
+  width: 100%;
+  aspect-ratio: 240 / 400;
+  border: 1px solid rgb(227 189 108 / 0.75);
+  border-radius: 1.6cqw;
+  background: rgb(71 13 12 / 0.6);
+  box-shadow: inset 0 0 0 2px #5e130f, inset 0 0 0 2.75px rgb(227 189 108 / 0.3);
+  transition: opacity 300ms ease;
+}
+
+.slot[data-filled] .slotFrame {
+  opacity: 0;
 }
 
 .slotLabel {
-  font-size: var(--text-xs);
+  position: absolute;
+  top: calc(100% + 1cqw);
+  left: 50%;
+  translate: -50% 0;
+  font-size: max(10px, 2.6cqw);
   font-weight: var(--weight-bold);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--text-eyebrow);
+  color: #f7e3b4;
 }
 
+/* Once chosen, the places open out to the size of the cards */
+.stage[data-phase="ready"] .slot,
+.stage[data-phase="revealed"] .slot {
+  transform: translate(calc(var(--x) * 1.06cqw), 83cqw);
+}
+
+/* ── The cards ─────────────────────────────────────────────────────── */
 .card {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 2 / 3.3;
-  transform-style: preserve-3d;
-  transition: transform 700ms var(--ease-out);
+  position: absolute;
+  top: -21.67cqw;
+  left: calc(50% - 13cqw);
+  width: 26cqw;
+  aspect-ratio: 240 / 400;
+  padding: 0;
+  perspective: 90cqw;
+  --lift: 0;
+  opacity: var(--o);
+  transform: translate(calc(var(--x) * 1cqw), calc(var(--y) * 1cqw)) rotate(calc(var(--r) * 1deg)) translateY(calc(var(--lift) * -1cqw)) scale(var(--s));
+  transition:
+    transform 900ms var(--ease-sheet) var(--d),
+    opacity 450ms ease var(--d);
 }
 
-.card[data-flipped] {
-  transform: rotateY(180deg);
-  animation: land 500ms var(--ease-out);
+.stage[data-phase="shuffling"] .card,
+.stage[data-phase="dealing"] .card,
+.stage[data-phase="settling"] .card {
+  transition: none;
 }
 
-@keyframes land {
-  from {
-    translate: 0 120px;
-    scale: 0.7;
+.card:disabled {
+  cursor: default;
+}
+
+@media (hover: hover) {
+  .stage[data-phase="choose"] .card:not(:disabled):hover {
+    --lift: 8;
   }
+}
+
+.stage[data-phase="choose"] .card:not(:disabled):active {
+  --lift: 6;
+}
+
+.stage[data-phase="choose"] .card:not(:disabled) {
+  transition:
+    transform 340ms var(--ease-out),
+    opacity 450ms ease;
+}
+
+.stage[data-phase="choose"] .card[data-chosen] {
+  transition: transform 620ms var(--ease-sheet);
+}
+
+/* A glow behind the chosen, once they're laid out */
+.card[data-chosen]::before {
+  content: "";
+  position: absolute;
+  inset: -22%;
+  border-radius: 30%;
+  background: radial-gradient(closest-side, rgb(236 178 84 / 0.8), rgb(236 178 84 / 0.3) 60%, transparent);
+  opacity: 0;
+  transition: opacity 900ms ease 300ms;
+}
+
+.stage[data-phase="ready"] .card[data-chosen]::before,
+.stage[data-phase="revealed"] .card[data-chosen]::before {
+  opacity: 1;
+}
+
+.flip {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 900ms var(--ease-sheet) var(--flip-delay);
+}
+
+.flip[data-flipped] {
+  transform: rotateY(180deg);
 }
 
 .back,
 .face {
   position: absolute;
   inset: 0;
-  border-radius: var(--radius-sm);
+  width: 100%;
+  height: 100%;
+  border-radius: 7.5%/4.5%;
   backface-visibility: hidden;
 }
 
-/* An empty place in the spread: a dashed outline until a card lands */
-.card:not([data-flipped]) .back {
-  background: none;
-  border: 1.5px dashed color-mix(in srgb, var(--plum) 45%, transparent);
-  box-shadow: none;
-}
-
-.back,
-.fanCard {
-  background:
-    radial-gradient(circle at 50% 50%, transparent 18%, color-mix(in srgb, var(--antique-gold) 70%, transparent) 19% 20%, transparent 21%),
-    repeating-conic-gradient(from 0deg at 50% 50%, color-mix(in srgb, var(--antique-gold) 22%, transparent) 0 6deg, transparent 6deg 30deg),
-    linear-gradient(160deg, var(--plum), var(--plum-deep));
-  box-shadow: inset 0 0 0 3px var(--plum-deep), inset 0 0 0 4px var(--antique-gold), 0 8px 16px -8px rgb(30 15 10 / 0.6);
+.back {
+  display: block;
+  box-shadow: 0 1.2cqw 2.4cqw rgb(30 6 6 / 0.55);
 }
 
 .face {
-  transform: rotateY(180deg);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-3) var(--space-2);
-  background: radial-gradient(90% 60% at 50% 40%, color-mix(in srgb, var(--antique-gold) 35%, var(--porcelain)), var(--porcelain));
-  box-shadow: inset 0 0 0 1px var(--gold-deep), inset 0 0 0 5px var(--porcelain), inset 0 0 0 6px var(--antique-gold), var(--shadow-float);
+  padding: 9% 7% 8%;
+  background:
+    radial-gradient(70% 45% at 50% 46%, rgb(214 170 92 / 0.24), transparent 74%),
+    radial-gradient(100% 72% at 50% 50%, #1c2450, #0c1029);
+  box-shadow:
+    inset 0 0 0 0.6cqw #dcb263,
+    inset 0 0 0 1.4cqw #151b3f,
+    inset 0 0 0 1.7cqw rgb(220 178 99 / 0.65),
+    0 1.2cqw 2.4cqw rgb(74 48 37 / 0.42);
+  color: #e9c982;
   text-align: center;
+  transform: rotateY(180deg);
 }
 
 .faceNum {
-  font-family: var(--font-cinzel), serif;
-  font-size: var(--text-sm);
+  font-size: 3.2cqw;
   font-weight: var(--weight-bold);
-  color: var(--bronze);
+  line-height: 1;
 }
 
-.faceGlyph {
-  font-size: 40px;
-  line-height: 1;
-  color: var(--plum);
+.faceSymbol {
+  width: 76%;
 }
 
 .faceName {
-  font-family: var(--font-cinzel), serif;
-  font-size: var(--text-xs);
+  min-height: 2.4em;
+  display: grid;
+  place-items: center;
+  font-size: 2.9cqw;
   font-weight: var(--weight-bold);
   line-height: 1.2;
+  color: #fbe9b6;
 }
 
-/* ── Fanned deck ───────────────────────────────────────────────────── */
-.deckArea {
-  overflow-x: clip; /* the fan's outer cards stay on screen */
-  margin-top: var(--space-8);
-  text-align: center;
+/* ── Actions and captions ──────────────────────────────────────────── */
+.cta {
+  position: absolute;
+  z-index: 50;
+  left: 5cqw;
+  right: 5cqw;
+  bottom: 4cqw;
+  min-height: 56px;
+  padding-inline: 56px;
+  animation: cta-in 700ms var(--ease-out) 300ms backwards;
 }
 
-.prompt {
-  font-family: var(--font-cinzel), serif;
+@keyframes cta-in {
+  from {
+    opacity: 0;
+    translate: 0 3cqw;
+  }
+}
+
+.ctaArrow {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--surface-kumkum);
+  color: var(--porcelain);
+  transform: translateY(-50%);
+}
+
+.caption {
+  position: absolute;
+  z-index: 50;
+  left: 0;
+  right: 0;
+  bottom: 5cqw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: var(--text-sm);
+  color: var(--walnut);
+  animation: prompt-in 600ms var(--ease-out);
+}
+
+.caption strong {
   font-size: var(--text-lg);
   font-weight: var(--weight-bold);
 }
 
-.fan {
-  position: relative;
-  height: 230px;
-  margin-top: var(--space-4);
+/* ── The reading ───────────────────────────────────────────────────── */
+/* Once read, the table ends just under the cards */
+.stage[data-phase="revealed"] {
+  aspect-ratio: 1 / 1.17;
 }
 
-.fan li {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  width: 70px;
-  margin-left: -35px;
-  transform-origin: 50% 260%;
-  rotate: calc(var(--i) * 4.5deg);
-}
-
-.fanCard {
-  display: block;
-  width: 100%;
-  aspect-ratio: 2 / 3.3;
-  border-radius: var(--radius-sm);
-  transition:
-    translate var(--dur-base) var(--ease-out),
-    opacity var(--dur-slow) var(--ease-out);
-}
-
-@media (hover: hover) {
-  .fanCard:not(:disabled):hover {
-    translate: 0 -16px;
-  }
-}
-
-.fanCard:not(:disabled):active {
-  translate: 0 -10px;
-}
-
-.fanCard:disabled {
-  opacity: 0;
-  translate: 0 -60px;
-  pointer-events: none;
-}
-
-/* ── Reading ───────────────────────────────────────────────────────── */
+/* A clean, solid sheet: the palace stays behind it */
 .reading {
-  margin-top: var(--space-8);
+  position: relative;
+  z-index: 2;
+  scroll-margin-top: var(--bar-bottom);
+  margin-inline: calc(-1 * var(--gutter));
+  padding: var(--space-5) var(--gutter) calc(var(--safe-bottom) + var(--nav-height) + var(--space-6));
+  background: var(--bg);
+  box-shadow: 0 -2px 0 #e3bd6c;
 }
 
 .readings {
@@ -194,11 +590,27 @@
 }
 
 .readingItem {
+  display: grid;
+  grid-template-columns: 60px minmax(0, 1fr);
+  gap: var(--space-3);
+  align-items: start;
   padding: var(--space-4);
-  border-radius: var(--radius-md);
-  font-size: var(--text-sm);
+  border-radius: var(--radius-lg);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--antique-gold) 60%, transparent), var(--shadow-soft);
   animation: rise var(--dur-enter) var(--ease-out) backwards;
-  animation-delay: calc(700ms + var(--stagger) * 120ms);
+  animation-delay: calc(1500ms + var(--stagger) * 140ms);
+}
+
+.readingMark {
+  aspect-ratio: 240 / 400;
+  display: grid;
+  place-items: center;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  background: radial-gradient(100% 72% at 50% 50%, #1c2450, #0c1029);
+  box-shadow: inset 0 0 0 1.5px #dcb263;
+  color: #e9c982;
 }
 
 .readingSlot {
@@ -210,11 +622,38 @@
 }
 
 .readingName {
-  font-family: var(--font-cinzel), serif;
   font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+.readingText {
+  margin-top: 2px;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
 }
 
 .again {
   width: 100%;
+  min-height: 52px;
   margin-top: var(--space-5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aura,
+  .head,
+  .eyes,
+  .wingLeft,
+  .wingRight,
+  .swirl span {
+    animation: none;
+  }
+
+  .card,
+  .flip,
+  .angel,
+  .table,
+  .slot {
+    transition-duration: 0ms;
+    transition-delay: 0ms;
+  }
 }

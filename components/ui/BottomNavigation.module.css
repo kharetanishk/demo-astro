@@ -1,11 +1,11 @@
+/* Docked: a solid bar to the screen's bottom edge, so nothing scrolls beneath it */
 .nav {
   position: fixed;
   inset-inline: 0;
-  bottom: calc(var(--safe-bottom) + var(--nav-offset));
+  bottom: 0;
   z-index: var(--z-nav);
   display: flex;
   justify-content: center;
-  padding-inline: var(--gutter);
   pointer-events: none;
 }
 
@@ -18,10 +18,9 @@
   position: relative;
   pointer-events: auto;
   width: 100%;
-  max-width: var(--nav-width);
-  height: var(--nav-height);
-  padding: var(--inset);
-  border-radius: var(--radius-lg);
+  max-width: var(--content-width);
+  height: calc(var(--nav-height) + var(--safe-bottom));
+  padding: var(--inset) var(--inset) calc(var(--inset) + var(--safe-bottom));
   background: linear-gradient(
     180deg,
     color-mix(in srgb, color-mix(in srgb, var(--brand) 85%, var(--mood)) 78%, var(--porcelain)),
@@ -173,15 +172,15 @@
 /* ── Royal finish ───────────────────────────────────────────────────── */
 
 /* Royal: no lamp or beam; the active tab is a rose block, and the bar takes
-   a walnut outline and tighter corners (its radii set here, so the
+   a walnut top edge and tighter corners on its tabs (radii set here, so the
    tabs inside follow) */
 .bar {
   --radius-lg: 14px;
   --radius-sm: 8px;
   --inset: 5px;
 
-  border: 2.5px solid var(--walnut);
-  box-shadow: var(--shadow-float);
+  border-top: 2.5px solid var(--walnut);
+  box-shadow: 0 -10px 24px -16px rgb(74 48 37 / 0.45);
 }
 
 .beamClip,

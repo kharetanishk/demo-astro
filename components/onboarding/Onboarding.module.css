@@ -2,6 +2,7 @@
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  overflow-x: clip;
   padding-bottom: calc(var(--safe-bottom) + var(--space-6));
 }
 
@@ -9,164 +10,426 @@
   transform: scaleX(-1);
 }
 
-/* ── Intro ─────────────────────────────────────────────────────────── */
-.skip {
-  align-self: flex-end;
-  min-height: 44px;
-  display: grid;
-  place-items: center;
-  padding: 0 var(--space-3);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-bold);
-  color: var(--text-muted);
-}
-
-.intro {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  animation: rise var(--dur-enter) var(--ease-out);
-}
-
-/* The art in a gold halo, like a deity in its prabhavali */
-.introArt {
-  width: 260px;
-  height: 260px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle, rgb(255 249 241 / 0.9) 40%, transparent 70%),
-    repeating-conic-gradient(color-mix(in srgb, var(--antique-gold) 35%, transparent) 0 2deg, transparent 2deg 10deg);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 60%, transparent);
-}
-
-.introArt img {
-  width: 200px;
-  height: 200px;
-  object-fit: contain;
-  filter: drop-shadow(0 12px 16px rgb(58 37 27 / 0.3));
-}
-
-.introTitle {
-  margin-top: var(--space-8);
-  font-family: var(--font-cinzel), serif;
-  font-size: var(--text-2xl);
-  font-weight: var(--weight-bold);
-}
-
-.introBody {
-  max-width: 28ch;
-  margin-top: var(--space-2);
-  color: var(--text-muted);
-}
-
-.dots {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-2);
-  margin-block: var(--space-6);
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  rotate: 45deg;
-  background: color-mix(in srgb, var(--antique-gold) 35%, transparent);
-  transition: background-color var(--dur-base), scale var(--dur-base);
-}
-
-.dot[aria-selected="true"] {
-  background: var(--antique-gold);
-  scale: 1.4;
-}
-
-.footer {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  margin-top: auto;
-  padding-top: var(--space-6);
-}
-
-.footer :global(.btn) {
+.wide {
   width: 100%;
+  min-height: 54px;
 }
 
-.footer :global(.btn:disabled) {
-  opacity: 0.45;
+/* Solid, so what's behind doesn't show through */
+.wide:disabled {
+  background: color-mix(in srgb, var(--antique-gold) 26%, var(--porcelain));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 45%, transparent);
+  color: color-mix(in srgb, var(--walnut) 45%, transparent);
   cursor: default;
 }
 
-.terms {
-  font-size: var(--text-xs);
-  color: var(--text-muted);
+/* ── Welcome: the eye in a night sky, the brand on a porcelain sheet ── */
+.welcome {
+  --eye-h: min(36dvh, 300px);
+
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: clip;
+  padding: 0;
   text-align: center;
 }
 
-/* ── Steps ─────────────────────────────────────────────────────────── */
+/* A warm dusk round the eye, falling away to night */
+.universe {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  background:
+    radial-gradient(60% 30% at 50% 32%, color-mix(in srgb, var(--terracotta-deep) 30%, transparent), transparent 74%),
+    radial-gradient(90% 26% at 12% 10%, color-mix(in srgb, var(--faded-rose) 20%, transparent), transparent 72%),
+    radial-gradient(80% 24% at 92% 40%, color-mix(in srgb, var(--faded-rose) 13%, transparent), transparent 72%),
+    linear-gradient(180deg, #21121a, #120a0d 60%);
+}
+
+.universeCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: sky-dawn 1.6s ease-out backwards;
+}
+
+@keyframes sky-dawn {
+  from {
+    opacity: 0;
+  }
+}
+
+.brand {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: calc(var(--safe-top) + var(--space-2)) 0 var(--space-3);
+}
+
+.mark {
+  position: relative;
+  width: calc(var(--eye-h) * 0.5234); /* the emblem's 514 × 982 */
+  height: var(--eye-h);
+}
+
+/* The iris (y 588 of 982): where the sky flows from, and where the light sits */
+.vanish {
+  position: absolute;
+  left: 50%;
+  top: 59.9%;
+}
+
+.halo,
+.ripple {
+  position: absolute;
+  left: 50%;
+  top: 59.9%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  translate: -50% -50%;
+  pointer-events: none;
+}
+
+.halo {
+  width: 330%;
+  background: radial-gradient(closest-side, rgb(255 214 140 / 0.4), rgb(198 161 91 / 0.14) 46%, transparent);
+  animation: halo-breathe 6s ease-in-out infinite;
+}
+
+@keyframes halo-breathe {
+  50% {
+    opacity: 0.68;
+    scale: 1.07;
+  }
+}
+
+/* Once in a while, a ring of light leaves the eye */
+.ripple {
+  width: 150%;
+  border: 1px solid rgb(240 208 142 / 0.45);
+  opacity: 0;
+  animation: ripple 9s var(--ease-out) 1.4s infinite;
+}
+
+@keyframes ripple {
+  0% {
+    opacity: 0;
+    scale: 0.7;
+  }
+  5% {
+    opacity: 0.5;
+  }
+  32%,
+  100% {
+    opacity: 0;
+    scale: 2.1;
+  }
+}
+
+.eye {
+  position: absolute;
+  inset: 0;
+  filter: drop-shadow(0 16px 26px rgb(0 0 0 / 0.55));
+  animation: eye-arrive 1.3s var(--ease-out) backwards;
+}
+
+@keyframes eye-arrive {
+  from {
+    opacity: 0;
+    scale: 0.86;
+    translate: 0 14px;
+  }
+}
+
+.sheet {
+  position: relative;
+  width: 100%;
+  padding: var(--space-6) var(--gutter) calc(var(--safe-bottom) + var(--space-3));
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background: linear-gradient(180deg, var(--porcelain), var(--bg));
+  box-shadow:
+    0 -1.5px 0 var(--antique-gold),
+    0 -20px 40px -14px rgb(0 0 0 / 0.55);
+  animation: sheet-arrive 800ms var(--ease-out) 150ms backwards;
+}
+
+@keyframes sheet-arrive {
+  from {
+    translate: 0 100%;
+  }
+}
+
+/* One box for every language, so nothing around it moves. Each name holds, then
+   slowly gives way to the next: 10 names at 5s each make a 50s round. */
+.names {
+  position: relative;
+  width: min(66vw, 252px);
+  aspect-ratio: 472 / 128;
+  margin-inline: auto;
+}
+
+.name {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  animation: name-show 50s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 5s);
+}
+
+@keyframes name-show {
+  0% {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  3% {
+    opacity: 1;
+    transform: none;
+  }
+  9% {
+    opacity: 1;
+    transform: none;
+  }
+  12%,
+  100% {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+}
+
+.tagline {
+  margin-top: var(--space-3);
+  letter-spacing: -0.02em;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.promise {
+  max-width: 32ch;
+  margin: var(--space-1) auto 0;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  text-wrap: balance;
+}
+
+.signIn {
+  width: 100%;
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+}
+
+.terms {
+  margin-top: var(--space-2);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .halo,
+  .ripple,
+  .name {
+    animation: none;
+  }
+
+  .name:first-child {
+    opacity: 1;
+  }
+}
+
+/* The narrowest phones: keep each button's label on one line */
+@media (max-width: 359px) {
+  .signIn :global(.btn) {
+    padding-inline: var(--space-3);
+    font-size: var(--text-sm);
+    white-space: nowrap;
+  }
+}
+
+/* Short phones: a smaller eye, and the line it can do without */
+@media (max-height: 620px) {
+  .welcome {
+    --eye-h: 25dvh;
+  }
+
+  .sheet {
+    padding-top: var(--space-4);
+  }
+
+  .names {
+    width: min(56vw, 200px);
+  }
+
+  .promise {
+    display: none;
+  }
+
+  .signIn {
+    margin-top: var(--space-3);
+  }
+}
+
+/* ── Questions ─────────────────────────────────────────────────────── */
+/* The wheel rising from the bottom edge, quiet behind the questions */
+.backdropWheel {
+  position: fixed;
+  z-index: -1;
+  left: 50%;
+  bottom: -250px;
+  width: 500px;
+  margin-left: -250px;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
 .top {
   display: flex;
   align-items: center;
   gap: var(--space-3);
 }
 
-/* Five stars joined by a thread; answered ones are lit */
-.stars {
+.topTitle {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+/* The mala */
+.mala {
+  --thread-inset: calc(100% / 12); /* from the first bead's centre to the last's */
+
   position: relative;
   flex: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  height: 48px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
 }
 
-.stars::before {
+.mala::before,
+.mala::after {
   content: "";
   position: absolute;
-  inset-inline: 6px;
+  inset-inline: var(--thread-inset);
   top: 50%;
-  border-top: 1px dashed color-mix(in srgb, var(--antique-gold) 70%, transparent);
+  height: 2px;
+  margin-top: -1px;
+  border-radius: 1px;
 }
 
-.star {
+.mala::before {
+  background: color-mix(in srgb, var(--antique-gold) 28%, transparent);
+}
+
+.mala::after {
+  background: linear-gradient(90deg, #a5752e, #e3bd6c);
+  transform: scaleX(var(--done));
+  transform-origin: left;
+  transition: transform 700ms var(--ease-out);
+}
+
+.bead {
   position: relative;
-  width: 14px;
-  height: 14px;
-  background: var(--bg);
-  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
-  box-shadow: inset 0 0 0 10px color-mix(in srgb, var(--antique-gold) 35%, var(--bg));
-  transition: scale var(--dur-slow) var(--ease-out);
+  z-index: 1;
+  display: grid;
+  place-items: center;
 }
 
-.star[data-lit] {
-  box-shadow: inset 0 0 0 10px var(--antique-gold);
-  scale: 1.35;
+/* Yet to come: a small hollow diamond on the thread */
+.bead::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  rotate: 45deg;
+  border-radius: 2px;
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1.25px color-mix(in srgb, var(--antique-gold) 70%, transparent);
+  transition:
+    scale var(--dur-slow) var(--ease-out),
+    background-color var(--dur-slow) var(--ease-out);
 }
 
-.stepCount {
-  width: 44px;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-bold);
-  text-align: right;
-  color: var(--text-eyebrow);
+/* Done: a polished gold one */
+.bead[data-state="done"]::before {
+  background: linear-gradient(135deg, #fbe9b6, #dcb263 45%, #93672a);
+  box-shadow:
+    inset 0 0 0 0.75px #a5752e,
+    0 1px 3px rgb(58 37 27 / 0.4);
+  scale: 1.3;
+}
+
+.bead[data-state="now"]::before {
+  display: none;
+}
+
+/* Here: kumkum in a gold ring */
+.medallion {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--surface-kumkum);
+  box-shadow:
+    inset 0 0 0 1.5px var(--antique-gold),
+    inset 0 0 0 3.5px var(--terracotta-deep),
+    inset 0 0 0 4px color-mix(in srgb, var(--antique-gold) 55%, transparent),
+    0 0 0 3px color-mix(in srgb, var(--antique-gold) 22%, transparent),
+    0 6px 12px -5px rgb(58 37 27 / 0.6);
+  color: var(--porcelain);
+  animation: medallion-arrive 500ms var(--ease-out) backwards;
+}
+
+@keyframes medallion-arrive {
+  from {
+    opacity: 0;
+    scale: 0.55;
+  }
+}
+
+.stepLabel {
+  margin-bottom: var(--space-2);
 }
 
 .form {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  margin-top: var(--space-10);
-  animation: rise var(--dur-enter) var(--ease-out);
+  margin-top: var(--space-8);
+  animation: step-back var(--dur-slow) var(--ease-out);
+}
+
+.form[data-forward] {
+  animation-name: step-on;
+}
+
+@keyframes step-on {
+  from {
+    opacity: 0;
+    translate: 32px 0;
+  }
+}
+
+@keyframes step-back {
+  from {
+    opacity: 0;
+    translate: -32px 0;
+  }
 }
 
 .question {
-  font-family: var(--font-cinzel), serif;
-  font-size: var(--text-3xl);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  font-size: var(--text-2xl);
   font-weight: var(--weight-bold);
-  line-height: 1.15;
+  line-height: 1.2;
 }
 
 .hint {
@@ -174,179 +437,339 @@
   color: var(--text-muted);
 }
 
-.field {
+.textLink {
+  font-weight: var(--weight-bold);
+  color: var(--accent);
+}
+
+.next {
+  margin-top: var(--space-6);
+}
+
+/* A field on a porcelain card; 16px+ text, or iOS zooms the page on focus */
+.card {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  margin-top: var(--space-8);
-  border-bottom: 2px solid var(--antique-gold);
+  margin-top: var(--space-6);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--antique-gold) 65%, transparent), var(--shadow-soft);
 }
 
-.field input {
+.card:focus-within {
+  box-shadow: inset 0 0 0 2px var(--gold-deep), var(--shadow-soft);
+}
+
+.card input,
+.phone input {
   flex: 1;
   min-width: 0;
-  min-height: 56px;
+  min-height: 58px;
   border: 0;
   background: none;
   font: inherit;
-  font-size: var(--text-2xl);
+  font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   color: var(--text);
   outline: none;
 }
 
-.field input::placeholder {
-  color: color-mix(in srgb, var(--walnut) 35%, transparent);
-}
-
-.field:focus-within {
-  border-color: var(--accent);
+.card input::placeholder,
+.phone input::placeholder {
+  font-weight: var(--weight-medium);
+  color: color-mix(in srgb, var(--walnut) 40%, transparent);
 }
 
 .quote {
-  margin-top: var(--space-8);
+  margin-top: var(--space-5);
   font-size: var(--text-sm);
   font-style: italic;
   color: var(--text-eyebrow);
 }
 
-.genders {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-3);
-  margin-top: var(--space-8);
-}
-
-.gender {
+/* Mobile number */
+.phone {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-6) 0 var(--space-4);
-  border-radius: 60px 60px var(--radius-md) var(--radius-md);
-  font-weight: var(--weight-bold);
+  overflow: hidden;
+  margin-top: var(--space-6);
+  border-radius: var(--radius-md);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--antique-gold) 65%, transparent), var(--shadow-soft);
 }
 
-.gender[aria-checked="true"] {
-  background: var(--gold-light);
+.phone:focus-within {
   box-shadow: inset 0 0 0 2px var(--gold-deep), var(--shadow-soft);
 }
 
-.genderGlyph {
-  width: 56px;
-  height: 56px;
+.phone input {
+  padding: 0 var(--space-4);
+  letter-spacing: 0.04em;
+}
+
+.country {
+  align-self: stretch;
   display: grid;
   place-items: center;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, var(--porcelain), var(--antique-gold));
-  box-shadow: inset 0 0 0 1px var(--gold-deep);
-  font-size: 26px;
-}
-
-/* Date and time tiles */
-.wheels {
-  display: flex;
-  gap: var(--space-3);
-  margin-top: var(--space-8);
-  border: 0;
-}
-
-.wheels:disabled {
-  opacity: 0.4;
-}
-
-.wheel {
-  flex: 1;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: var(--space-3) var(--space-2) var(--space-4);
-  border-radius: var(--radius-md);
-  background: var(--porcelain);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 55%, transparent), var(--shadow-soft);
-}
-
-.wheel:focus-within {
-  box-shadow: inset 0 0 0 2px var(--gold-deep);
-}
-
-.wheelLabel {
-  font-size: 10px;
+  padding: 0 var(--space-4);
+  background: var(--gold-light);
+  box-shadow: inset -1px 0 0 color-mix(in srgb, var(--antique-gold) 50%, transparent);
   font-weight: var(--weight-bold);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-eyebrow);
 }
 
-.wheel select {
+/* Code */
+.code {
+  position: relative;
+  display: block;
+  margin-top: var(--space-6);
+}
+
+.code input {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  appearance: none;
   border: 0;
   background: none;
-  font: inherit;
-  font-family: var(--font-cinzel), serif;
-  font-size: var(--text-2xl);
+  color: transparent;
+  caret-color: transparent;
+  font-size: 16px;
+  opacity: 0.01;
+}
+
+.codeBoxes {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-2);
+}
+
+.codeBox {
+  aspect-ratio: 1 / 1.15;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--antique-gold) 55%, transparent);
+  font-size: var(--text-xl);
   font-weight: var(--weight-bold);
-  text-align: center;
-  text-align-last: center;
-  color: var(--text);
-  outline: none;
-  cursor: pointer;
 }
 
-.ampm {
-  flex: 1.2;
-  align-self: center;
+.code:focus-within .codeBox[data-now] {
+  box-shadow:
+    inset 0 0 0 2px var(--gold-deep),
+    0 0 0 3px color-mix(in srgb, var(--antique-gold) 25%, transparent);
 }
 
-.unknown {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: var(--space-5);
-  padding: var(--space-4);
-  border-radius: var(--radius-md);
-  text-align: left;
-}
-
-.unknown span:first-child {
-  display: flex;
-  flex-direction: column;
-}
-
-.unknown small {
+.demoNote {
+  margin-top: var(--space-4);
   font-size: var(--text-sm);
   color: var(--text-muted);
 }
 
-.check {
-  width: 28px;
-  height: 28px;
+/* Gender: a medallion on a card; the chosen one is struck in gold leaf */
+.genders {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.gender {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4) var(--space-3) var(--space-3);
+  border: 1.5px solid color-mix(in srgb, var(--antique-gold) 60%, transparent);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(160deg, var(--porcelain), var(--gold-light));
+  box-shadow: var(--shadow-soft);
+  text-align: left;
+  transition:
+    border-color var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out);
+}
+
+.gender[aria-checked="true"] {
+  border-color: var(--gold-deep);
+  background: var(--surface-leaf);
+  box-shadow: inset 0 0 0 1px var(--gold-deep), var(--shadow-float);
+}
+
+.genderArt {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  filter: drop-shadow(0 4px 5px rgb(58 37 27 / 0.35));
+}
+
+.genderText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.genderText strong {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+.genderText small {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.gender[aria-checked="true"] small {
+  color: var(--walnut);
+}
+
+.genderMark {
+  flex: none;
+  width: 26px;
+  height: 26px;
   display: grid;
   place-items: center;
-  border-radius: 8px;
-  box-shadow: inset 0 0 0 1.5px var(--antique-gold);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--antique-gold) 70%, transparent);
   color: transparent;
 }
 
-.unknown[aria-checked="true"] .check {
-  background: var(--antique-gold);
+.gender[aria-checked="true"] .genderMark {
+  background: var(--surface-kumkum);
+  box-shadow: none;
+  color: var(--porcelain);
+}
+
+/* Picker wheels: the middle row between gold rules is the value */
+.pickers {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+  padding-inline: var(--space-2);
+  border-radius: var(--radius-lg);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--antique-gold) 55%, transparent), var(--shadow-soft);
+}
+
+.pickers::before {
+  content: "";
+  position: absolute;
+  inset-inline: var(--space-3);
+  top: 50%;
+  height: 48px;
+  margin-top: -24px;
+  border-block: 1.5px solid var(--antique-gold);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--antique-gold) 12%, transparent);
+  pointer-events: none;
+}
+
+.picker {
+  position: relative;
+  flex: 1;
+  height: 192px;
+  overflow-y: auto;
+  padding-block: 72px;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+  mask-image: linear-gradient(transparent, #000 34%, #000 66%, transparent);
+  outline: none;
+}
+
+.picker::-webkit-scrollbar {
+  display: none;
+}
+
+.picker:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+
+.option {
+  width: 100%;
+  height: 48px;
+  display: block;
+  scroll-snap-align: center;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-medium);
+  color: var(--text-muted);
+  transition: color var(--dur-fast);
+}
+
+.option[data-on] {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  color: var(--text);
+}
+
+.colon {
+  position: relative;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+}
+
+/* Do you know your time? */
+.choices {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.choice {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 68px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--antique-gold) 65%, transparent), var(--shadow-soft);
+  font-weight: var(--weight-semibold);
+  text-align: left;
+}
+
+.choiceMark {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--rose-surface);
+  box-shadow: inset 0 0 0 1px var(--faded-rose);
+  color: var(--accent);
+}
+
+.choiceMark[data-yes] {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--antique-gold) 62%, var(--porcelain)), var(--antique-gold));
+  box-shadow: inset 0 0 0 1px var(--gold-deep);
   color: var(--walnut);
+}
+
+.choiceArrow {
+  margin-left: auto;
+  color: var(--gold-deep);
 }
 
 /* Place */
 .search {
-  margin-top: var(--space-6);
   color: var(--gold-deep);
 }
 
-.search input {
-  font-size: var(--text-lg);
-}
-
+/* Scrolls within itself, so Next stays on screen */
 .cities {
+  max-height: max(180px, calc(100dvh - 500px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
   margin-top: var(--space-3);
+  padding-inline: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 40%, transparent);
 }
 
 .city {
@@ -354,10 +777,13 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  padding: var(--space-3) var(--space-2);
-  border-bottom: 1px solid var(--border);
+  padding: var(--space-3) 0;
   text-align: left;
   font-weight: var(--weight-semibold);
+}
+
+.cities li + li .city {
+  border-top: 1px solid var(--border);
 }
 
 .city small {
@@ -381,63 +807,101 @@
   vertical-align: middle;
 }
 
-/* ── Chart ready ───────────────────────────────────────────────────── */
-.ready {
-  flex: 1;
+/* Languages */
+.languages {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+
+.language {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  text-align: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 0 var(--space-3) 0 var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--antique-gold) 65%, transparent);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  transition: background-color var(--dur-fast) var(--ease-out);
 }
 
-.readyWheel img {
-  width: 150px;
-  height: auto;
-  filter: drop-shadow(0 0 30px rgb(198 161 91 / 0.6));
-  animation: reveal 1.2s var(--ease-out);
-}
-
-@keyframes reveal {
-  from {
-    opacity: 0;
-    scale: 0.6;
-    rotate: -30deg;
-  }
-}
-
-.readyTitle {
-  margin-top: var(--space-2);
-  font-family: var(--font-cinzel), serif;
-  font-size: var(--text-3xl);
+.language[aria-checked="true"] {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--antique-gold) 62%, var(--porcelain)), var(--antique-gold));
+  box-shadow: inset 0 0 0 1.5px var(--gold-deep);
   font-weight: var(--weight-bold);
 }
 
+/* ── Chart ready ───────────────────────────────────────────────────── */
+.readyScreen {
+  align-items: center;
+  justify-content: center;
+  padding-top: calc(var(--safe-top) + var(--space-4));
+  text-align: center;
+}
+
+@keyframes wheel-arrive {
+  from {
+    opacity: 0;
+    scale: 0.82;
+    rotate: -24deg;
+  }
+}
+
+.readyWheel {
+  width: min(62vw, 30dvh, 236px);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 3px var(--antique-gold),
+    0 0 0 7px color-mix(in srgb, var(--antique-gold) 28%, transparent),
+    0 22px 36px -18px rgb(58 37 27 / 0.65);
+  animation: wheel-arrive 1s var(--ease-out) backwards;
+}
+
+.readyEyebrow {
+  margin-top: var(--space-5);
+}
+
+.readyTitle {
+  letter-spacing: -0.02em;
+  margin-top: var(--space-1);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+}
+
+.readyLine {
+  color: var(--text-muted);
+}
+
 .seals {
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-4);
-  margin-top: var(--space-6);
+  gap: var(--space-2);
+  margin-top: var(--space-4);
 }
 
 .seal {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: var(--space-2) 0 var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 50%, transparent), var(--shadow-soft);
   animation: rise var(--dur-enter) var(--ease-out) backwards;
-  animation-delay: calc(600ms + var(--n) * 160ms);
+  animation-delay: calc(500ms + var(--n) * 140ms);
 }
 
-.sealCoin {
-  width: 60px;
-  height: 60px;
+.sealStar {
+  width: 64px;
+  height: 64px;
   display: grid;
   place-items: center;
-  margin-bottom: var(--space-2);
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, var(--porcelain), var(--gold-light) 45%, var(--antique-gold));
-  box-shadow: inset 0 0 0 1px var(--gold-deep), 0 0 0 3px var(--bg), 0 0 0 4px color-mix(in srgb, var(--antique-gold) 55%, transparent);
-  font-size: 26px;
+  color: var(--gold-deep);
 }
 
 .sealLabel {
@@ -449,11 +913,16 @@
 }
 
 .readyNote {
-  margin-top: var(--space-6);
+  margin-top: var(--space-3);
   font-size: var(--text-sm);
   color: var(--text-muted);
 }
 
 .readyNote small {
   font-size: var(--text-xs);
+}
+
+.enter {
+  margin-top: var(--space-4);
+  animation: rise var(--dur-enter) var(--ease-out) 1s backwards;
 }

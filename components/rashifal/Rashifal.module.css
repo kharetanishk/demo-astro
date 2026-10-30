@@ -1,0 +1,380 @@
+/* ── Your rashi: a card with the wheel running off its edge ─────────── */
+.mine {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  min-height: 270px;
+  margin-top: var(--space-5);
+  padding: var(--space-5);
+  border-radius: var(--radius-xl);
+  background: var(--surface-parchment);
+  color: var(--walnut);
+  box-shadow:
+    inset 0 0 0 1.5px color-mix(in srgb, var(--antique-gold) 70%, transparent),
+    var(--shadow-float);
+}
+
+.mineText {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.mineEyebrow {
+  color: var(--text-eyebrow);
+}
+
+.mineName {
+  margin-top: var(--space-2);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+/* Stops short of the wheel */
+.mineLine {
+  max-width: 132px;
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  line-height: 1.4;
+}
+
+.mineMore {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: var(--terracotta-deep);
+}
+
+.mineWheel {
+  position: absolute;
+  top: 50%;
+  right: -46px;
+  width: 232px;
+  height: 232px;
+  margin-top: -116px;
+}
+
+/* ── The wheel ─────────────────────────────────────────────────────── */
+/* Zero specificity: a screen's placement of the wheel must always win, in
+   whichever order the route's CSS happens to load */
+:where(.wheel) {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--surface-crimson);
+  box-shadow:
+    0 0 0 2px var(--antique-gold),
+    0 0 0 5px var(--porcelain),
+    0 0 0 6px color-mix(in srgb, var(--gold-deep) 70%, transparent),
+    0 14px 26px -12px rgb(94 19 15 / 0.6);
+}
+
+.wheel[data-bare] {
+  background: none;
+  box-shadow: none;
+}
+
+.wheel[data-bare] .wheelLines {
+  stroke: var(--gold-deep);
+}
+
+.wheelLines {
+  position: absolute;
+  inset: 0;
+  fill: none;
+  stroke: var(--antique-gold);
+  stroke-width: 0.7;
+}
+
+.wheelTurn {
+  position: absolute;
+  inset: 0;
+  animation: wheel-turn 120s linear infinite;
+}
+
+.wheelSlot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 15%;
+  aspect-ratio: 1;
+  margin: -7.5% 0 0 -7.5%;
+  transform: rotate(var(--a)) translateY(-250%) rotate(calc(-1 * var(--a)));
+}
+
+.wheelEmblem {
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: wheel-turn 120s linear infinite reverse;
+}
+
+.wheelCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 32%;
+  height: 32%;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 4px 8px rgb(0 0 0 / 0.35));
+}
+
+@keyframes wheel-turn {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wheelTurn,
+  .wheelEmblem {
+    animation: none;
+  }
+}
+
+/* ── All twelve: enamel tiles ──────────────────────────────────────── */
+.section {
+  margin-top: var(--space-8);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-3) var(--space-1);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(170deg, var(--porcelain), var(--gold-light));
+  box-shadow:
+    inset 0 0 0 1.5px color-mix(in srgb, var(--antique-gold) 70%, transparent),
+    var(--shadow-soft);
+  text-align: center;
+}
+
+.tile[data-mine] {
+  background: var(--surface-leaf);
+  box-shadow:
+    inset 0 0 0 2px var(--gold-deep),
+    0 0 0 3px color-mix(in srgb, var(--antique-gold) 35%, transparent),
+    var(--shadow-float);
+}
+
+.tileMine {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  padding: 1px 7px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-kumkum);
+  color: var(--porcelain);
+  font-size: 10px;
+  font-weight: var(--weight-bold);
+}
+
+.tileArt {
+  width: 68px;
+  height: 68px;
+  filter: drop-shadow(0 4px 4px rgb(74 48 37 / 0.3));
+}
+
+.tileName {
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+}
+
+.tileWestern {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.tile[data-mine] .tileWestern {
+  color: var(--walnut);
+}
+
+/* ── A sign's reading ──────────────────────────────────────────────── */
+.reading {
+  padding-bottom: calc(var(--safe-bottom) + var(--space-8));
+}
+
+.reading > header {
+  animation: none; /* it arrives as a sheet, whole */
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: var(--space-4);
+  padding: var(--space-5) var(--space-4) var(--space-4);
+  border-radius: var(--radius-xl);
+  background: var(--surface-parchment);
+  color: var(--walnut);
+  box-shadow:
+    inset 0 0 0 1.5px color-mix(in srgb, var(--antique-gold) 70%, transparent),
+    var(--shadow-float);
+  text-align: center;
+}
+
+/* Crimson behind the emblem, so the gold stands out */
+.heroDisc {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  width: 208px;
+  height: 208px;
+  margin-left: -104px;
+  border-radius: 50%;
+  background: var(--surface-crimson);
+  box-shadow:
+    0 0 0 2px var(--antique-gold),
+    0 0 0 5px var(--porcelain),
+    0 0 0 6px color-mix(in srgb, var(--gold-deep) 70%, transparent),
+    0 14px 26px -12px rgb(94 19 15 / 0.6);
+}
+
+.chart {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  width: 208px;
+  height: 208px;
+  margin-left: -104px;
+  fill: none;
+  stroke: var(--antique-gold);
+  stroke-width: 0.6;
+  opacity: 0.7;
+}
+
+.chart polyline {
+  stroke-width: 0.7;
+}
+
+.chartStar {
+  fill: #fff3cf;
+  stroke: none;
+}
+
+.heroArt {
+  position: relative;
+  width: 168px;
+  height: 168px;
+  margin-top: 14px;
+  filter: drop-shadow(0 8px 10px rgb(0 0 0 / 0.4));
+}
+
+.heroName {
+  position: relative;
+  margin-top: var(--space-6);
+  font-family: var(--font-cinzel), serif;
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  line-height: 1.1;
+}
+
+.heroMeta {
+  position: relative;
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
+}
+
+.facts {
+  position: relative;
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.facts > div {
+  display: flex;
+  gap: var(--space-1);
+  padding: 3px var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1px var(--gold-deep);
+  font-size: var(--text-xs);
+}
+
+.facts dd {
+  font-weight: var(--weight-bold);
+}
+
+.spans {
+  margin-top: var(--space-5);
+}
+
+.text {
+  margin-top: var(--space-4);
+  padding: var(--space-5);
+  border: 1.5px solid color-mix(in srgb, var(--antique-gold) 50%, transparent);
+  border-radius: var(--radius-lg);
+  background: var(--porcelain);
+  box-shadow: var(--shadow-soft);
+  animation: rise var(--dur-enter) var(--ease-out);
+}
+
+.textBody {
+  margin-top: var(--space-2);
+  font-size: var(--text-lg);
+  line-height: 1.45;
+}
+
+.sample {
+  margin-top: var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.friendsBlock {
+  margin-top: var(--space-6);
+}
+
+.friends {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.friend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+}
+
+.friend span {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.friend strong {
+  font-size: var(--text-sm);
+}
+
+.friend small {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.ask {
+  width: 100%;
+  margin-top: var(--space-6);
+}
