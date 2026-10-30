@@ -1,0 +1,250 @@
+/* ── Hero: the guru in a rose arch ─────────────────────────────────── */
+.hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 132px;
+  align-items: end;
+  margin-top: var(--space-8);
+  padding: var(--space-5);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(150deg, var(--rose-surface), var(--faded-rose));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--faded-rose) 70%, var(--walnut)), var(--shadow-float);
+}
+
+.heroArt {
+  width: 150px;
+  height: auto;
+  margin: calc(-1 * var(--space-10)) calc(-1 * var(--space-4)) calc(-1 * var(--space-5)) 0;
+  align-self: end;
+  filter: drop-shadow(0 10px 14px rgb(58 37 27 / 0.3));
+}
+
+.live {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 4px var(--space-3) 4px var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--porcelain);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+}
+
+.pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.heroTitle {
+  margin-top: var(--space-3);
+  font-family: var(--font-cinzel), serif;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  line-height: 1.2;
+}
+
+.heroNote {
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
+}
+
+.section {
+  margin-top: var(--space-8);
+}
+
+/* ── Online rail: arched portraits that snap ───────────────────────── */
+.rail {
+  display: flex;
+  gap: var(--space-3);
+  margin-inline: calc(-1 * var(--gutter));
+  padding: var(--space-1) var(--gutter) var(--space-4);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+}
+
+.portrait {
+  flex: none;
+  width: 196px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-3) var(--space-3) var(--space-4);
+  border-radius: 100px 100px var(--radius-lg) var(--radius-lg);
+  background: linear-gradient(180deg, var(--porcelain), var(--gold-light));
+  box-shadow: var(--shadow-soft), inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 40%, transparent);
+  text-align: center;
+}
+
+.portraitLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* A jharokha arch framing the monogram */
+.arch {
+  width: 100%;
+  aspect-ratio: 1 / 0.9;
+  display: grid;
+  place-items: center;
+  border-radius: 100px 100px var(--radius-md) var(--radius-md);
+  background: var(--art-bg);
+  box-shadow: inset 0 0 0 1px var(--art-line), inset 0 0 0 6px rgb(255 249 241 / 0.35);
+  font-family: var(--font-cinzel), serif;
+  font-size: 40px;
+  font-weight: var(--weight-bold);
+  color: var(--walnut);
+}
+
+.portraitName {
+  margin-top: var(--space-3);
+  font-weight: var(--weight-bold);
+  line-height: 1.25;
+}
+
+.portraitTitle {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.portraitRate {
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+}
+
+.portraitActions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.portraitActions :global(.btn) {
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  font-size: var(--text-sm);
+}
+
+.portraitActions :global(.btn-primary) {
+  flex: 1;
+}
+
+.chatBtn {
+  width: 40px;
+  padding: 0 !important;
+}
+
+/* ── Directory ─────────────────────────────────────────────────────── */
+.skills {
+  display: flex;
+  gap: var(--space-2);
+  margin-inline: calc(-1 * var(--gutter));
+  padding: 0 var(--gutter) var(--space-1);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.skill {
+  flex: none;
+  min-height: 36px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-pill);
+  box-shadow: inset 0 0 0 1px var(--border);
+  background: var(--porcelain);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.skill[aria-pressed="true"] {
+  background: var(--walnut);
+  color: var(--porcelain);
+  box-shadow: none;
+}
+
+.list {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+}
+
+.avatar {
+  position: relative;
+  flex: none;
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--art-bg);
+  box-shadow: inset 0 0 0 1px var(--art-line);
+  font-weight: var(--weight-bold);
+}
+
+.avatar::after {
+  content: "";
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--porcelain);
+  background: var(--separator);
+}
+
+.avatar[data-status="online"]::after {
+  background: var(--accent);
+}
+
+.avatar[data-status="busy"]::after {
+  background: var(--antique-gold);
+}
+
+.rowText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.rowName {
+  font-weight: var(--weight-bold);
+}
+
+.rowMeta {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.rowFoot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+}
+
+.status {
+  font-weight: var(--weight-bold);
+  color: var(--text-muted);
+}
+
+.status[data-status="online"] {
+  color: var(--accent);
+}
+
+.chevron {
+  flex: none;
+  color: var(--gold-deep);
+}

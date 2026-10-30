@@ -1,5 +1,5 @@
-import { TabPlaceholder } from "@/components/ui/TabPlaceholder";
+import { History } from "@/components/history/History";
 
 export default function HistoryPage() {
-  return <TabPlaceholder title="History" />;
+  return <History />;
 }

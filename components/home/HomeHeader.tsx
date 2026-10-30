@@ -1,4 +1,4 @@
-import { DemoButton } from "@/components/ui/demo";
+import Link from "next/link";
 import { Icon } from "@/components/ui/ornaments";
 import s from "./HomeHeader.module.css";
 
@@ -17,29 +17,25 @@ export function HomeHeader({ unread, points }: Props) {
           {points}
           <span className="sr-only"> points</span>
         </span>
-        <DemoButton className={s.button} aria-label="Add points" notice="Adding points isn't part of this demo yet.">
+        <Link href="/wallet" className={s.button} aria-label="Add credits">
           <span className={s.addDisc}>
             <Icon name="plus" size={16} />
           </span>
-        </DemoButton>
+        </Link>
       </div>
 
       <div className={`${s.capsule} surface`} role="group" aria-label="Quick actions">
-        <DemoButton className={s.button} aria-label="Calendar" notice="Calendar isn't part of this demo yet.">
+        <Link href="/panchang" className={s.button} aria-label="Panchang">
           <Icon name="calendar" size={20} />
-        </DemoButton>
-        <DemoButton
-          className={s.button}
-          aria-label={unread ? `Notifications, ${badge} unread` : "Notifications"}
-          notice="Notifications aren't part of this demo yet."
-        >
+        </Link>
+        <Link href="/notifications" className={s.button} aria-label={unread ? `Notifications, ${badge} unread` : "Notifications"}>
           <Icon name="bell" size={20} />
           {unread > 0 && (
             <span className={s.badge} aria-hidden>
               {badge}
             </span>
           )}
-        </DemoButton>
+        </Link>
       </div>
     </header>
   );

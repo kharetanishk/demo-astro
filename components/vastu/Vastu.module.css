@@ -1,0 +1,237 @@
+.upload {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+  padding: var(--space-3) var(--space-4) var(--space-3) var(--space-2);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(120deg, var(--rose-surface), var(--faded-rose));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--faded-rose) 70%, var(--walnut)), var(--shadow-float);
+  text-align: left;
+}
+
+.upload :global(.eyebrow) {
+  color: var(--walnut);
+}
+
+.uploadArt {
+  flex: none;
+  width: 96px;
+  height: auto;
+  filter: drop-shadow(0 8px 10px rgb(58 37 27 / 0.3));
+}
+
+.uploadText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.uploadTitle {
+  font-weight: var(--weight-bold);
+  line-height: 1.25;
+}
+
+.uploadNote {
+  margin-top: 2px;
+  font-size: var(--text-xs);
+}
+
+.uploadIcon {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--porcelain);
+}
+
+.section {
+  margin-top: var(--space-8);
+}
+
+/* ── Compass mandala ───────────────────────────────────────────────── */
+.compass {
+  position: relative;
+  padding: var(--space-6);
+}
+
+.dir {
+  position: absolute;
+  font-family: var(--font-cinzel), serif;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: var(--bronze);
+}
+
+.dirN {
+  top: 0;
+  left: 50%;
+  translate: -50% 0;
+  color: var(--accent);
+}
+
+.dirS {
+  bottom: 0;
+  left: 50%;
+  translate: -50% 0;
+}
+
+.dirE {
+  right: 2px;
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.dirW {
+  left: 2px;
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.mandala {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  aspect-ratio: 1;
+  padding: 3px;
+  border-radius: var(--radius-md);
+  background: var(--gold-deep);
+  box-shadow: 0 0 0 4px var(--bg), 0 0 0 5px var(--antique-gold), var(--shadow-float);
+}
+
+.zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: var(--zone-bg);
+  transition: filter var(--dur-base) var(--ease-out);
+}
+
+.zone:nth-child(1) {
+  border-top-left-radius: calc(var(--radius-md) - 3px);
+}
+.zone:nth-child(3) {
+  border-top-right-radius: calc(var(--radius-md) - 3px);
+}
+.zone:nth-child(7) {
+  border-bottom-left-radius: calc(var(--radius-md) - 3px);
+}
+.zone:nth-child(9) {
+  border-bottom-right-radius: calc(var(--radius-md) - 3px);
+}
+
+.vastu [data-element="Water"] {
+  --zone-bg: linear-gradient(160deg, var(--porcelain), color-mix(in srgb, var(--pale-sand) 70%, var(--porcelain)));
+}
+.vastu [data-element="Air"] {
+  --zone-bg: linear-gradient(160deg, var(--porcelain), var(--rose-surface));
+}
+.vastu [data-element="Fire"] {
+  --zone-bg: linear-gradient(160deg, color-mix(in srgb, var(--terracotta) 25%, var(--porcelain)), color-mix(in srgb, var(--terracotta) 50%, var(--rose-surface)));
+}
+.vastu [data-element="Earth"] {
+  --zone-bg: linear-gradient(160deg, color-mix(in srgb, var(--antique-gold) 35%, var(--porcelain)), color-mix(in srgb, var(--antique-gold) 70%, var(--pale-sand)));
+}
+.vastu [data-element="Space"] {
+  --zone-bg: linear-gradient(160deg, var(--porcelain), var(--gold-light));
+}
+
+.zone[data-centre] {
+  --zone-bg: radial-gradient(circle, var(--porcelain), color-mix(in srgb, var(--antique-gold) 45%, var(--porcelain)));
+}
+
+.zone[aria-checked="true"] {
+  position: relative;
+  z-index: 1;
+  outline: 3px solid var(--walnut);
+  outline-offset: -1px;
+}
+
+.zoneId {
+  font-family: var(--font-cinzel), serif;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+}
+
+.zoneName {
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.detail {
+  margin-top: var(--space-3);
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  animation: rise var(--dur-enter) var(--ease-out);
+}
+
+.detailHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.detailName {
+  font-family: var(--font-cinzel), serif;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+}
+
+.element {
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--zone-bg);
+  box-shadow: inset 0 0 0 1px var(--antique-gold);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+}
+
+.ruler {
+  font-size: var(--text-sm);
+  color: var(--text-eyebrow);
+}
+
+.detailList {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.detailList dt {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.detailList dd {
+  font-weight: var(--weight-medium);
+}
+
+.rooms {
+  border-radius: var(--radius-lg);
+  padding: var(--space-1) var(--space-4);
+}
+
+.room {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-3) 0;
+}
+
+.room + .room {
+  border-top: 1px solid var(--border);
+}
+
+.room strong {
+  font-family: var(--font-cinzel), serif;
+  color: var(--accent);
+}

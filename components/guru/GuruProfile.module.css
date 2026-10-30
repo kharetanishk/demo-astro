@@ -1,0 +1,300 @@
+/* The booking bar floats over the nav */
+.profile {
+  padding-bottom: calc(var(--safe-bottom) + var(--nav-height) + var(--nav-offset) + 120px);
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: var(--space-5);
+  text-align: center;
+}
+
+.arch {
+  width: 148px;
+  height: 172px;
+  display: grid;
+  place-items: center;
+  border-radius: 80px 80px var(--radius-lg) var(--radius-lg);
+  background: var(--art-bg);
+  box-shadow:
+    inset 0 0 0 1px var(--art-line),
+    inset 0 0 0 8px rgb(255 249 241 / 0.35),
+    0 0 0 4px var(--bg),
+    0 0 0 5px color-mix(in srgb, var(--antique-gold) 60%, transparent),
+    var(--shadow-float);
+  font-family: var(--font-cinzel), serif;
+  font-size: 52px;
+  font-weight: var(--weight-bold);
+}
+
+.status {
+  margin-top: calc(-1 * var(--space-3));
+  padding: 4px var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1px var(--border), var(--shadow-soft);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  color: var(--text-muted);
+}
+
+.status[data-status="online"] {
+  background: var(--accent);
+  color: var(--porcelain);
+}
+
+.name {
+  margin-top: var(--space-3);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.02em;
+}
+
+.title {
+  color: var(--text-muted);
+}
+
+.stats {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: var(--space-5);
+}
+
+.stats div {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.stats div + div {
+  border-left: 1px solid var(--border);
+}
+
+.stats dt {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.stats dd {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+/* Talk now: three tiles */
+.now {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+
+.nowBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-2);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: var(--text);
+}
+
+.nowBtn svg {
+  color: var(--gold-deep);
+}
+
+.section {
+  margin-top: var(--space-8);
+}
+
+.about {
+  font-size: var(--text-md);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.tags li {
+  padding: 4px var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--gold-light);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 45%, transparent);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+}
+
+/* ── Booking steps, threaded on a gold line ────────────────────────── */
+.steps {
+  counter-reset: step;
+  display: grid;
+  gap: var(--space-5);
+}
+
+.step {
+  position: relative;
+  min-width: 0; /* the day strip scrolls instead of widening the page */
+  counter-increment: step;
+  padding-left: var(--space-8);
+}
+
+.step::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--antique-gold);
+  box-shadow: inset 0 0 0 1px var(--gold-deep);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+}
+
+.step + .step::after {
+  content: "";
+  position: absolute;
+  left: 10.5px;
+  bottom: calc(100% + 2px);
+  height: calc(var(--space-5) - 4px);
+  border-left: 1px dashed var(--antique-gold);
+}
+
+.stepTitle {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  line-height: 22px;
+}
+
+.days {
+  display: flex;
+  gap: var(--space-2);
+  margin-right: calc(-1 * var(--gutter));
+  padding-right: var(--gutter);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.day {
+  flex: none;
+  width: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--space-2) 0;
+  border-radius: var(--radius-md);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+.dayWeek {
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.dayDate {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+.day[aria-checked="true"],
+.slot[aria-checked="true"],
+.duration[aria-checked="true"] {
+  background: var(--walnut);
+  color: var(--porcelain);
+  box-shadow: none;
+}
+
+.day[aria-checked="true"] .dayWeek {
+  color: var(--pale-sand);
+}
+
+.slots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+}
+
+.slot,
+.duration {
+  min-height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1px var(--border);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.slot:disabled {
+  background: none;
+  color: color-mix(in srgb, var(--walnut) 35%, transparent);
+  text-decoration: line-through;
+  cursor: default;
+}
+
+.durations {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2);
+}
+
+/* ── Booking bar ───────────────────────────────────────────────────── */
+.bar {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--safe-bottom) + var(--nav-height) + var(--nav-offset) + var(--space-3));
+  z-index: var(--z-nav);
+  width: calc(min(100vw, var(--content-width)) - 2 * var(--gutter));
+  translate: -50% 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-5);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-float), inset 0 0 0 1px var(--gold-deep);
+}
+
+.barText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.barTotal {
+  font-weight: var(--weight-bold);
+}
+
+.barNote {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.barNote[data-short] {
+  color: var(--accent);
+}
+
+.barNote a {
+  font-weight: var(--weight-bold);
+  text-decoration: underline;
+}
+
+.bar :global(.btn:disabled) {
+  opacity: 0.5;
+  cursor: default;
+}

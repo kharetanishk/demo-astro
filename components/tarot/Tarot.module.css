@@ -1,0 +1,220 @@
+/* Celestial night, Tarot's mood on Home */
+.tarot {
+  --plum: color-mix(in srgb, var(--faded-rose) 30%, var(--walnut));
+  --plum-deep: color-mix(in srgb, var(--faded-rose) 14%, var(--walnut));
+  --mood: color-mix(in srgb, var(--faded-rose) 45%, var(--walnut));
+}
+
+.ask {
+  display: block;
+  margin-top: var(--space-5);
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-pill);
+}
+
+.ask input {
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--text);
+  text-align: center;
+  outline: none;
+}
+
+.ask input::placeholder {
+  color: var(--text-muted);
+}
+
+/* ── Spread ────────────────────────────────────────────────────────── */
+.spread {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  perspective: 900px;
+}
+
+.slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.slotLabel {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-eyebrow);
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3.3;
+  transform-style: preserve-3d;
+  transition: transform 700ms var(--ease-out);
+}
+
+.card[data-flipped] {
+  transform: rotateY(180deg);
+  animation: land 500ms var(--ease-out);
+}
+
+@keyframes land {
+  from {
+    translate: 0 120px;
+    scale: 0.7;
+  }
+}
+
+.back,
+.face {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-sm);
+  backface-visibility: hidden;
+}
+
+/* An empty place in the spread: a dashed outline until a card lands */
+.card:not([data-flipped]) .back {
+  background: none;
+  border: 1.5px dashed color-mix(in srgb, var(--plum) 45%, transparent);
+  box-shadow: none;
+}
+
+.back,
+.fanCard {
+  background:
+    radial-gradient(circle at 50% 50%, transparent 18%, color-mix(in srgb, var(--antique-gold) 70%, transparent) 19% 20%, transparent 21%),
+    repeating-conic-gradient(from 0deg at 50% 50%, color-mix(in srgb, var(--antique-gold) 22%, transparent) 0 6deg, transparent 6deg 30deg),
+    linear-gradient(160deg, var(--plum), var(--plum-deep));
+  box-shadow: inset 0 0 0 3px var(--plum-deep), inset 0 0 0 4px var(--antique-gold), 0 8px 16px -8px rgb(30 15 10 / 0.6);
+}
+
+.face {
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-2);
+  background: radial-gradient(90% 60% at 50% 40%, color-mix(in srgb, var(--antique-gold) 35%, var(--porcelain)), var(--porcelain));
+  box-shadow: inset 0 0 0 1px var(--gold-deep), inset 0 0 0 5px var(--porcelain), inset 0 0 0 6px var(--antique-gold), var(--shadow-float);
+  text-align: center;
+}
+
+.faceNum {
+  font-family: var(--font-cinzel), serif;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: var(--bronze);
+}
+
+.faceGlyph {
+  font-size: 40px;
+  line-height: 1;
+  color: var(--plum);
+}
+
+.faceName {
+  font-family: var(--font-cinzel), serif;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  line-height: 1.2;
+}
+
+/* ── Fanned deck ───────────────────────────────────────────────────── */
+.deckArea {
+  overflow-x: clip; /* the fan's outer cards stay on screen */
+  margin-top: var(--space-8);
+  text-align: center;
+}
+
+.prompt {
+  font-family: var(--font-cinzel), serif;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+.fan {
+  position: relative;
+  height: 230px;
+  margin-top: var(--space-4);
+}
+
+.fan li {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 70px;
+  margin-left: -35px;
+  transform-origin: 50% 260%;
+  rotate: calc(var(--i) * 4.5deg);
+}
+
+.fanCard {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3.3;
+  border-radius: var(--radius-sm);
+  transition:
+    translate var(--dur-base) var(--ease-out),
+    opacity var(--dur-slow) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .fanCard:not(:disabled):hover {
+    translate: 0 -16px;
+  }
+}
+
+.fanCard:not(:disabled):active {
+  translate: 0 -10px;
+}
+
+.fanCard:disabled {
+  opacity: 0;
+  translate: 0 -60px;
+  pointer-events: none;
+}
+
+/* ── Reading ───────────────────────────────────────────────────────── */
+.reading {
+  margin-top: var(--space-8);
+}
+
+.readings {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.readingItem {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  animation: rise var(--dur-enter) var(--ease-out) backwards;
+  animation-delay: calc(700ms + var(--stagger) * 120ms);
+}
+
+.readingSlot {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-eyebrow);
+}
+
+.readingName {
+  font-family: var(--font-cinzel), serif;
+  font-size: var(--text-lg);
+}
+
+.again {
+  width: 100%;
+  margin-top: var(--space-5);
+}

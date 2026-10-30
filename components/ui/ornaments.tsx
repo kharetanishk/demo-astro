@@ -68,6 +68,30 @@ const glyphs = {
     </>
   ),
   logout: <path d="M14 5h4a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-4M10 8l-4 4 4 4M6 12h9" />,
+  send: <path d="M4 12l16-8-6 16-2.5-6.5zM11.5 13.5L20 4" />,
+  search: (
+    <>
+      <circle cx="11" cy="11" r="6" />
+      <path d="M20 20l-4.5-4.5" />
+    </>
+  ),
+  video: (
+    <>
+      <rect x="3" y="7" width="13" height="10" rx="2" />
+      <path d="M16 11l5-3v8l-5-3" />
+    </>
+  ),
+  check: <path d="M5 12.5l4.5 4.5L19 7.5" />,
+  close: <path d="M6 6l12 12M18 6L6 18" />,
+  sun: (
+    <>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4" />
+    </>
+  ),
+  moon: <path d="M19 14.5A7.5 7.5 0 0 1 9.5 5a7.5 7.5 0 1 0 9.5 9.5z" />,
+  upload: <path d="M12 16V4M7 9l5-5 5 5M5 15v4h14v-4" />,
+  refresh: <path d="M19 12a7 7 0 1 1-2-4.9M19 4v4h-4" />,
 } satisfies Record<string, ReactNode>;
 
 export type GlyphName = keyof typeof glyphs;

@@ -1,0 +1,265 @@
+/* ── Balance: a struck gold coin beside the plain facts ────────────── */
+.coin {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  margin-top: var(--space-5);
+  padding: var(--space-5);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(140deg, var(--walnut), color-mix(in srgb, var(--walnut) 75%, var(--faded-rose)));
+  color: var(--porcelain);
+  box-shadow: var(--shadow-float);
+}
+
+.coinFace {
+  flex: none;
+  width: 128px;
+  height: 128px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background:
+    repeating-conic-gradient(from 0deg, rgb(255 249 241 / 0.12) 0 3deg, transparent 3deg 6deg),
+    radial-gradient(circle at 35% 30%, #fff3cf, var(--antique-gold) 55%, var(--bronze));
+  box-shadow:
+    inset 0 0 0 6px color-mix(in srgb, var(--antique-gold) 80%, var(--porcelain)),
+    inset 0 0 0 7px var(--gold-deep),
+    0 10px 20px -8px rgb(0 0 0 / 0.5);
+  color: var(--walnut);
+  text-align: center;
+}
+
+.coinLabel {
+  font-size: 10px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.coinValue {
+  font-family: var(--font-cinzel), serif;
+  font-size: 36px;
+  font-weight: var(--weight-bold);
+  line-height: 1;
+}
+
+.coinUnit {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+}
+
+.coinSide strong {
+  font-family: var(--font-cinzel), serif;
+  font-size: var(--text-2xl);
+  color: var(--antique-gold);
+}
+
+.coinNote {
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--pale-sand);
+}
+
+.tabs {
+  margin-top: var(--space-6);
+}
+
+.panel {
+  margin-top: var(--space-4);
+  animation: rise var(--dur-enter) var(--ease-out);
+}
+
+/* ── Credits ───────────────────────────────────────────────────────── */
+.amounts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.amount {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  text-align: left;
+}
+
+.amount[aria-checked="true"] {
+  background: var(--gold-light);
+  box-shadow: inset 0 0 0 2px var(--gold-deep), var(--shadow-soft);
+}
+
+.bonus {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--porcelain);
+  font-size: 10px;
+  font-weight: var(--weight-bold);
+}
+
+.rupees {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+}
+
+.gets {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.breakdown {
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.breakdown strong {
+  color: var(--text);
+}
+
+.pay {
+  width: 100%;
+  margin-top: var(--space-3);
+}
+
+/* ── Packs ─────────────────────────────────────────────────────────── */
+.packNote {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.packs {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.pack {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  text-align: left;
+}
+
+.pack[data-unlimited] {
+  background: linear-gradient(120deg, var(--rose-surface), var(--faded-rose));
+}
+
+.packCount {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--porcelain), var(--antique-gold));
+  box-shadow: inset 0 0 0 1px var(--gold-deep);
+  font-family: var(--font-cinzel), serif;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+}
+
+.packText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.packTitle {
+  font-weight: var(--weight-bold);
+}
+
+.packSub {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.pack[data-unlimited] .packSub {
+  color: var(--walnut);
+}
+
+.packPrice {
+  font-weight: var(--weight-bold);
+}
+
+.packPrice::after {
+  content: " cr";
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+}
+
+/* ── Ledger ────────────────────────────────────────────────────────── */
+.section {
+  margin-top: var(--space-8);
+}
+
+.ledger {
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-lg);
+}
+
+.entry {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+}
+
+.entry + .entry {
+  border-top: 1px solid var(--border);
+}
+
+.entryIcon {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--faded-rose) 22%, transparent);
+  color: var(--accent);
+}
+
+.entryIcon[data-in] {
+  background: var(--gold-light);
+  color: var(--gold-deep);
+}
+
+.entryText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.entryLabel {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.entryWhen {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.entryAmount {
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+
+.entryAmount[data-in] {
+  color: var(--gold-deep);
+}
