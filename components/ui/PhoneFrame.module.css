@@ -1,19 +1,20 @@
-/* The desk: a warm porcelain-to-sand light with the phone centred on it */
+/* The desk: black, with the phone centred on it */
 .desk {
   position: fixed;
   inset: 0;
-  display: grid;
-  place-items: center;
   overflow: hidden;
-  background:
-    radial-gradient(60% 50% at 50% 45%, color-mix(in srgb, var(--antique-gold) 22%, transparent), transparent 70%),
-    radial-gradient(120% 90% at 50% 15%, var(--porcelain), #ecdcc6 55%, #d6bd9c);
+  background: #000;
 }
 
 /* Natural titanium band round a black bezel, scaled down to fit short
-   windows (the iframe inside keeps its 393px phone viewport) */
+   windows (the iframe inside keeps its 393px phone viewport). Centred by
+   position, not by the grid: the grid centres the unscaled box, which
+   overflows a short window and is pushed down. */
 .phone {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
   width: 417px;
   height: 876px;
   padding: 12px;
