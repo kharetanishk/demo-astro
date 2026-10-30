@@ -54,6 +54,35 @@
   flex: 1;
 }
 
+/* A line's height even when empty, so the field never jumps between questions */
+.typed {
+  min-height: 1.45em;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.caret {
+  display: inline-block;
+  width: 1.5px;
+  height: 1.1em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: var(--antique-gold);
+  animation: caret-blink 1s steps(2, jump-none) infinite;
+}
+
+@keyframes caret-blink {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caret {
+    display: none;
+  }
+}
+
 .promptStar {
   flex: none;
   color: var(--antique-gold);
@@ -120,8 +149,10 @@
   min-height: 132px;
   padding: var(--space-4);
   border-radius: var(--radius-lg);
+  border: 1.5px solid var(--gold-deep);
   background: linear-gradient(160deg, var(--porcelain), var(--gold-light));
-  box-shadow: var(--shadow-soft), inset 0 0 0 1px color-mix(in srgb, var(--antique-gold) 35%, transparent);
+  /* The border's inner hairline makes it a double frame, like the posters' */
+  box-shadow: var(--shadow-soft), inset 0 0 0 3px var(--porcelain), inset 0 0 0 4px color-mix(in srgb, var(--antique-gold) 55%, transparent);
 }
 
 .tile[data-tall] {
@@ -129,17 +160,11 @@
   background: linear-gradient(170deg, var(--porcelain), var(--rose-surface));
 }
 
-.glyph {
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
+.emblem {
+  width: 60px;
+  height: 60px;
   margin-bottom: auto;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, var(--porcelain), var(--antique-gold));
-  box-shadow: inset 0 0 0 1px var(--gold-deep);
-  font-size: 22px;
-  line-height: 1;
+  filter: drop-shadow(0 5px 6px rgb(58 37 27 / 0.32));
 }
 
 .tileTitle {
@@ -154,7 +179,7 @@
   color: var(--text-muted);
 }
 
-/* ── Match making: two interlocked rings ───────────────────────────── */
+/* ── Match making: its own emblem on a rose banner ─────────────────── */
 .match {
   display: flex;
   align-items: center;
@@ -162,33 +187,20 @@
   margin-top: var(--space-2);
   padding: var(--space-4) var(--space-5);
   border-radius: var(--radius-lg);
+  border: 1.5px solid var(--gold-deep);
   background: linear-gradient(120deg, var(--rose-surface), var(--faded-rose));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--faded-rose) 70%, var(--walnut)), var(--shadow-float);
+  box-shadow: inset 0 0 0 3px var(--rose-surface), inset 0 0 0 4px color-mix(in srgb, var(--antique-gold) 55%, transparent), var(--shadow-float);
 }
 
 .match :global(.eyebrow) {
   color: var(--walnut);
 }
 
-.matchRings {
-  position: relative;
+.matchEmblem {
   flex: none;
-  width: 58px;
-  height: 40px;
-}
-
-.matchRings span {
-  position: absolute;
-  top: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 3px solid var(--antique-gold);
-  box-shadow: 0 0 0 1px var(--gold-deep), inset 0 0 0 1px var(--gold-deep);
-}
-
-.matchRings span:last-child {
-  left: 18px;
+  width: 60px;
+  height: 60px;
+  filter: drop-shadow(0 5px 6px rgb(58 37 27 / 0.32));
 }
 
 .matchText {

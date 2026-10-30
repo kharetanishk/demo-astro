@@ -149,6 +149,7 @@ export function ModuleSheet() {
   if (!current) return null;
   const m = current.module;
   const detail = moduleDetails[m.id];
+  if (!detail) return null;
   const group = m.group === "guidance" ? "Seek guidance" : "Daily practice";
 
   /* Leave for the module's screen: the sheet shuts first, so returning to
@@ -174,27 +175,29 @@ export function ModuleSheet() {
       <div className={s.veil} aria-hidden />
       <div ref={colour} className={s.colour} aria-hidden />
 
+      {/* Outside the scroll, so Back and the breadcrumb stay as the copy moves */}
+      <div className={s.toolbar}>
+        <button type="button" className="icon-btn surface" onClick={close} aria-label="Back">
+          <Icon name="arrow" size={20} className={s.backIcon} />
+        </button>
+        <nav aria-label="Breadcrumb" className={`${s.crumbs} surface`}>
+          <ol>
+            <li>
+              <button type="button" className={s.crumbLink} onClick={close}>
+                Home
+              </button>
+            </li>
+            <li aria-current="page">{group}</li>
+          </ol>
+        </nav>
+        <button type="button" className="icon-btn surface" onClick={() => notify("Saving isn't part of this demo yet.")} aria-label={`Save ${m.title}`}>
+          <Icon name="heart" size={20} />
+        </button>
+      </div>
+
       <div className={s.scroll} data-scroll>
         {/* Stage: the artwork on a lit plinth under a spotlight */}
         <header ref={header} className={s.header}>
-          <div className={s.toolbar}>
-            <button type="button" className="icon-btn surface" onClick={close} aria-label="Back">
-              <Icon name="arrow" size={20} className={s.backIcon} />
-            </button>
-            <nav aria-label="Breadcrumb" className={`${s.crumbs} surface`}>
-              <ol>
-                <li>
-                  <button type="button" className={s.crumbLink} onClick={close}>
-                    Home
-                  </button>
-                </li>
-                <li aria-current="page">{group}</li>
-              </ol>
-            </nav>
-            <button type="button" className="icon-btn surface" onClick={() => notify("Saving isn't part of this demo yet.")} aria-label={`Save ${m.title}`}>
-              <Icon name="heart" size={20} />
-            </button>
-          </div>
           <span className={s.spotlight} aria-hidden />
           <span className={s.plinth} aria-hidden />
           <div className={s.artBox}>

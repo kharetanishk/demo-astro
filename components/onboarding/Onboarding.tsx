@@ -115,7 +115,7 @@ export function Onboarding() {
   return (
     <main className={`page ${s.screen}`}>
       <Immersive />
-      <header className={s.top}>
+      <header className={`${s.top} screen-bar`}>
         <button type="button" className="icon-btn surface" aria-label="Back" onClick={back}>
           <Icon name="arrow" size={20} className={s.flip} />
         </button>

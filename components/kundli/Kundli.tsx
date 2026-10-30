@@ -5,6 +5,7 @@ import Link from "next/link";
 import { notify } from "@/components/ui/demo";
 import { Icon } from "@/components/ui/ornaments";
 import { ScreenHeader, SectionHeading } from "@/components/ui/ScreenHeader";
+import { SheetLink } from "@/components/ui/sheet";
 import { BHAVAS, RASHIS, chart, houseOfSign, planetsIn, signOfHouse } from "./chart";
 import s from "./Kundli.module.css";
 
@@ -127,10 +128,10 @@ export function Kundli() {
             <p className={s.readingPlanets}>{here.length ? `Planets here: ${here.map((p) => p.name).join(", ")}` : "No planets here"}</p>
           </div>
         </div>
-        <Link href="/ai-astrology/general" className={s.ask}>
+        <SheetLink href="/ai-astrology/general" className={s.ask}>
           Ask AI about house {house}
           <Icon name="arrow" size={16} />
-        </Link>
+        </SheetLink>
       </section>
 
       {/* Identity: four seals */}

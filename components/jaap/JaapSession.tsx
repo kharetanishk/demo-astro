@@ -46,7 +46,7 @@ export function JaapSession({ id }: { id: string }) {
   return (
     <main className={`page ${s.session}`}>
       <Immersive />
-      <header className={s.top}>
+      <header className={`${s.top} screen-bar`}>
         <BackLink fallback="/maala-jaap" className="icon-btn surface" label="End session">
           <Icon name="close" size={20} />
         </BackLink>

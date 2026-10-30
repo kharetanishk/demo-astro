@@ -1,6 +1,15 @@
-/* The nav is hidden here; the composer takes its place */
+/* The nav is hidden here; the dock takes its place. --keyboard and --dock-safe
+   are kept up to date by AiChat as the keyboard opens and closes. */
 .chat {
-  padding-bottom: calc(var(--safe-bottom) + 96px);
+  --keyboard: 0px;
+  --dock-safe: var(--safe-bottom);
+  --dock-height: calc(56px + 2 * var(--space-3) + var(--dock-safe));
+  padding-bottom: calc(var(--dock-height) + var(--keyboard) + var(--space-4));
+}
+
+/* It arrives as a sheet, whole: nothing here fades in on the way up */
+.chat > header {
+  animation: none;
 }
 
 .left {
@@ -25,18 +34,13 @@
   text-align: center;
 }
 
-.glyph {
+.emblem {
   width: 72px;
   height: 72px;
-  display: grid;
-  place-items: center;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, var(--porcelain), var(--antique-gold));
   box-shadow:
-    inset 0 0 0 1px var(--gold-deep),
     0 0 0 6px color-mix(in srgb, var(--antique-gold) 18%, transparent),
     0 0 0 12px color-mix(in srgb, var(--antique-gold) 8%, transparent);
-  font-size: 34px;
 }
 
 .introTitle {
@@ -114,6 +118,11 @@
   animation: rise var(--dur-enter) var(--ease-out);
 }
 
+/* Scrolling here leaves the latest message clear above the dock */
+.end {
+  scroll-margin-bottom: calc(var(--dock-height) + var(--keyboard) + var(--space-4));
+}
+
 .sampleNote {
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-sm);
@@ -151,20 +160,41 @@
   }
 }
 
-/* Composer, docked at the bottom */
-.composer {
+/* The dock: a solid bar to the screen's bottom edge, or the keyboard's top, so
+   the conversation ends at it and never shows beneath the composer */
+.dock {
+  --dock-bg: color-mix(in srgb, var(--mood) 16%, var(--bg));
   position: fixed;
   left: 50%;
-  bottom: calc(var(--safe-bottom) + var(--space-4));
+  bottom: 0;
   z-index: var(--z-nav);
-  width: calc(min(100vw, var(--content-width)) - 2 * var(--gutter));
-  translate: -50% 0;
+  width: min(100vw, var(--content-width));
+  translate: -50% calc(-1 * var(--keyboard));
+  padding: var(--space-3) var(--gutter) calc(var(--space-3) + var(--dock-safe));
+  background: var(--dock-bg);
+  box-shadow: 0 -1px 0 color-mix(in srgb, var(--antique-gold) 45%, transparent), 0 -10px 24px -16px rgb(74 48 37 / 0.45);
+}
+
+/* Fills in below the bar while the keyboard slides */
+.dock::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: var(--keyboard);
+  background: var(--dock-bg);
+}
+
+.composer {
+  height: 56px;
   display: flex;
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-2) var(--space-2) var(--space-5);
   border-radius: var(--radius-pill);
-  box-shadow: var(--shadow-float), inset 0 0 0 1px var(--gold-deep);
+  background: var(--porcelain);
+  box-shadow: inset 0 0 0 1px var(--gold-deep);
 }
 
 .composer input {
@@ -174,6 +204,7 @@
   border: 0;
   background: none;
   font: inherit;
+  font-size: 16px; /* any smaller and iOS zooms the page on focus */
   color: var(--text);
   outline: none;
 }

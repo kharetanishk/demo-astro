@@ -6,12 +6,14 @@ import s from "./ScreenHeader.module.css";
 /* The top of every inner screen: back to where you came from (or to `back`,
    its parent, when opened cold), its title under an eyebrow, and one
    optional action on the right. Tab screens (no `back`) keep the slot
-   empty so the title still centres. */
-export function ScreenHeader({ title, eyebrow, back, action }: { title: string; eyebrow?: string; back?: string; action?: ReactNode }) {
+   empty so the title still centres. It stays put as the screen scrolls
+   (.screen-bar in globals.css). `sheet`: this screen opened as a sheet, so
+   back sinks it (see sheet.tsx). */
+export function ScreenHeader({ title, eyebrow, back, sheet, action }: { title: string; eyebrow?: string; back?: string; sheet?: boolean; action?: ReactNode }) {
   return (
-    <header className={`${s.header} rise`}>
+    <header className={`${s.header} screen-bar rise`}>
       {back ? (
-        <BackLink fallback={back} className="icon-btn surface">
+        <BackLink fallback={back} sheet={sheet} className="icon-btn surface">
           <Icon name="arrow" size={20} className={s.backIcon} />
         </BackLink>
       ) : (

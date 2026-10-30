@@ -1,9 +1,10 @@
 import type { CSSProperties, ReactNode } from "react";
+import Link from "next/link";
 import { DemoButton } from "@/components/ui/demo";
 import { Icon } from "@/components/ui/ornaments";
 import { ModuleOpener } from "./ModuleSheet";
 import { ModuleVisual } from "./ModuleVisual";
-import type { HomeModule } from "./modules";
+import { moduleDetails, type HomeModule } from "./modules";
 import s from "./ModuleSection.module.css";
 
 /* Two tiers:
@@ -77,8 +78,16 @@ function SectionHeading({ id, children }: { id: string; children: string }) {
   );
 }
 
-/* Available modules open their sheet; the rest give an honest notice. */
+/* Available modules open their sheet, or their screen if they have no sheet;
+   the rest give an honest notice. */
 function ModuleTarget({ module: m, className, children }: { module: HomeModule; className: string; children: ReactNode }) {
+  if (m.status === "available" && m.href && !moduleDetails[m.id]) {
+    return (
+      <Link href={m.href} className={className}>
+        {children}
+      </Link>
+    );
+  }
   if (m.status === "available") {
     return (
       <ModuleOpener module={m} className={className}>

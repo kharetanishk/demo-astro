@@ -70,7 +70,7 @@ export function Profile({ user }: { user: ProfileUser }) {
         <Image src={BACKDROP_ARTWORK} alt="" fill sizes="(min-width: 500px) 500px, 100vw" className={s.coverImage} />
       </div>
 
-      <header className={s.top}>
+      <header className={`${s.top} screen-bar`}>
         <h1 className={s.screenTitle}>Profile</h1>
         <DemoButton className="icon-btn surface" aria-label="Settings" notice="Settings aren't part of this demo yet.">
           <Icon name="settings" size={20} />

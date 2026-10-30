@@ -79,7 +79,8 @@ export const homeModules: HomeModule[] = [
 
 /* Each service's own page: the sheet that opens from its card. Copy is
    ordered as it reads: chips (at a glance), about (what it is), features
-   (what you'll find), then the one action. */
+   (what you'll find), then the one action. A module with no entry here has
+   no sheet: its card goes straight to its screen. */
 export type ModuleDetail = {
   meta: string[];
   about: string;
@@ -87,17 +88,7 @@ export type ModuleDetail = {
   cta: string;
 };
 
-export const moduleDetails: Record<ModuleId, ModuleDetail> = {
-  "ai-astrology": {
-    meta: ["Any hour", "Instant", "Hindi · English"],
-    about: "Ask about love, career, health or timing, and get an answer read from your own birth chart, the moment you need it.",
-    features: [
-      { title: "Answers from your chart", note: "Every reply is grounded in your planets, houses and dashas." },
-      { title: "Ask in your words", note: "Type or speak, in Hindi or English." },
-      { title: "Private by design", note: "Your questions stay between you and the stars." },
-    ],
-    cta: "Ask your first question",
-  },
+export const moduleDetails: Partial<Record<ModuleId, ModuleDetail>> = {
   "astro-guru": {
     meta: ["Live now", "Call · Chat", "Verified"],
     about: "Talk one-to-one with Vedic astrologers on a call or in chat, matched to the question you bring.",

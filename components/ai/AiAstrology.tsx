@@ -3,7 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@/components/ui/ornaments";
 import { ScreenHeader, SectionHeading } from "@/components/ui/ScreenHeader";
-import { credits, topics } from "./topics";
+import { SheetLink } from "@/components/ui/sheet";
+import { credits, MATCH, PROMPTS, topics } from "./topics";
+import { TypedQuestions } from "./TypedQuestions";
 import s from "./AiAstrology.module.css";
 
 /* AI Astrology: an oracle's altar up top (the art over a question you can
@@ -20,13 +22,13 @@ export function AiAstrology() {
           Ask your chart anything
         </h2>
         <p className={s.altarNote}>Answers read from your planets, houses and dashas.</p>
-        <Link href="/ai-astrology/general" className={s.prompt}>
+        <SheetLink href="/ai-astrology/general" className={s.prompt} aria-label={`Ask a question, such as: ${PROMPTS[0]}`}>
           <Icon name="star" size={18} className={s.promptStar} />
-          <span>What does this year hold for me?</span>
+          <TypedQuestions />
           <span className={s.promptSend} aria-hidden>
             <Icon name="send" size={16} />
           </span>
-        </Link>
+        </SheetLink>
       </section>
 
       <Link href="/wallet" className={`${s.balance} surface rise`} style={{ "--stagger": 2 } as CSSProperties}>
@@ -47,30 +49,25 @@ export function AiAstrology() {
         <ul className={s.mosaic}>
           {topics.map((t, i) => (
             <li key={t.id} className="rise" style={{ "--stagger": i + 3 } as CSSProperties}>
-              <Link href={`/ai-astrology/${t.id}`} className={`${s.tile} pressable`} data-tall={i % 4 === 0 || i % 4 === 3 || undefined}>
-                <span className={s.glyph} aria-hidden>
-                  {t.glyph}
-                </span>
+              <SheetLink href={`/ai-astrology/${t.id}`} className={`${s.tile} pressable`} data-tall={i % 4 === 0 || i % 4 === 3 || undefined}>
+                <Image src={t.icon} alt="" width={60} height={60} className={s.emblem} />
                 <span className={s.tileTitle}>{t.label}</span>
                 <span className={s.tileNote}>{t.blurb}</span>
-              </Link>
+              </SheetLink>
             </li>
           ))}
         </ul>
       </section>
 
-      <Link href="/ai-astrology/matchmaking" className={`${s.match} pressable rise`}>
-        <span className={s.matchRings} aria-hidden>
-          <span />
-          <span />
-        </span>
+      <SheetLink href="/ai-astrology/matchmaking" className={`${s.match} pressable rise`}>
+        <Image src={MATCH.icon} alt="" width={60} height={60} className={s.matchEmblem} />
         <span className={s.matchText}>
           <span className="eyebrow">Two charts</span>
           <span className={s.matchTitle}>Match making</span>
           <span className={s.tileNote}>Ashtakoot Guna Milan, then ask about the match</span>
         </span>
         <Icon name="arrow" size={18} />
-      </Link>
+      </SheetLink>
     </main>
   );
 }

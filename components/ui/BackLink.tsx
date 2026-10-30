@@ -3,6 +3,7 @@
 import { useEffect, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { moveSheet } from "./sheet";
 
 /* In-app history, so Back returns to the screen you came from (Wallet
    opened from Home goes back to Home, not Profile). Opened cold, from a
@@ -19,7 +20,7 @@ export function NavHistory() {
   return null;
 }
 
-export function BackLink({ fallback, className, label = "Back", children }: { fallback: string; className?: string; label?: string; children: ReactNode }) {
+export function BackLink({ fallback, className, label = "Back", sheet, children }: { fallback: string; className?: string; label?: string; sheet?: boolean; children: ReactNode }) {
   const router = useRouter();
   return (
     <Link
@@ -27,10 +28,10 @@ export function BackLink({ fallback, className, label = "Back", children }: { fa
       className={className}
       aria-label={label}
       onClick={(e) => {
-        if (visited.length > 1) {
-          e.preventDefault();
-          router.back();
-        }
+        const stepBack = visited.length > 1;
+        if (stepBack || sheet) e.preventDefault();
+        if (sheet) moveSheet("down", stepBack ? router.back : () => router.push(fallback));
+        else if (stepBack) router.back();
       }}
     >
       {children}

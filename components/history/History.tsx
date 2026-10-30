@@ -5,6 +5,7 @@ import Link from "next/link";
 import { notify } from "@/components/ui/demo";
 import { Icon, type GlyphName } from "@/components/ui/ornaments";
 import { ScreenHeader } from "@/components/ui/ScreenHeader";
+import { SheetLink } from "@/components/ui/sheet";
 import { Segmented } from "@/components/ui/Segmented";
 import { astrologer, initials } from "@/components/guru/astrologers";
 import { entries, type Entry } from "./entries";
@@ -137,10 +138,10 @@ function EntryCard({ entry: e }: { entry: Entry }) {
             .map((p) => (
               <p key={p}>{p}</p>
             ))}
-          <Link href="/ai-astrology/general" className={s.followUp}>
+          <SheetLink href="/ai-astrology/general" className={s.followUp}>
             Ask a follow-up
             <Icon name="arrow" size={14} />
-          </Link>
+          </SheetLink>
         </div>
       </details>
     );
