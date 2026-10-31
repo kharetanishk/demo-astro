@@ -349,7 +349,11 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Panchang or Din Chakra */
+/* Panchang or Din Chakra: clear of the header, and pinned under it as the
+   screen scrolls (as on History and Maala Jaap) */
 .views {
-  margin-bottom: var(--space-4);
+  position: sticky;
+  top: calc(var(--bar-bottom) + var(--space-2));
+  z-index: 2;
+  margin: var(--space-5) 0 var(--space-5);
 }
