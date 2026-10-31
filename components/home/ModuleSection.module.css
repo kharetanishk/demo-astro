@@ -242,3 +242,38 @@
   text-transform: uppercase;
   color: var(--text-eyebrow);
 }
+
+/* Wide art (artwork.float) sits high in its box, so its top rises out of
+   the card like the tall art beside it instead of hiding inside */
+.stack .guideArt[data-float] img {
+  object-position: 50% 0;
+  filter: drop-shadow(0 8px 10px rgb(74 48 37 / 0.25));
+}
+
+/* Figures stand against the card's outer edge, cut by its rounded corner
+   there; above the card they rise free */
+.stack li:nth-child(odd) .guideArt[data-fit="figure"] img {
+  object-position: 100% 100%;
+}
+
+.stack li:nth-child(even) .guideArt[data-fit="figure"] img {
+  object-position: 0 100%;
+}
+
+.stack li:nth-child(odd) .guideArt[data-fit="figure"] {
+  clip-path: inset(-100vh 0 0 -100vw round 0 0 var(--radius-lg) 0);
+}
+
+.stack li:nth-child(even) .guideArt[data-fit="figure"] {
+  clip-path: inset(-100vh -100vw 0 0 round 0 0 0 var(--radius-lg));
+}
+
+/* artwork.sink: the art's feet drop below the card's bottom edge and are
+   cut there, so its base rests on the edge; the sides and top stay free */
+.guideArt[data-sink] {
+  clip-path: inset(-100vh -100vw 0 -100vw);
+}
+
+.guideArt[data-sink] img {
+  translate: 0 calc(var(--sink) * 100%);
+}

@@ -57,7 +57,7 @@ function GuideRows({ modules }: { modules: HomeModule[] }) {
               <span className={s.guideNote}>{m.description}</span>
               <Icon name="arrow" size={18} className={s.guideArrow} />
             </span>
-            <span className={s.guideArt} data-in-card={m.artwork.inCard || undefined} aria-hidden>
+            <span className={s.guideArt} data-in-card={m.artwork.inCard || undefined} data-float={m.artwork.float || undefined} data-fit={m.artwork.fit} data-sink={m.artwork.sink ? "" : undefined} style={m.artwork.sink ? ({ "--sink": m.artwork.sink } as CSSProperties) : undefined} aria-hidden>
               <ModuleVisual module={m} slot="guide" />
             </span>
           </ModuleTarget>

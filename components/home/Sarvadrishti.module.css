@@ -1,30 +1,31 @@
-/* The logo as the artwork lays it out: the eye over the wordmark. The
-   lockup is 1135 × 1200 artwork px; everything inside is placed in % of it,
-   so it scales as one. The glow and rays centre on the eye (--eye-x/y). */
+/* The eye in its ring of rashis, the wordmark under it. The glow and rays
+   centre on the ring. */
 .sarvadrishti {
   overflow-x: clip; /* nothing may widen the page */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: var(--space-3) auto var(--space-4);
 }
 
-.lockup {
-  --eye-x: 50.4%; /* iris at x 572 of 1135 */
-  --eye-y: 49%; /* and y 588 of 1200 */
-
-  position: relative;
-  width: min(100%, 244px);
-  aspect-ratio: 1135 / 1200;
-  margin-inline: auto;
+.homeRing {
+  width: min(100%, 300px);
 }
 
-.lockup > * {
-  position: absolute;
+/* The eye fills the ring inside its coins */
+.eyeBox {
+  position: relative;
+  z-index: 2;
+  height: calc(100cqw - 2 * var(--coin) - 14px);
+  aspect-ratio: 514 / 982;
 }
 
 /* Warm light behind the eye: porcelain into Faded Rose, breathing */
 .glow {
-  left: var(--eye-x);
-  top: var(--eye-y);
-  width: 230px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 80cqw;
   aspect-ratio: 1;
   translate: -50% -50%;
   border-radius: 50%;
@@ -46,16 +47,16 @@
 }
 
 .rays {
-  left: var(--eye-x);
-  top: var(--eye-y);
-  width: 250px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 84cqw;
   aspect-ratio: 1;
   translate: -50% -50%;
   overflow: visible;
   pointer-events: none;
 }
 
-/* The path turns, not the box: a turning box's corners would widen the page */
 .rays path {
   transform-box: fill-box;
   transform-origin: center;
@@ -80,9 +81,6 @@
 
 /* ── The eye ── */
 .emblem {
-  left: 27.665%; /* x 314 of 1135 */
-  top: 0;
-  width: 45.286%; /* 514 of 1135 */
   aspect-ratio: 514 / 982;
 }
 
@@ -200,15 +198,90 @@
 
 /* ── Wordmark ── */
 .wordmark {
-  left: 0;
-  top: 78.833%; /* y 946 of 1200 */
-  width: 100%;
+  width: min(100%, 244px);
   height: auto;
+  margin-top: calc(-1 * var(--space-1));
+}
+
+/* ── The ring of rashis ── */
+/* One clock for the whole ring: the track turns by --turn and every coin
+   turns back by the same --turn, so they can never drift apart (as v2's
+   ZodiacHero drives both from one `spin` value) */
+@property --turn {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+
+@keyframes turn {
+  to {
+    --turn: 360deg;
+  }
+}
+
+.ring {
+  --coin: 36px;
+
+  animation: turn 90s linear infinite;
+
+  position: relative;
+  container-type: inline-size;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+}
+
+.ring > * {
+  grid-area: 1 / 1;
+}
+
+/* The track runs through the coins' centres */
+.track {
+  position: absolute;
+  inset: calc(var(--coin) / 2);
+  z-index: 1;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1.2px rgb(232 193 104 / 0.6);
+  rotate: var(--turn);
+  pointer-events: none;
+}
+
+/* A coin, or the bead after it, out on the track at its angle */
+.coin,
+.bead {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: rotate(var(--a)) translateY(calc(var(--coin) / 2 - 50cqw)) rotate(calc(-1 * var(--a)));
+}
+
+.bead {
+  width: 5px;
+  height: 5px;
+  margin: -2.5px;
+  border-radius: 50%;
+  background: #e8c168;
+}
+
+.coin {
+  width: var(--coin);
+  height: var(--coin);
+  margin: calc(var(--coin) / -2);
+}
+
+/* Turned back as the track turns, so the sign stays upright */
+.coin img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 3px 4px rgb(74 48 37 / 0.35));
+  rotate: calc(-1 * var(--turn));
 }
 
 /* Still, eye open */
 @media (prefers-reduced-motion: reduce) {
-  .lockup *,
+  .ring,
+  .ring *,
   .alone * {
     animation-play-state: paused !important;
   }

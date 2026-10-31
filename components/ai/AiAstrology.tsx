@@ -59,7 +59,7 @@ export function AiAstrology() {
         </ul>
       </section>
 
-      <SheetLink href="/ai-astrology/matchmaking" className={`${s.match} pressable rise`}>
+      <SheetLink href="/ai-astrology/match" className={`${s.match} pressable rise`}>
         <Image src={MATCH.icon} alt="" width={60} height={60} className={s.matchEmblem} />
         <span className={s.matchText}>
           <span className="eyebrow">Two charts</span>

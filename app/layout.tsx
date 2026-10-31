@@ -1,7 +1,7 @@
 // First, so every component's own CSS can override it in production builds too
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import { Cinzel, Plus_Jakarta_Sans } from "next/font/google";
+import { Cinzel, Noto_Sans_Devanagari, Plus_Jakarta_Sans } from "next/font/google";
 import { NavHistory } from "@/components/ui/BackLink";
 import { BottomNavigation } from "@/components/ui/BottomNavigation";
 import { PhoneFrame } from "@/components/ui/PhoneFrame";
@@ -11,6 +11,8 @@ import { DESKTOP } from "@/components/ui/desktop";
 const jakarta = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin"] });
 // Engraved display face: headings and figures.
 const cinzel = Cinzel({ variable: "--font-cinzel", subsets: ["latin"] });
+// Hindi: Jakarta has no Devanagari, so the browser falls through to this per glyph
+const devanagari = Noto_Sans_Devanagari({ variable: "--font-devanagari", subsets: ["devanagari"], preload: false });
 
 export const metadata: Metadata = {
   title: "Astro",
@@ -30,7 +32,7 @@ const markFrame = `(function(){var h=document.documentElement;if(self!==top)h.se
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${jakarta.variable} ${cinzel.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${jakarta.variable} ${cinzel.variable} ${devanagari.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: firstVisit + markFrame }} />
       </head>

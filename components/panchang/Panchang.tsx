@@ -4,7 +4,9 @@ import { useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { Icon } from "@/components/ui/ornaments";
 import { planetArt } from "@/components/kundli/chart";
+import { DinChakra } from "@/components/dinchakra/DinChakra";
 import { ScreenHeader, SectionHeading } from "@/components/ui/ScreenHeader";
+import { Segmented } from "@/components/ui/Segmented";
 import { NOW, clock, days } from "./days";
 import s from "./Panchang.module.css";
 
@@ -42,10 +44,18 @@ function AngaArt({ label, note, lit }: { label: string; note: string; lit: numbe
   );
 }
 
-/* Panchang: the day drawn as the sun's path, its good and bad windows lit
-   on it, then the four limbs of the day as manuscript leaves, the moon,
-   and the windows again as a list with times. */
-export function Panchang() {
+type View = "panchang" | "din-chakra";
+const VIEWS: { id: View; label: string }[] = [
+  { id: "panchang", label: "Panchang" },
+  { id: "din-chakra", label: "Din Chakra" },
+];
+
+/* Panchang, with Din Chakra as its second view. Panchang: the day drawn as
+   the sun's path, its good and bad windows lit on it, then the four limbs of
+   the day as manuscript leaves, the moon, and the windows again as a list
+   with times. */
+export function Panchang({ initial = "panchang" }: { initial?: View }) {
+  const [view, setView] = useState(initial);
   const [index, setIndex] = useState(1);
   const day = days[index];
   const span = day.sunset - day.sunrise;
@@ -55,8 +65,12 @@ export function Panchang() {
 
   return (
     <main className="page">
-      <ScreenHeader title="Panchang" eyebrow="Mumbai · Daily almanac" back="/" />
+      <ScreenHeader title="Panchang" eyebrow={view === "panchang" ? "Mumbai · Daily almanac" : "दिन चक्र · hour by hour"} back="/" />
+      <div className={`${s.views} rise`}>
+        <Segmented label="View" options={VIEWS} value={view} onChange={setView} />
+      </div>
 
+      {view === "din-chakra" ? <DinChakra /> : <>
       <div className={`${s.stepper} rise`} style={{ "--stagger": 1 } as CSSProperties}>
         <button type="button" className="icon-btn surface" aria-label="Previous day" disabled={index === 0} onClick={() => setIndex(index - 1)}>
           <Icon name="chevron" size={20} className={s.flip} />
@@ -155,6 +169,7 @@ export function Panchang() {
             ))}
         </ul>
       </section>
+      </>}
     </main>
   );
 }

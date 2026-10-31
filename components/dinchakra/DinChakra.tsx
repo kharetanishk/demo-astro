@@ -6,7 +6,7 @@ import { notify } from "@/components/ui/demo";
 import { RASHIS, planetArt } from "@/components/kundli/chart";
 import { emblem, signs } from "@/components/rashifal/signs";
 import { Icon } from "@/components/ui/ornaments";
-import { ScreenHeader, SectionHeading } from "@/components/ui/ScreenHeader";
+import { SectionHeading } from "@/components/ui/ScreenHeader";
 import { BANDS, NOW_INDEX, STREAK, WEEK, golden, hours, nth } from "./day";
 import s from "./DinChakra.module.css";
 
@@ -23,7 +23,7 @@ const ridge = points.reduce((d, [x, py], i) => {
   return `${d}C${mx} ${pp.toFixed(1)} ${mx} ${py.toFixed(1)} ${x} ${py.toFixed(1)}`;
 }, "") + `L${W} ${points[points.length - 1][1].toFixed(1)}`;
 
-/* Din Chakra: the day as a mountain range you scroll along, sunrise to
+/* Din Chakra (a view of the Panchang screen): the day as a mountain range you scroll along, sunrise to
    sunrise, night shaded and Rahu Kaal hatched. Tap an hour and its card
    below says what it's good for, and exactly why it scored what it did. */
 export function DinChakra() {
@@ -38,8 +38,7 @@ export function DinChakra() {
   }, []);
 
   return (
-    <main className={`page ${s.chakra}`}>
-      <ScreenHeader title="Din Chakra" eyebrow="दिन चक्र · hour by hour" back="/" />
+    <div className={s.chakra}>
 
       <ol className={`${s.week} rise`} style={{ "--stagger": 1 } as CSSProperties} aria-label={`${STREAK}-day streak`}>
         {WEEK.map((d) => (
@@ -215,6 +214,6 @@ export function DinChakra() {
           Share day card
         </button>
       </section>
-    </main>
+    </div>
   );
 }
