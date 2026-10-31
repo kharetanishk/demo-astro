@@ -1,27 +1,55 @@
+import type { CSSProperties, ReactNode } from "react";
 import Image from "next/image";
 import s from "./Sarvadrishti.module.css";
 
-/* The Sarvdrishti logo: the gold eye over its wordmark, cut from the final
-   artwork (1231 × 1278) at over 4× its size on screen. The eye's glint
-   breathes and it blinks: gold lids, drawn as vectors so they stay sharp,
-   close over the iris. The eye is decorative; the name is read. */
+/* The Sarvdrishti logo: the gold eye, ringed by the twelve rashis, over its
+   wordmark, cut from the final artwork (1231 × 1278) at over 4× its size on
+   screen. The eye's glint breathes and it blinks: gold lids, drawn as vectors
+   so they stay sharp, close over the iris. The eye is decorative; the name is read. */
 export function Sarvadrishti() {
   return (
     <div className={s.sarvadrishti}>
-      <div className={s.lockup}>
+      <ZodiacRing className={s.homeRing}>
         <span className={s.glow} aria-hidden />
         <Rays />
-        <Emblem className={s.emblem} />
-        <Image
-          src="/logo/sarvdrishti-wordmark.webp"
-          alt="Sarvdrishti"
-          width={1135}
-          height={254}
-          unoptimized
-          loading="eager"
-          className={s.wordmark}
-        />
-      </div>
+        <span className={s.eyeBox}>
+          <SarvEye />
+        </span>
+      </ZodiacRing>
+      <Image
+        src="/logo/sarvdrishti-wordmark.webp"
+        alt="Sarvdrishti"
+        width={1135}
+        height={254}
+        unoptimized
+        loading="eager"
+        className={s.wordmark}
+      />
+    </div>
+  );
+}
+
+/* The 12 rashi medallions of the app (Sarvadrishti-AI-App-v2
+   assets/zodiac), Mesha to Meena, with a gold bead between each */
+const COINS = Array.from({ length: 12 }, (_, i) => `/zodiac/medallion-${String(i + 1).padStart(2, "0")}.webp`);
+
+/* The rashis travelling a flat gold ring round whatever sits inside it, as
+   in the app's ZodiacHero: the ring turns once in 90s and every coin turns
+   back as much, so the signs stay upright. Size it by its width. */
+export function ZodiacRing({ className, children }: { className?: string; children: ReactNode }) {
+  return (
+    <div className={`${s.ring} ${className ?? ""}`}>
+      <span className={s.track} aria-hidden>
+        {COINS.map((src, i) => (
+          <span key={src} style={{ "--a": `${i * 30}deg` } as CSSProperties}>
+            <span className={s.bead} style={{ "--a": `${i * 30 + 15}deg` } as CSSProperties} />
+            <span className={s.coin}>
+              <Image src={src} alt="" width={72} height={72} loading="eager" />
+            </span>
+          </span>
+        ))}
+      </span>
+      {children}
     </div>
   );
 }
