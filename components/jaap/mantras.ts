@@ -15,3 +15,20 @@ export const mantras: Mantra[] = [
 export const mantra = (id: string) => mantras.find((m) => m.id === id);
 
 export const today = { done: 216, sankalp: 324, streak: 12, last: "shiva" };
+
+/* Demo sadhana numbers and community, until /japa and sign-in are wired in */
+export const stats = { total: 48_912, malas: 452, streak: 12, best: 31, punya: 6_840, rank: 18 };
+
+// Mon … Sun: done, missed, or today (still open)
+export const week: ("done" | "missed" | "today" | "ahead")[] = ["done", "done", "missed", "done", "done", "today", "ahead"];
+
+export const devotees = [
+  { name: "Jai Shree Ram Seva", streak: 209, jaap: 498_500 },
+  { name: "Subhadip C.", streak: 266, jaap: 339_200 },
+  { name: "Satender K.", streak: 104, jaap: 195_000 },
+  { name: "Shubham Y.", streak: 146, jaap: 127_000 },
+  { name: "Prashant C.", streak: 34, jaap: 117_100 },
+];
+
+// Sample: devotees chanting right now, shown on the session screen
+export const LIVE = 1_432;
