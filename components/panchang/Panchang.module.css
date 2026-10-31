@@ -348,3 +348,8 @@
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
+
+/* Panchang or Din Chakra */
+.views {
+  margin-bottom: var(--space-4);
+}
