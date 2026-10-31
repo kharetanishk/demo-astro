@@ -49,7 +49,7 @@
   --focus: var(--terracotta-deep);
 
   /* Typography */
-  --font: var(--font-jakarta), "Segoe UI", Roboto, system-ui, sans-serif;
+  --font: var(--font-jakarta), var(--font-devanagari), "Segoe UI", Roboto, system-ui, sans-serif;
   --text-xs: 11px;
   --text-sm: 13px;
   --text-md: 15px;
