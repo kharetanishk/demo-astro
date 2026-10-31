@@ -25,7 +25,8 @@ const destinations: Destination[] = [
    index, so it always starts from where it is and ends on the active tab. */
 export function BottomNavigation() {
   const pathname = usePathname();
-  const activeIndex = destinations.findIndex((d) => d.href === pathname);
+  // /home is Home too (its demo URL, see app/home)
+  const activeIndex = destinations.findIndex((d) => d.href === (pathname === "/home" ? "/" : pathname));
 
   // Direction of the last switch (-1 left, 1 right; 0 on first render, so
   // nothing sweeps on page load). Derived during render from the change.
