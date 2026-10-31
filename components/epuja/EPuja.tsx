@@ -66,7 +66,7 @@ export function EPuja() {
             ))}
           </ul>
         </div>
-        <Image src="/diya.webp" alt="" width={96} height={118} className={s.diya} priority />
+        <Image src="/e-puja.webp" alt="" width={96} height={119} sizes="100px" className={s.diya} priority />
       </section>
 
       <div className={s.bar}>
