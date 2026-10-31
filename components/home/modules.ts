@@ -14,7 +14,6 @@ export type ModuleId =
   | "ai-astrology"
   | "astro-guru"
   | "panchang"
-  | "din-chakra"
   | "maala-jaap"
   | "e-puja"
   | "vastu-ai"
@@ -37,8 +36,11 @@ export type HomeModule = {
   status: "available" | "soon";
   href?: string;
   /** inCard: in rows, sits inside its card instead of rising out of it
-      (squat art too wide to rise without crowding the text) */
-  artwork: { src: string; fit: ArtworkFit; inCard?: boolean };
+      (squat art too wide to rise without crowding the text)
+      float: wide art sits high in its box, its top rising out of the card
+      sink: fraction of the art's height to drop below the card's bottom edge,
+      where it's cut (feet or a base that would otherwise look like floating) */
+  artwork: { src: string; fit: ArtworkFit; inCard?: boolean; float?: boolean; sink?: number };
   /** Atmosphere, built from palette tokens:
       card  → the card's own background (also the header of its sheet)
       ink   → its title colour (contrast-checked against card) */
@@ -53,19 +55,16 @@ export const homeModules: HomeModule[] = [
   { id: "ai-astrology", title: "AI Astrology", description: "Ask your chart anything", tone: "gold", group: "guidance", status: "available", href: "/ai-astrology", artwork: { src: "/ai-astrology-new.webp", fit: "object" },
     // Gold leaf
     theme: { card: "radial-gradient(90% 70% at 50% 35%, color-mix(in srgb, var(--antique-gold) 40%, var(--porcelain)), var(--antique-gold))", ink: "var(--walnut)" } },
-  { id: "astro-guru", title: "Astro Guru", description: "Speak with an astrologer", tone: "rose", group: "guidance", status: "available", href: "/astro-guru", artwork: { src: "/astroguru.webp", fit: "figure" },
+  { id: "astro-guru", title: "Astro Guru", description: "Speak with an astrologer", tone: "rose", group: "guidance", status: "available", href: "/astro-guru", artwork: { src: "/astro-guru.webp", fit: "figure" },
     // Rose sandstone
     theme: { card: "linear-gradient(180deg, var(--rose-surface), var(--faded-rose))", ink: "var(--walnut)" } },
-  { id: "panchang", title: "Panchang", description: "Tithi, nakshatra and muhurat for today", tone: "sand", group: "practice", status: "available", href: "/panchang", artwork: { src: "/panchang-manuscript.webp", fit: "object", inCard: true },
+  { id: "panchang", title: "Panchang", description: "Tithi, muhurat and your day hour by hour", tone: "sand", group: "practice", status: "available", href: "/panchang", artwork: { src: "/panchang-book.webp", fit: "object", float: true },
     // Parchment: the bright counterpart to Tarot's night, its ring neighbour
     theme: { card: "linear-gradient(180deg, var(--porcelain), color-mix(in srgb, var(--pale-sand) 80%, var(--antique-gold)))", ink: "var(--walnut)" } },
-  { id: "din-chakra", title: "Din Chakra", description: "How the hours of your day unfold", tone: "sand", group: "practice", status: "available", href: "/din-chakra", artwork: { src: "/sacred-mountain-alpha.webp", fit: "scene" },
-    // Dawn over the peaks
-    theme: { card: "linear-gradient(180deg, var(--rose-surface), color-mix(in srgb, var(--antique-gold) 70%, var(--rose-surface)))", ink: "var(--walnut)" } },
-  { id: "maala-jaap", title: "Maala Jaap", description: "Count your chants, bead by bead", tone: "sand", group: "practice", status: "available", href: "/maala-jaap", artwork: { src: "/mala.webp", fit: "object", inCard: true },
+  { id: "maala-jaap", title: "Maala Jaap", description: "Count your chants, bead by bead", tone: "sand", group: "practice", status: "available", href: "/maala-jaap", artwork: { src: "/mala-jaap.webp", fit: "figure" },
     // Kumkum
     theme: { card: "radial-gradient(120% 90% at 50% 25%, var(--terracotta), var(--terracotta-deep))", ink: "var(--porcelain)" } },
-  { id: "e-puja", title: "E-Puja", description: "Offer rituals from anywhere", tone: "sand", group: "practice", status: "available", href: "/e-puja", artwork: { src: "/diya.webp", fit: "object" },
+  { id: "e-puja", title: "E-Puja", description: "Offer rituals from anywhere", tone: "sand", group: "practice", status: "available", href: "/e-puja", artwork: { src: "/e-puja.webp", fit: "object", sink: 0.035 },
     // Aarti glow
     theme: { card: `radial-gradient(90% 70% at 50% 35%, color-mix(in srgb, var(--antique-gold) 55%, var(--porcelain)), ${saffron})`, ink: "var(--walnut)" } },
   { id: "vastu-ai", title: "Vastu AI", description: "Harmony for your home", tone: "sand", group: "practice", status: "available", href: "/vastu-ai", artwork: { src: "/celestial-palace.webp", fit: "object" },
@@ -89,34 +88,14 @@ export type ModuleDetail = {
 
 export const moduleDetails: Partial<Record<ModuleId, ModuleDetail>> = {
   panchang: {
-    meta: ["Daily", "Your city", "Sunrise-timed"],
-    about: "The Hindu almanac for your city each day: the lunar day, the star of the moment, and the hours that favour new beginnings.",
+    meta: ["Daily", "Your city", "Hour by hour"],
+    about: "The Hindu almanac for your city each day, with Din Chakra: the lunar day, the star of the moment, and which hours lift your work, your conversations and your rest.",
     features: [
       { title: "Tithi and nakshatra", note: "Today's lunar day and constellation, and when each changes." },
-      { title: "Muhurat", note: "Auspicious windows for travel, puja and beginnings." },
-      { title: "Rahu kaal", note: "The hours to avoid, timed to your sunrise." },
+      { title: "Muhurat and Rahu kaal", note: "Auspicious windows for beginnings, and the hours to avoid." },
+      { title: "Din Chakra", note: "Each hour's ruling planet, and your golden hour of the day." },
     ],
     cta: "Open today's Panchang",
-  },
-  "din-chakra": {
-    meta: ["Hourly", "Personal", "Reminders"],
-    about: "Your day as a wheel of hours, each ruled by a planet. See which hours lift your work, your conversations and your rest.",
-    features: [
-      { title: "Planetary hours", note: "Each hour's ruling planet, from sunrise to sunrise." },
-      { title: "The right hour for it", note: "The best hour for meetings, study or travel." },
-      { title: "Gentle reminders", note: "A nudge before your strongest hours begin." },
-    ],
-    cta: "See today's wheel",
-  },
-  "maala-jaap": {
-    meta: ["108 beads", "Haptic", "Streaks"],
-    about: "A quiet counter for your mantra: a soft tap for every bead, a chime at every round, and a streak that grows with your practice.",
-    features: [
-      { title: "A full mala", note: "One tap per bead, a chime at each round of 108." },
-      { title: "Your mantras", note: "Choose from the classics or add your own." },
-      { title: "A steady practice", note: "Track your rounds and keep your streak alive." },
-    ],
-    cta: "Begin chanting",
   },
   "vastu-ai": {
     meta: ["Floor-plan scan", "Room by room", "No demolition"],
