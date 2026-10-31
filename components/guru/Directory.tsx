@@ -65,7 +65,7 @@ export function Directory() {
           <div className={s.darshan} aria-hidden>
             <span className={s.rays} />
             <span className={s.plinth} />
-            <Image src="/astroguru.webp" alt="" width={190} height={285} priority className={s.guru} />
+            <Image src="/astro-guru.webp" alt="" width={190} height={242} priority className={s.guru} />
           </div>
         </div>
 
